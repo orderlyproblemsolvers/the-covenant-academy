@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr:true,
   nitro: {
-    preset: 'netlify-edge'
+    preset: 'netlify'
   },
   modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase'],
   image: {

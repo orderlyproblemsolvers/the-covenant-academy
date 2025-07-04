@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = ".output/public"
 
-[[edge_functions]]
-  path = "/*"
-  function = "server"
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
