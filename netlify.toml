@@ -8,5 +8,8 @@
 [functions]
   directory = "netlify/functions"
 
+[edge_functions]
+  directory = "netlify/edge-functions"
+
 [build.environment]
-  SERVER_PRESET = "netlify_edge" # or "netlify_builder" for on-demand builders
+  SERVER_PRESET = "netlify_edge"
