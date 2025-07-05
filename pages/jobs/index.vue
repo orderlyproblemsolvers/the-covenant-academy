@@ -396,86 +396,143 @@
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
   }
-  
-  // Form submission
-  const submitApplication = async () => {
-    if (!selectedFile.value) {
-      message.value = 'Please select a CV/Resume file to upload.'
-      messageType.value = 'error'
-      setTimeout(() => {
-        message.value = ''
-      }, 5000)
-      return
-    }
-  
-    loading.value = true
-    message.value = ''
-  
-    try {
-      // Upload CV file
-      const fileName = `${Date.now()}_${selectedFile.value.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('cvs')
-        .upload(fileName, selectedFile.value)
-  
-      if (uploadError) throw uploadError
-  
-      // Get public URL for the uploaded file
-      const { data: urlData } = supabase.storage
-        .from('cvs')
-        .getPublicUrl(fileName)
-  
-      // Insert application data
-      const { error: insertError } = await supabase
-        .from('job_applications')
-        .insert({
-          name: form.value.name,
-          email: form.value.email,
-          phone: form.value.phone,
-          position: form.value.position,
-          details: form.value.details,
-          cv_url: urlData.publicUrl,
-          cv_filename: selectedFile.value.name,
-          application_date: new Date().toISOString(),
-          status: 'pending'
-        })
-  
-      if (insertError) throw insertError
-  
-      message.value = 'Thank you! Your application has been submitted successfully. We will review your application and contact you soon.'
-      messageType.value = 'success'
-      
-      // Reset form
-      form.value = {
-        name: '',
-        email: '',
-        phone: '',
-        position: '',
-        details: ''
-      }
-      selectedFile.value = null
-      if (process.client) {
-        document.getElementById('cv').value = ''
-      }
-  
-      // Scroll to success message
-      setTimeout(() => {
-        document.querySelector('[data-success-message]')?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-  
-    } catch (error) {
-      console.error('Error submitting application:', error)
-      message.value = 'We encountered an error while submitting your application. Please try again or contact us directly.'
-      messageType.value = 'error'
-    } finally {
-      loading.value = false
-      
-      // Auto-hide message after 10 seconds
-      setTimeout(() => {
-        message.value = ''
-      }, 10000)
-    }
+ // Enhanced submit function with better error handling and debugging
+const submitApplication = async () => {
+  if (!selectedFile.value) {
+    message.value = 'Please select a CV/Resume file to upload.'
+    messageType.value = 'error'
+    setTimeout(() => {
+      message.value = ''
+    }, 5000)
+    return
   }
+
+  loading.value = true
+  message.value = ''
+
+  try {
+    console.log('Starting application submission...')
+    
+    // Upload CV file
+    const fileName = `${Date.now()}_${selectedFile.value.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
+    console.log('Uploading file:', fileName)
+    
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('cvs')
+      .upload(fileName, selectedFile.value)
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError)
+      throw uploadError
+    }
+
+    console.log('File uploaded successfully:', uploadData)
+
+    // Get public URL for the uploaded file
+    const { data: urlData } = supabase.storage
+      .from('cvs')
+      .getPublicUrl(fileName)
+
+    console.log('Public URL:', urlData.publicUrl)
+
+    // Prepare application data
+    const applicationData = {
+      name: form.value.name.trim(),
+      email: form.value.email.trim(),
+      phone: form.value.phone.trim(),
+      position: form.value.position,
+      details: form.value.details.trim() || null,
+      cv_url: urlData.publicUrl,
+      cv_filename: selectedFile.value.name,
+      application_date: new Date().toISOString(),
+    }
+
+    console.log('Application data to insert:', applicationData)
+
+    // Insert application data
+    const { data: insertData, error: insertError } = await supabase
+      .from('job_applications')
+      .insert(applicationData)
+      .select() // Add this to get the inserted data back
+
+    if (insertError) {
+      console.error('Insert error:', insertError)
+      console.error('Insert error details:', {
+        code: insertError.code,
+        message: insertError.message,
+        details: insertError.details,
+        hint: insertError.hint
+      })
+      throw insertError
+    }
+
+    console.log('Application inserted successfully:', insertData)
+
+    message.value = 'Thank you! Your application has been submitted successfully. We will review your application and contact you soon.'
+    messageType.value = 'success'
+    
+    // Reset form
+    form.value = {
+      name: '',
+      email: '',
+      phone: '',
+      position: '',
+      details: ''
+    }
+    selectedFile.value = null
+    if (process.client) {
+      document.getElementById('cv').value = ''
+    }
+
+    // Scroll to success message
+    setTimeout(() => {
+      const successElement = document.querySelector('[data-success-message]') || 
+                           document.querySelector('.bg-green-50')
+      if (successElement) {
+        successElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
+
+  } catch (error) {
+    console.error('Error submitting application:', error)
+    
+    // More specific error messages
+    let errorMessage = 'We encountered an error while submitting your application. '
+    
+    if (error.code === 'PGRST116') {
+      errorMessage += 'Database table not found. Please contact support.'
+    } else if (error.code === '42501') {
+      errorMessage += 'Permission denied. Please try again.'
+    } else if (error.code === '23505') {
+      errorMessage += 'Duplicate entry detected. Please check your information.'
+    } else if (error.message?.includes('JWT')) {
+      errorMessage += 'Authentication error. Please refresh the page and try again.'
+    } else {
+      errorMessage += 'Please try again or contact us directly.'
+    }
+    
+    message.value = errorMessage
+    messageType.value = 'error'
+    
+    // Log the full error for debugging
+    console.error('Full error object:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
+      stack: error.stack
+    })
+    
+  } finally {
+    loading.value = false
+    
+    // Auto-hide message after 10 seconds
+    setTimeout(() => {
+      message.value = ''
+    }, 10000)
+  }
+}
   
   </script>
   
