@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "cross-env NODE_ENV=production nuxi build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "generate": "nuxt generate",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^2.2.1"
+    "@nuxt/devtools": "^2.2.1",
+    "cross-env": "^7.0.3"
   }
 }
