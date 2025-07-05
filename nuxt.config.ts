@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     // Global options
     quality: 80,
     format: ['webp', 'avif', 'jpg'],
+    provider: 'netlify',
+    domains: ['https://supabase.com/dashboard/project/xxjcpqsodvrenyayjbzb/storage/buckets/blog-images', 'https://supabase.com/dashboard/project/xxjcpqsodvrenyayjbzb/storage/buckets/staff-images']
   },
   app: {
     head: {
