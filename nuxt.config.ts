@@ -8,10 +8,11 @@ export default defineNuxtConfig({
   },
   modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase'],
   image: {
+    provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
+    dir: 'public',
     // Global options
     quality: 80,
     format: ['webp', 'avif', 'jpg'],
-    provider: 'netlify',
     domains: ['https://xxjcpqsodvrenyayjbzb.supabase.co', 'xxjcpqsodvrenyayjbzb.supabase.co']
   },
   app: {

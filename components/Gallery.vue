@@ -1,5 +1,5 @@
 <template>
-  <section class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen font-inter mx-auto my-4 sm:my-6 lg:my-8 overflow-hidden">
+  <section class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen font-inter mx-auto  overflow-hidden">
     <!-- SEO-friendly structured heading -->
     <header class="text-center mb-8 sm:mb-10 lg:mb-12">
       <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-[#09033b] tracking-tight mb-4">
@@ -33,7 +33,7 @@
             <NuxtImg
               :src="image.src"
               :alt="image.alt"
-              class="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-xl sm:rounded-2xl"
+              class="w-full h-48 sm:h-56 lg:h-64 object-cover"
               loading="lazy"
               :width="320"
               :height="256"
@@ -42,7 +42,7 @@
               sizes="sm:288px lg:320px"
             />
             <!-- Hover/Focus Overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-3 sm:p-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl">
+            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-3 sm:p-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300">
               <p class="text-white text-lg sm:text-xl font-semibold text-center leading-tight">{{ image.title }}</p>
             </div>
           </div>
@@ -60,7 +60,7 @@
           <div
             v-for="(image, index) in duplicatedImagesLeft.slice().reverse()"
             :key="`middle-${image.id}-${index}`"
-            class="flex-shrink-0 w-64 sm:w-72 lg:w-80 mx-2 sm:mx-3 relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl transition transform hover:scale-105 hover:shadow-2xl duration-500 ease-in-out cursor-pointer group"
+            class="flex-shrink-0 w-64 sm:w-72 lg:w-80 mx-2 sm:mx-3 relative overflow-hidden  shadow-lg sm:shadow-xl transition transform hover:scale-105 hover:shadow-2xl duration-500 ease-in-out cursor-pointer group"
             @click="openModal(index % galleryImages.length)"
             @keydown.enter="openModal(index % galleryImages.length)"
             @keydown.space="openModal(index % galleryImages.length)"
@@ -80,7 +80,7 @@
               sizes="sm:288px lg:320px"
             />
             <!-- Hover/Focus Overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-3 sm:p-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl">
+            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-3 sm:p-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300">
               <p class="text-white text-lg sm:text-xl font-semibold text-center leading-tight">{{ image.title }}</p>
             </div>
           </div>
@@ -191,23 +191,23 @@ const galleryImages = ref<GalleryImage[]>([
   { 
     id: 1, 
     src: '/images/policenkids2.jpg', 
-    alt: 'Students participating in annual sports day activities with police officers', 
-    title: 'Annual Sports Day', 
-    description: 'Students participating in various sports activities, showcasing teamwork and sportsmanship with community partners.' 
+    alt: 'Students visit the Nigerian police force', 
+    title: 'Excursion to the Nigerian police', 
+    description: 'Students visit the Nigerian police force.' 
   },
   { 
     id: 2, 
     src: '/images/kidsndad.jpg', 
-    alt: 'Father and children at school science fair exhibition', 
-    title: 'Science Fair Innovation', 
-    description: 'Our young scientists presenting their groundbreaking projects and experiments with family support.' 
+    alt: 'Chairman and students', 
+    title: 'Chairman Board of Trustees with our students', 
+    description: 'Chairman Board of Trustees with our students.' 
   },
   { 
     id: 3, 
     src: '/images/learning4.jpg', 
-    alt: 'Students engaged in interactive classroom learning session', 
+    alt: 'Individualised learning classroom', 
     title: 'Engaging Classroom', 
-    description: 'An interactive learning session where students collaborate and explore new concepts together.' 
+    description: 'Individualised learning session where students work with PACEs' 
   },
   { 
     id: 4, 
@@ -219,16 +219,16 @@ const galleryImages = ref<GalleryImage[]>([
   { 
     id: 5, 
     src: '/images/naijaday.jpg', 
-    alt: 'Students celebrating Nigerian Independence Day at school', 
+    alt: 'Students celebrating Nigerian culture', 
     title: 'Cultural Celebration', 
     description: 'Students celebrating Nigerian heritage and culture, promoting diversity and national pride.' 
   },
   { 
     id: 6, 
     src: '/images/arts.jpg', 
-    alt: 'Student artwork displayed at school art exhibition', 
-    title: 'Art Exhibition Creativity', 
-    description: 'Showcasing the diverse artistic talents of our students, from paintings to sculptures.' 
+    alt: 'Students visit arts and tech museum', 
+    title: 'Arts & Creativity', 
+    description: 'Students visit arts and technology museum' 
   },
   { 
     id: 7, 
@@ -240,8 +240,8 @@ const galleryImages = ref<GalleryImage[]>([
   { 
     id: 8, 
     src: '/images/mooshhoodstadia.jpg', 
-    alt: 'Students performing at annual school concert in stadium', 
-    title: 'Annual Concert Performance', 
+    alt: 'Students visit the Moshood Abiola stadium in Abuja', 
+    title: 'Excursion to National Stadium', 
     description: 'Spectacular musical and theatrical performances by our talented students and faculty.' 
   },
   { 
@@ -254,9 +254,9 @@ const galleryImages = ref<GalleryImage[]>([
   { 
     id: 10, 
     src: '/images/vr.jpg', 
-    alt: 'Students using virtual reality technology for immersive learning', 
+    alt: 'Students using virtual reality technology at arts and technology museum', 
     title: 'VR Learning Experience', 
-    description: 'Innovative virtual reality technology enhancing our students\' learning experience with immersive education.' 
+    description: 'Students using virtual reality technology at arts and technology museum.' 
   },
 ])
 

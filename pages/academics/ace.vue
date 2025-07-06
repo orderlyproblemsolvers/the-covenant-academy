@@ -364,8 +364,8 @@
           </p>
           <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
             <NuxtLink 
-              to="/contact"
-              class="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-white text-[#09033b] font-medium rounded-md hover:bg-gray-100 transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#09033b]">
+              to="/admissions/visit"
+              class="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 bg-white text-[#09033b] font-medium  hover:bg-gray-100 transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#09033b]">
               Schedule a School Visit
               <svg class="ml-2 md:ml-3 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
@@ -374,7 +374,7 @@
             
             <NuxtLink 
               to="/admissions"
-              class="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 border border-white/30 text-white font-medium rounded-md hover:bg-white hover:text-[#09033b] transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#09033b]">
+              class="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 border border-white/30 text-white font-medium  hover:bg-white hover:text-[#09033b] transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#09033b]">
               View Admission Requirements
             </NuxtLink>
           </div>

@@ -271,8 +271,9 @@ const menus = [
   {
     title: 'Admission',
     items: [
-      { label: 'Admissions', to: '/admissions' },
-      { label: 'Visit', to: '/admissions/visit' }
+      { label: 'How to enroll', to: '/admissions' },
+      { label: 'Tuition & Fees', to: '/admissions/tuition' },
+      { label: 'Visit', to: '/admissions/visit' },
     ]
   },
   {
