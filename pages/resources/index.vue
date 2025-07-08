@@ -22,7 +22,7 @@
             </span>
           </div>
           <h1 class="text-3xl md:text-4xl font-light text-[#09033b] tracking-tight">
-            Blog Posts
+            Resources
           </h1>
           <div class="w-16 h-px bg-[#09033b]"></div>
         </div>
@@ -58,7 +58,7 @@
           <svg class="mx-auto h-12 w-12 text-[#09033b]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
-          <p class="text-gray-600">No blog posts available yet.</p>
+          <p class="text-gray-600">No posts to see.</p>
           <NuxtLink 
             to="/resources/create"
             class="inline-flex items-center px-6 py-3 text-sm font-medium text-[#09033b] border border-[#09033b] hover:bg-[#09033b]/5 transition-colors"

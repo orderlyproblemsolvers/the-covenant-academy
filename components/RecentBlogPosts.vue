@@ -72,7 +72,7 @@
   
           <div class="text-center">
             <NuxtLink 
-              to="/blog"
+              to="/resources"
               class="group inline-flex items-center justify-center px-8 py-4 text-white text-base font-medium border border-gray-200 hover:border-[#09033b] hover:text-[#09033b] hover:bg-gray-50 transition-all duration-300"
             >
               View All Posts

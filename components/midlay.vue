@@ -145,7 +145,7 @@
             
             <div class="text-center">
               <NuxtLink
-                to="/admissions"
+                to="/admissions/tuition"
                 class="inline-flex items-center px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-medium transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
               >
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
