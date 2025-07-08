@@ -35,7 +35,7 @@
         
         <div class="flex items-center gap-3">
           <button 
-            @click="() => currentDate = new Date()" 
+            @click="currentDate = new Date()" 
             class="px-4 py-2 text-sm font-medium text-[#09033b] bg-white border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 rounded transition-all duration-300"
           >
             Today
@@ -59,6 +59,21 @@
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Hide Empty Days Toggle (Mobile Only) -->
+      <div class="sm:hidden mb-4 flex items-center justify-end">
+        <label class="inline-flex items-center cursor-pointer">
+          <span class="mr-3 text-sm font-medium text-[#09033b]">Hide empty days</span>
+          <div class="relative">
+            <input 
+              type="checkbox" 
+              class="sr-only peer" 
+              v-model="hideEmptyDays"
+            >
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#09033b]"></div>
+          </div>
+        </label>
       </div>
 
       <!-- Loading State -->
@@ -88,7 +103,7 @@
             <!-- Calendar Grid -->
             <div class="grid grid-cols-7">
               <div
-                v-for="(date, index) in calendarDays"
+                v-for="(date, index) in currentMonthDays"
                 :key="index"
                 class="min-h-32 p-3 border-b border-r border-gray-100 last:border-r-0 transition-all duration-200 hover:bg-gray-50 group"
                 :class="{
@@ -129,93 +144,111 @@
           </div>
         </div>
 
-        <!-- Mobile Calendar -->
-        <div class="sm:hidden">
-          <div class="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-sm">
-            <!-- Mobile Week Header -->
-            <div class="grid grid-cols-7 bg-[#09033b]">
-              <div 
-                v-for="day in weekDays" 
-                :key="day"
-                class="p-3 text-center text-xs font-medium text-white"
-              >
-                {{ day.charAt(0) }}
-              </div>
-            </div>
+        <!-- Mobile Calendar - Vertical List -->
+        <div class="sm:hidden space-y-4">
+          <!-- Month Navigation -->
+          <div class="flex items-center justify-between bg-white p-3 rounded-lg shadow-xs border border-gray-100">
+            <button 
+              @click="prevMonth" 
+              class="p-2 text-[#09033b] hover:bg-gray-50 rounded-full transition-colors duration-200"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h3 class="text-lg font-medium text-[#09033b]">{{ currentMonth }}</h3>
+            <button 
+              @click="nextMonth" 
+              class="p-2 text-[#09033b] hover:bg-gray-50 rounded-full transition-colors duration-200"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
 
-            <!-- Mobile Calendar Grid -->
-            <div class="grid grid-cols-7">
-              <div
-                v-for="(date, index) in calendarDays"
-                :key="index"
-                class="h-16 p-2 border-b border-r border-gray-100 last:border-r-0 transition-all duration-200"
+          <!-- Days List -->
+          <div class="space-y-2">
+            <div
+              v-for="(date, index) in filteredCurrentMonthDays"
+              :key="index"
+              class="bg-white rounded-lg border border-gray-100 shadow-xs overflow-hidden"
+              :class="{
+                'ring-1 ring-[#09033b]/50': date.isToday
+              }"
+            >
+              <!-- Day Header -->
+              <div 
+                class="p-3 border-b border-gray-100 flex items-center justify-between"
                 :class="{
-                  'bg-gray-50/50 text-gray-400': !date.isCurrentMonth,
-                  'bg-[#09033b]/5 ring-1 ring-[#09033b]/20': date.isToday && date.isCurrentMonth,
+                  'bg-[#09033b]/5': date.isToday,
+                  'text-gray-400': !date.isCurrentMonth
                 }"
               >
-                <div class="flex items-start justify-between h-full">
+                <div class="flex items-center">
                   <span 
-                    class="text-xs font-medium" 
-                    :class="{ 
+                    class="text-sm font-medium mr-2"
+                    :class="{
                       'font-semibold text-[#09033b]': date.isToday,
                       'text-[#09033b]': date.isCurrentMonth && !date.isToday,
-                      'text-gray-400': !date.isCurrentMonth
                     }"
                   >
-                    {{ date.day }}
+                    {{ date.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) }}
                   </span>
-                  
-                  <!-- Event Indicator -->
-                  <div 
-                    v-if="getEventsForDate(date.date).length > 0"
-                    class="w-5 h-5 bg-[#09033b] text-white text-xs rounded-full flex items-center justify-center cursor-pointer"
-                    @click="showMobileEvents(date)"
+                  <span 
+                    v-if="date.isToday" 
+                    class="text-xs px-2 py-1 bg-[#09033b] text-white rounded-full"
                   >
-                    {{ getEventsForDate(date.date).length }}
-                  </div>
+                    Today
+                  </span>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile Events Modal -->
-        <div v-if="selectedDate" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div class="bg-white rounded-lg w-full max-w-sm max-h-[80vh] overflow-hidden shadow-xl">
-            <div class="p-4 bg-[#09033b] text-white flex items-center justify-between">
-              <h3 class="font-medium">
-                {{ selectedDate.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) }}
-              </h3>
-              <button 
-                @click="selectedDate = null" 
-                class="p-1 hover:bg-white/20 rounded transition-colors duration-200"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-            
-            <div class="p-4 overflow-y-auto max-h-[60vh]">
-              <div v-if="getEventsForDate(selectedDate.date).length === 0" class="text-center py-8">
-                <p class="text-gray-500 font-light">No events for this day</p>
+                <span 
+                  v-if="getEventsForDate(date.date).length > 0"
+                  class="text-xs text-gray-500"
+                >
+                  {{ getEventsForDate(date.date).length }} event{{ getEventsForDate(date.date).length > 1 ? 's' : '' }}
+                </span>
               </div>
               
-              <div class="space-y-2">
+              <!-- Events List -->
+              <div class="divide-y divide-gray-100">
                 <div
-                  v-for="event in getEventsForDate(selectedDate.date)"
+                  v-for="event in getEventsForDate(date.date)"
                   :key="event.id"
-                  class="p-3 bg-[#09033b]/5 hover:bg-[#09033b]/10 border-l-2 border-[#09033b] rounded cursor-pointer transition-colors duration-200"
+                  class="p-3 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
                   @click="$emit('event-click', event)"
                 >
-                  <div class="font-medium text-[#09033b] mb-1">{{ event.title }}</div>
-                  <div v-if="event.description" class="text-sm text-gray-600 mb-2">
-                    {{ event.description }}
+                  <div class="flex items-start">
+                    <div 
+                      class="w-10 h-10 flex-shrink-0 rounded-full bg-[#09033b]/10 flex items-center justify-center mr-3 mt-0.5"
+                      :class="{
+                        'bg-[#09033b]/20': isAllDayEvent(event)
+                      }"
+                    >
+                      <span 
+                        class="text-xs font-medium text-[#09033b]"
+                        :class="{
+                          'text-[10px]': isAllDayEvent(event)
+                        }"
+                      >
+                        {{ isAllDayEvent(event) ? 'All day' : formatEventTime(event.start_date) }}
+                      </span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-medium text-[#09033b] truncate">{{ event.title }}</div>
+                      <div v-if="event.description" class="text-xs text-gray-500 mt-1 truncate-2-lines">
+                        {{ event.description }}
+                      </div>
+                    </div>
                   </div>
-                  <div class="text-xs text-gray-500 font-medium">
-                    {{ formatEventTime(event.start_date) }}
-                  </div>
+                </div>
+
+                <!-- No Events -->
+                <div 
+                  v-if="getEventsForDate(date.date).length === 0 && !hideEmptyDays"
+                  class="p-4 text-center text-sm text-gray-400"
+                >
+                  No events
                 </div>
               </div>
             </div>
@@ -226,140 +259,142 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed, onMounted } from 'vue'
 
-export default {
-  emits: ['event-click'],
+const emit = defineEmits(['event-click'])
+const supabase = useSupabaseClient()
+
+const events = ref([])
+const loading = ref(true)
+const error = ref(null)
+const currentDate = ref(new Date())
+const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const hideEmptyDays = ref(true)
+
+const currentMonth = computed(() => {
+  return currentDate.value.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  })
+})
+
+const currentMonthDays = computed(() => {
+  const year = currentDate.value.getFullYear()
+  const month = currentDate.value.getMonth()
+  const firstDay = new Date(year, month, 1)
+  const lastDay = new Date(year, month + 1, 0)
   
-  setup() {
-    const supabase = useSupabaseClient()
-    const events = ref([])
-    const loading = ref(true)
-    const error = ref(null)
-    const currentDate = ref(new Date())
-    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const selectedDate = ref(null)
+  const days = []
+  const startDay = firstDay.getDay()
+  const endDate = lastDay.getDate()
+  
+  // Previous month days
+  for (let i = startDay - 1; i >= 0; i--) {
+    const date = new Date(year, month, -i)
+    days.push(createCalendarDay(date, false))
+  }
 
-    const currentMonth = computed(() => {
-      return currentDate.value.toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric'
-      })
-    })
+  // Current month days
+  for (let day = 1; day <= endDate; day++) {
+    const date = new Date(year, month, day)
+    days.push(createCalendarDay(date, true))
+  }
 
-    const calendarDays = computed(() => {
-      const year = currentDate.value.getFullYear()
-      const month = currentDate.value.getMonth()
-      const firstDay = new Date(year, month, 1)
-      const lastDay = new Date(year, month + 1, 0)
-      
-      const days = []
-      const startDay = firstDay.getDay()
-      const endDate = lastDay.getDate()
-      
-      for (let i = startDay - 1; i >= 0; i--) {
-        const date = new Date(year, month, -i)
-        days.push(createCalendarDay(date, false))
-      }
+  // Next month days
+  const remainingDays = 42 - days.length
+  for (let i = 1; i <= remainingDays; i++) {
+    const date = new Date(year, month + 1, i)
+    days.push(createCalendarDay(date, false))
+  }
 
-      for (let day = 1; day <= endDate; day++) {
-        const date = new Date(year, month, day)
-        days.push(createCalendarDay(date, true))
-      }
+  return days
+})
 
-      const remainingDays = 42 - days.length
-      for (let i = 1; i <= remainingDays; i++) {
-        const date = new Date(year, month + 1, i)
-        days.push(createCalendarDay(date, false))
-      }
+const filteredCurrentMonthDays = computed(() => {
+  if (!hideEmptyDays.value) return currentMonthDays.value
+  return currentMonthDays.value.filter(date => {
+    return getEventsForDate(date.date).length > 0 || date.isToday
+  })
+})
 
-      return days
-    })
-
-    function createCalendarDay(date, isCurrentMonth) {
-      const today = new Date()
-      return {
-        date: date,
-        day: date.getDate(),
-        isCurrentMonth,
-        isToday: date.toDateString() === today.toDateString()
-      }
-    }
-
-    function getEventsForDate(date) {
-      return events.value.filter(event => {
-        const eventDate = new Date(event.start_date).toDateString()
-        return eventDate === date.toDateString()
-      })
-    }
-
-    function formatEventTime(dateString) {
-      const date = new Date(dateString)
-      return date.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit',
-        hour12: true 
-      })
-    }
-
-    function showMobileEvents(date) {
-      selectedDate.value = date
-    }
-
-    function prevMonth() {
-      currentDate.value = new Date(
-        currentDate.value.getFullYear(),
-        currentDate.value.getMonth() - 1
-      )
-    }
-
-    function nextMonth() {
-      currentDate.value = new Date(
-        currentDate.value.getFullYear(),
-        currentDate.value.getMonth() + 1
-      )
-    }
-
-    async function fetchEvents() {
-      try {
-        loading.value = true
-        error.value = null
-        
-        const { data, error: sbError } = await supabase
-          .from('events')
-          .select('*')
-          .order('start_date', { ascending: true })
-
-        if (sbError) throw sbError
-        events.value = data || []
-      } catch (err) {
-        error.value = 'Failed to load events. Please try again later.'
-        console.error('Calendar error:', err)
-      } finally {
-        loading.value = false
-      }
-    }
-
-    onMounted(fetchEvents)
-
-    return {
-      error,
-      loading,
-      weekDays,
-      currentMonth,
-      calendarDays,
-      prevMonth,
-      nextMonth,
-      getEventsForDate,
-      currentDate,
-      selectedDate,
-      showMobileEvents,
-      formatEventTime,
-      fetchEvents
-    }
+function createCalendarDay(date, isCurrentMonth) {
+  const today = new Date()
+  return {
+    date: date,
+    day: date.getDate(),
+    isCurrentMonth,
+    isToday: date.toDateString() === today.toDateString()
   }
 }
+
+function getEventsForDate(date) {
+  return events.value.filter(event => {
+    const eventDate = new Date(event.start_date)
+    return (
+      eventDate.getFullYear() === date.getFullYear() &&
+      eventDate.getMonth() === date.getMonth() &&
+      eventDate.getDate() === date.getDate()
+    )
+  }).sort((a, b) => {
+    // Sort by time, all-day events first
+    if (isAllDayEvent(a)) return -1
+    if (isAllDayEvent(b)) return 1
+    return new Date(a.start_date) - new Date(b.start_date)
+  })
+}
+
+function isAllDayEvent(event) {
+  const date = new Date(event.start_date)
+  return date.getHours() === 0 && date.getMinutes() === 0
+}
+
+function formatEventTime(dateString) {
+  const date = new Date(dateString)
+  return date.toLocaleTimeString('en-US', { 
+    hour: 'numeric', 
+    minute: '2-digit',
+    hour12: true 
+  }).replace(/\s/g, '')
+}
+
+function prevMonth() {
+  currentDate.value = new Date(
+    currentDate.value.getFullYear(),
+    currentDate.value.getMonth() - 1,
+    1
+  )
+}
+
+function nextMonth() {
+  currentDate.value = new Date(
+    currentDate.value.getFullYear(),
+    currentDate.value.getMonth() + 1,
+    1
+  )
+}
+
+async function fetchEvents() {
+  try {
+    loading.value = true
+    error.value = null
+    
+    const { data, error: sbError } = await supabase
+      .from('events')
+      .select('*')
+      .order('start_date', { ascending: true })
+
+    if (sbError) throw sbError
+    events.value = data || []
+  } catch (err) {
+    error.value = 'Failed to load events. Please try again later.'
+    console.error('Calendar error:', err)
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchEvents)
 </script>
 
 <style scoped>
@@ -411,5 +446,18 @@ export default {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* Truncate 2 lines */
+.truncate-2-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Small shadow */
+.shadow-xs {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 </style>
