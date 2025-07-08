@@ -8,7 +8,7 @@
       </h1>
       <p class="sr-only">Interactive photo gallery showcasing school activities, events, and student life experiences</p>
     </header>
-1 a
+
     <!-- Infinite Scroll Container with better mobile spacing -->
     <div class="space-y-4 sm:space-y-6 bg-gray-50" role="region" aria-label="Photo gallery with infinite scrolling">
       <!-- Top Row - Scrolls Left to Right -->
