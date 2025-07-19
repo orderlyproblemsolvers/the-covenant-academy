@@ -63,10 +63,15 @@
           <div class="block md:hidden">
             <div class="bg-white overflow-hidden transition-all duration-500 hover:shadow-xl">
               <div class="aspect-[4/3] overflow-hidden bg-gray-100">
-                <img 
+                <NuxtImg 
                   :src="activity.image || '/public/assets/images/IMG-20250130-WA0006.jpg'" 
                   :alt="activity.title"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  format="webp"
+                  quality="80"
+                  sizes="sm:100vw md:50vw lg:800px"
+                  :modifiers="{ fit: 'cover', gravity: 'auto' }"
                 />
               </div>
               <div class="p-8 space-y-6">
@@ -124,10 +129,15 @@
               <div class="relative" :class="{ 'lg:order-1': index % 2 !== 0 }">
                 <div class="relative group">
                   <div class="aspect-[4/5] max-w-md mx-auto overflow-hidden">
-                    <img 
+                    <NuxtImg 
                       :src="activity.image || '/public/assets/images/IMG-20250130-WA0006.jpg'" 
                       :alt="activity.title"
                       class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                      loading="lazy"
+                      format="webp"
+                      quality="80"
+                      sizes="sm:100vw md:50vw lg:400px"
+                      :modifiers="{ fit: 'cover', gravity: 'auto' }"
                     />
                   </div>
                   
@@ -149,10 +159,15 @@
         
         <!-- Modal Image -->
         <div class="h-64 lg:h-auto overflow-hidden bg-gray-100">
-          <img 
+          <NuxtImg 
             :src="selectedActivity.image || '/public/assets/images/IMG-20250130-WA0006.jpg'" 
             :alt="selectedActivity.title"
             class="w-full h-full object-cover"
+            loading="eager"
+            format="webp"
+            quality="90"
+            sizes="100vw"
+            :modifiers="{ fit: 'cover', gravity: 'auto' }"
           />
         </div>
         
@@ -171,14 +186,6 @@
           <p class="text-gray-600 leading-relaxed">{{ selectedActivity.description }}</p>
           <!-- Accent Line -->
           <div class="w-12 h-px bg-[#09033b]"></div>
-
-          <!-- CTA Button -->
-          <button class="inline-flex items-center px-6 py-3 bg-[#09033b] text-white text-sm font-medium hover:bg-[#0a0440] transition-colors duration-300">
-            Join This Activity
-            <svg class="ml-3 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-            </svg>
-          </button>
         </div>
       </div>
     </div>
@@ -207,7 +214,7 @@ const activities = ref([
   {
     id: 2,
     title: 'Jets Club',
-    description: 'A hands‑on club where students apply science and technology in practical projects—building, experimenting, and exploring STEM. It aims to nurture future engineers and scientists.',
+    description: 'A hands on club where students apply science and technology in practical projects—building, experimenting, and exploring STEM. It aims to nurture future engineers and scientists.',
     category: 'Science',
     image: '/images/jets2.jpg'
   },
@@ -243,7 +250,7 @@ const activities = ref([
   {
     id: 7,
     title: 'Naija Day',
-    description: 'A celebration of Nigerian culture and pride! Expect traditional dress, food, music, dance, and festive displays—giving students a fun and educational look at Nigeria’s heritage.',
+    description: "A celebration of Nigerian culture and pride! Expect traditional dress, food, music, dance, and festive displays—giving students a fun and educational look at Nigeria's heritage.",
     category: 'Culture',
     image: '/images/naijaday.jpg'
   },
@@ -350,5 +357,13 @@ button:focus {
   .text-4xl { font-size: 2.25rem; }
   .text-6xl { font-size: 3rem; }
   .text-7xl { font-size: 3.5rem; }
+}
+
+/* Image optimization */
+img, [data-nuxt-img] {
+  will-change: transform;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 </style>

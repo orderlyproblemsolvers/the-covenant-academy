@@ -71,15 +71,7 @@
           </div>
   
           <div class="text-center">
-            <NuxtLink 
-              to="/resources"
-              class="group inline-flex items-center justify-center px-8 py-4 text-white text-base font-medium border border-gray-200 hover:border-[#09033b] hover:text-[#09033b] hover:bg-gray-50 transition-all duration-300"
-            >
-              View All Posts
-              <svg class="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </NuxtLink>
+            <Button to="/resources" icon="heroicons:chevron-right" styles="tertiary" content="View More"/>
           </div>
         </div>
       </div>

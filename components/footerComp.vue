@@ -140,7 +140,6 @@ const currentYear = ref(new Date().getFullYear());
 
 const subscribeToNewsletter = () => {
   // Implementation would go here
-  console.log(`Subscribed with: ${email.value}`);
   alert(`Thank you for subscribing with: ${email.value}`);
   email.value = '';
 };

@@ -93,22 +93,9 @@
 
           <!-- Clean CTAs -->
           <div class="flex flex-col sm:flex-row gap-4 pt-8">
-            <NuxtLink 
-              to="/admissions"
-              class="group inline-flex items-center justify-center px-8 py-4 bg-[#09033b] text-white text-base font-medium hover:bg-[#0a0440] transition-colors duration-300"
-            >
-              Begin Your Journey
-              <svg class="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </NuxtLink>
+            <Button to="/admissions" icon="heroicons:chevron-right" styles="primary" content="Begin your Journey"/>
             
-            <NuxtLink 
-              to="/academics/curriculum"
-              class="inline-flex items-center justify-center px-8 py-4 text-[#09033b] text-base font-medium border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 transition-all duration-300"
-            >
-              Explore Programs
-            </NuxtLink>
+            <Button to="/curriculum" icon="heroicons:chevron-right" styles="secondary" content="Explore Programs"/>
           </div>
         </div>
 

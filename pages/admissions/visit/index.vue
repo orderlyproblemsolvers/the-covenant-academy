@@ -121,22 +121,6 @@
             </div>
           </div>
 
-          <!-- Call to Action -->
-          <div class="text-center pt-4 border-t border-gray-100">
-            <div class="space-y-4">
-              <div class="space-y-2">
-                <p class="text-base text-gray-600 font-light">Ready to explore our campus?</p>
-                <div class="w-12 h-px bg-[#09033b] mx-auto"></div>
-              </div>
-              
-              <button class="inline-flex items-center px-8 py-4 bg-[#09033b] text-white text-base font-medium hover:bg-[#0a0440] transition-all duration-300 group">
-                Schedule a Visit
-                <svg class="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

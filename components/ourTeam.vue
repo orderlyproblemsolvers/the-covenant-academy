@@ -60,7 +60,7 @@
         >
           <!-- Fixed size square container for all images -->
           <div
-            class="w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] overflow-hidden mb-3 sm:mb-4 rounded-lg shadow-md bg-white"
+            class="w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] overflow-hidden mb-3 sm:mb-4  shadow-md bg-white"
           >
             <NuxtImg
               :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
@@ -101,26 +101,7 @@
         <p class="text-gray-600">No team members found</p>
       </div>
 
-      <NuxtLink
-        to="/team"
-        class="inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 border border-transparent text-sm sm:text-base font-medium text-white bg-[#09033b] hover:bg-blue-700 transition duration-300 shadow-sm"
-        aria-label="View all staff members"
-      >
-        View All Staff
-        <svg
-          class="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M9 5l7 7-7 7"
-          ></path>
-        </svg>
-      </NuxtLink>
+    <Button styles="primary"  to="/team" content="All Staff" icon="heroicons:user"/>
       <div class="mt-4 text-sm text-gray-500">
         <p>Want to join our team?</p>
         <NuxtLink to="/jobs" class="text-blue-600 hover:underline">

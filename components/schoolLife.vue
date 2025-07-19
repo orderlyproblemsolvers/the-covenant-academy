@@ -23,25 +23,7 @@
           </p>
           
           <!-- CTA Button -->
-          <NuxtLink 
-            to="/academics/extra-curricular" 
-            class="inline-flex items-center gap-2 bg-[#FF7F50] hover:bg-[#FF7F50]/90 text-white px-5 py-2 md:py-3  font-medium"
-          >
-            Learn More
-            <svg
-              class=" w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </NuxtLink>
+          <Button to="/academics/extra-curricular" icon="heroicons:trophy" styles="alternate" content="Discover"/>
         </div>
       </div>
     </div>

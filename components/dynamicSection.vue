@@ -28,13 +28,7 @@
         </div>
         
         <!-- Calendar Button -->
-        <NuxtLink
-          class="p-2 sm:p-3 md:p-4 font-semibold text-white bg-[#120575] text-xs sm:text-sm transition-all flex items-center gap-2 border  hover:bg-[#09033b] self-end sm:self-auto"
-          to="/events/calendar"
-        > 
-          CALENDAR
-          <UIcon name="i-mdi-calendar" />
-        </NuxtLink>
+        <Button to="/events/calendar" icon="heroicons:calendar" styles="primary" content="Calendar"/>
       </div>
     </div>
   </div>

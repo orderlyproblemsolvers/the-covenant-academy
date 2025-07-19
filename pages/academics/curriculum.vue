@@ -36,7 +36,7 @@
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md mx-auto px-4 sm:px-0">
               <NuxtLink 
-                to="/downloads"
+                to="#"
                 class="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-[#09033b] text-white text-sm sm:text-base font-medium hover:bg-[#0a0440] transition-colors duration-300 w-full sm:w-auto"
               >
                 Download Curriculum
@@ -45,7 +45,7 @@
                 </svg>
               </NuxtLink>
               <NuxtLink 
-                to="/tour"
+                to="/admissions/visit"
                 class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-[#09033b] text-sm sm:text-base font-medium border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 transition-all duration-300 w-full sm:w-auto"
               >
                 Schedule a Visit
@@ -162,7 +162,7 @@
                     <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> National standards alignment</li>
                     <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Cultural relevance and identity</li>
                     <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Civic education and values</li>
-                    <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> University preparation</li>
+                    <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Secondary school preparation</li>
                   </ul>
                   <div class="absolute -bottom-2 -left-2 w-6 sm:w-8 h-6 sm:h-8 bg-[#09033b] opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
                 </div>
@@ -448,7 +448,7 @@ export default {
         description: 'Biblical values integrated throughout all subjects.',
         features: [
           'Weekly character traits',
-          'Service learning projects',
+          'Pathway to Wisdom',
           'Leadership opportunities',
           'Mentorship program'
         ]
@@ -471,7 +471,7 @@ export default {
         features: [
           'Individual work stations',
           'Collaborative areas',
-          'Science lab',
+          'Engaging extra-curricular activities',
           'Technology resources'
         ]
       }

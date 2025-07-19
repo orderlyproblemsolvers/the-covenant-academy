@@ -59,13 +59,17 @@
               :key="staff.id" 
               class="group bg-white border border-gray-100 hover:border-[#09033b] transition-all duration-500 hover:shadow-lg"
             >
-              <div class="aspect-square bg-gray-100 overflow-hidden">
-                <img
+              <div class="aspect-square bg-gray-100 overflow-hidden relative">
+                <NuxtImg
                   :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
                   :alt="`${staff.name}'s profile`"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  @error="handleImageError"
                   loading="lazy"
+                  format="webp"
+                  quality="80"
+                  :modifiers="{ fit: 'cover', gravity: 'face' }"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  @error="handleImageError"
                 />
               </div>
               
@@ -96,13 +100,17 @@
               :key="staff.id" 
               class="group bg-white border border-gray-100 hover:border-[#09033b] transition-all duration-500 hover:shadow-lg"
             >
-              <div class="aspect-square bg-gray-100 overflow-hidden">
-                <img
+              <div class="aspect-square bg-gray-100 overflow-hidden relative">
+                <NuxtImg
                   :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
                   :alt="`${staff.name}'s profile`"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  @error="handleImageError"
                   loading="lazy"
+                  format="webp"
+                  quality="80"
+                  :modifiers="{ fit: 'cover', gravity: 'face' }"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  @error="handleImageError"
                 />
               </div>
               
@@ -133,13 +141,17 @@
               :key="staff.id" 
               class="group bg-white border border-gray-100 hover:border-[#09033b] transition-all duration-500 hover:shadow-lg"
             >
-              <div class="aspect-square bg-gray-100 overflow-hidden">
-                <img
+              <div class="aspect-square bg-gray-100 overflow-hidden relative">
+                <NuxtImg
                   :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
                   :alt="`${staff.name}'s profile`"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  @error="handleImageError"
                   loading="lazy"
+                  format="webp"
+                  quality="80"
+                  :modifiers="{ fit: 'cover', gravity: 'face' }"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  @error="handleImageError"
                 />
               </div>
               
@@ -170,13 +182,17 @@
               :key="staff.id" 
               class="group bg-white border border-gray-100 hover:border-[#09033b] transition-all duration-500 hover:shadow-lg"
             >
-              <div class="aspect-square bg-gray-100 overflow-hidden">
-                <img
+              <div class="aspect-square bg-gray-100 overflow-hidden relative">
+                <NuxtImg
                   :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
                   :alt="`${staff.name}'s profile`"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  @error="handleImageError"
                   loading="lazy"
+                  format="webp"
+                  quality="80"
+                  :modifiers="{ fit: 'cover', gravity: 'face' }"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  @error="handleImageError"
                 />
               </div>
               
@@ -207,13 +223,17 @@
               :key="staff.id" 
               class="group bg-white border border-gray-100 hover:border-orange-500 transition-all duration-500 hover:shadow-lg"
             >
-              <div class="aspect-square bg-gray-100 overflow-hidden">
-                <img
+              <div class="aspect-square bg-gray-100 overflow-hidden relative">
+                <NuxtImg
                   :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
                   :alt="`${staff.name}'s profile`"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  @error="handleImageError"
                   loading="lazy"
+                  format="webp"
+                  quality="80"
+                  :modifiers="{ fit: 'cover', gravity: 'face' }"
+                  sizes="sm:100vw md:50vw lg:400px"
+                  @error="handleImageError"
                 />
               </div>
               
@@ -296,13 +316,16 @@ const fetchAllStaff = async () => {
     if (error) throw error
 
     if (data && data.length) {
-      // Process profile images
+      // Process profile images with consistent sizing
       await Promise.all(data.map(async (staff) => {
         if (staff.profile_image) {
           const { data: urlData, error: urlError } = await supabase.storage
             .from('staff-images')
-            .createSignedUrl(staff.profile_image, 60)
-          staff.pictureUrl = (!urlError && urlData) ? urlData.signedUrl : null
+            .createSignedUrl(staff.profile_image, 60 * 60 * 24) // 24 hour cache
+          
+          staff.pictureUrl = (!urlError && urlData) 
+            ? urlData.signedUrl + '&width=600&height=600&quality=80' 
+            : null
         } else {
           staff.pictureUrl = null
         }
@@ -352,11 +375,6 @@ input:focus {
   outline-offset: 2px;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
 /* Custom selection color */
 ::selection {
   background-color: #09033b;
@@ -371,25 +389,31 @@ html {
   }
 }
 
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .text-gray-400,
-  .text-gray-500,
-  .text-gray-600 {
-    color: #000;
-  }
-  
-  .border-gray-200,
-  .border-gray-100 {
-    border-color: #000;
-  }
+/* Image optimization */
+[data-nuxt-img] {
+  will-change: transform;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
-/* Print styles */
-@media print {
-  .absolute {
-    position: static !important;
-  }
+/* Aspect ratio container */
+.aspect-square {
+  position: relative;
+}
+
+.aspect-square::before {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+
+.aspect-square > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Mobile typography adjustments */
@@ -397,23 +421,5 @@ html {
   .text-4xl { font-size: 2rem; }
   .text-5xl { font-size: 2.5rem; }
   .text-6xl { font-size: 3rem; }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f8f9fa;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #09033b;
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #0a0440;
 }
 </style>

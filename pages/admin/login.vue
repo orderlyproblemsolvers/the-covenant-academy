@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#09033b] to-[#120863]">
+    <div class="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#09033b] to-[#120863]">
       <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md border border-opacity-10 border-white">
         <div class="mb-8 text-center">
           <h1 class="text-3xl font-extrabold text-[#09033b] mb-2">Admin Portal</h1>

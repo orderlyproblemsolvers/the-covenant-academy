@@ -82,15 +82,15 @@
       { property: 'og:title', content: 'The Covenant Academy - Excellence in Christian Education' },
       { property: 'og:description', content: 'Discover exceptional Christian education at The Covenant Academy. Small classes, experienced teachers, and a nurturing faith-based environment.' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://www.thecovenantacademy.edu' },
-      { property: 'og:image', content: 'https://www.thecovenantacademy.edu/images/school-hero.jpg' },
+      { property: 'og:url', content: 'https://www.thecovenantacademy.org' },
+      { property: 'og:image', content: 'https://www.thecovenantacademy.org/images/assembly.jpg' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'The Covenant Academy - Excellence in Christian Education' },
       { name: 'twitter:description', content: 'Discover exceptional Christian education at The Covenant Academy. Small classes, experienced teachers, and a nurturing faith-based environment.' },
-      { name: 'twitter:image', content: 'https://www.thecovenantacademy.edu/images/school-hero.jpg' }
+      { name: 'twitter:image', content: 'https://www.thecovenantacademy.org/images/assembly.jpg' }
     ],
     link: [
-      { rel: 'canonical', href: 'https://www.thecovenantacademy.edu' }
+      { rel: 'canonical', href: 'https://www.thecovenantacademy.org' }
     ],
     script: [
       {
@@ -100,8 +100,8 @@
           "@type": "EducationalOrganization",
           "name": "The Covenant Academy",
           "description": "Christian private school providing exceptional education in a nurturing faith-based environment",
-          "url": "https://www.thecovenantacademy.edu",
-          "logo": "https://www.thecovenantacademy.edu/images/logo.png",
+          "url": "https://www.thecovenantacademy.org",
+          "logo": "https://www.thecovenantacademy.org/images/tcad-nbg.png",
           "telephone": "+234-803-623-3157",
           "address": {
             "@type": "PostalAddress",
