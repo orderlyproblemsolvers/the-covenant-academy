@@ -1,5 +1,5 @@
 <template>
-  <section class="p-6 sm:p-6 lg:p-12 bg-gray-50  font-inter mx-auto  overflow-hidden">
+  <section class="px-1 py-4 sm:px-1 sm:py-4 lg:p-12 bg-gray-50  font-inter mx-auto  overflow-hidden">
     <!-- SEO-friendly structured heading -->
     <header class="text-center mb-8 sm:mb-10 lg:mb-12">
       <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-[#09033b] tracking-tight mb-4">

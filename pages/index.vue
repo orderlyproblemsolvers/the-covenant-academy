@@ -37,6 +37,10 @@
         <section aria-label="Campus Gallery">
           <Gallery />
         </section>
+
+        <section aria-label="Testimonials">
+          <Testimonials />
+        </section>
   
         <!-- Dynamic Section -->
         <section aria-label="Featured Content">
