@@ -231,27 +231,30 @@
   // Form data
   const form = ref({
     name: 'MAKOZI JAANA',
-    academicYear: '2024/2025',
+    academicYear: '2025/2026',
     grade: 'Grade 6',
-    term: '3rd Term',
+    term: '1st Term',
     enableFlatFee: true,
     flatFee: 128000,
     enableWatermark: true,
     fees: {
       basic: {
         tuition: 197640,
-        diesel: 14100,
+        diesel: 19100,
         paces: 25950,
         mis: 3750
       },
       additional: {
-        photo: { enabled: true, amount: 8000 },
+        photo: { enabled: false, amount: 8000 },
         clubs: { enabled: true, amount: 10000 },
-        excursion: { enabled: false, amount: 0 },
+        exerciseBooks: { enabled: true, amount: 0 },
+        textBooks: { enabled: true, amount: 0 },
+        developmentLevy: { enabled: true, amount: 15000 },
         uniforms: { enabled: false, amount: 0 },
-        sweater: { enabled: false, amount: 0 },
-        thursdayWear: { enabled: false, amount: 0 },
+        cardigan: { enabled: false, amount: 13500 },
+        thursdayWear: { enabled: false, amount: 6000 },
         bus: { enabled: false, amount: 0 },
+        result_folder: { enabled: false, amount: 500 },
         outstanding: { enabled: false, amount: 0 },
         others: { enabled: false, amount: 0 }
       }
