@@ -196,19 +196,21 @@ watch(() => router.currentRoute.value.path, () => {
   closeMobileMenu()
 })
 
-// Close mobile menu on escape key
-onMounted(() => {
-  const handleEscape = (e) => {
-    if (e.key === 'Escape' && isMobileMenuOpen.value) {
-      closeMobileMenu()
-    }
+// Keyboard event handler - defined at top level
+const handleEscape = (e) => {
+  if (e.key === 'Escape' && isMobileMenuOpen.value) {
+    closeMobileMenu()
   }
-  
+}
+
+// Setup event listeners - proper lifecycle hook usage
+onMounted(() => {
   document.addEventListener('keydown', handleEscape)
-  
-  onUnmounted(() => {
-    document.removeEventListener('keydown', handleEscape)
-  })
+})
+
+// Cleanup - onUnmounted should be at top level, not inside onMounted
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleEscape)
 })
 
 // Auto-clear error messages after 5 seconds
