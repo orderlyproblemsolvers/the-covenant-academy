@@ -265,7 +265,8 @@ const menus = [
     items: [
       { label: 'What is ACE?', to: '/academics/ace' },
       { label: 'Our Curriculum', to: '/academics/curriculum' },
-      { label: 'Extra-Curricular', to: '/academics/extra-curricular' }
+      { label: 'Extra-Curricular', to: '/academics/extra-curricular' },
+      { label: '25/26 Scheme', to: '/academics/scheme' },
     ]
   },
   {
