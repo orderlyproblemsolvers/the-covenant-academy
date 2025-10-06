@@ -179,8 +179,8 @@ const enrollmentSteps = [
     description:
       "Complete our comprehensive online application form with all required documents.",
     details: [
-      "Online application form",
-      "Required documents upload",
+      "Study prospectus review",
+      "Fill out application form",
       "Application fee payment",
     ],
   },

@@ -15,7 +15,7 @@
     <div class="relative z-10 w-full">
       <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden">
         <!-- Hero Section -->
-        <div class="relative py-16 sm:py-24 md:py-32 w-full">
+        <div class="relative py-12 sm:py-24 md:py-28 w-full">
           <div class="text-center w-full">
             <div class="inline-flex items-center space-x-3 mb-6 max-w-full">
               <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
@@ -34,23 +34,6 @@
               Where world-class curriculum meets Christian values in an individualized learning environment.
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md mx-auto px-4 sm:px-0">
-              <NuxtLink 
-                to="#"
-                class="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-[#09033b] text-white text-sm sm:text-base font-medium hover:bg-[#0a0440] transition-colors duration-300 w-full sm:w-auto"
-              >
-                Download Curriculum
-                <svg class="ml-2 sm:ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </NuxtLink>
-              <NuxtLink 
-                to="/admissions/visit"
-                class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-[#09033b] text-sm sm:text-base font-medium border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 transition-all duration-300 w-full sm:w-auto"
-              >
-                Schedule a Visit
-              </NuxtLink>
-            </div>
           </div>
         </div>
 

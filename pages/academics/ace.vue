@@ -243,67 +243,8 @@
           </div>
         </div>
 
-        <!-- Testimonials Tab -->
-        <div v-show="activeTab === 4" class="space-y-12 md:space-y-16">
-          <div class="text-center">
-            <h3 class="text-2xl md:text-3xl font-light text-[#09033b] mb-3 md:mb-4">What Parents & Students Say</h3>
-            <div class="w-16 h-0.5 bg-[#09033b]/80 mx-auto"></div>
-          </div>
-          
-          <div class="relative max-w-4xl mx-auto px-4">
-            <div class="overflow-hidden">
-              <div class="flex transition-transform duration-500 ease-in-out"
-                   :style="{ transform: `translateX(-${currentTestimonial * 100}%)` }">
-                <div v-for="testimonial in testimonials" :key="testimonial.name"
-                     class="w-full flex-shrink-0 px-4">
-                  <div class="bg-blue-50 dark:bg-blue-50 p-6 md:p-8 lg:p-12 text-center border border-gray-200 rounded-lg shadow-sm">
-                    <div class="flex justify-center space-x-1 mb-4 md:mb-6">
-                      <svg v-for="i in 5" :key="i" class="w-4 h-4 md:w-5 md:h-5 text-[#09033b]" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                      </svg>
-                    </div>
-                    <p class="text-base md:text-lg text-gray-700 mb-6 md:mb-8 italic font-light leading-relaxed">
-                      "{{ testimonial.text }}"
-                    </p>
-                    <div class="flex items-center justify-center space-x-3 md:space-x-4">
-                      <div class="w-10 h-10 md:w-12 md:h-12 bg-[#09033b] text-white flex items-center justify-center font-medium rounded-full">
-                        {{ testimonial.name.charAt(0) }}
-                      </div>
-                      <div class="text-left">
-                        <div class="font-medium text-[#09033b] text-base md:text-lg">{{ testimonial.name }}</div>
-                        <div class="text-xs md:text-sm text-gray-600">{{ testimonial.role }}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Navigation -->
-            <button @click="previousTestimonial" 
-                    class="absolute left-0 top-1/2 transform -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 border border-gray-300 bg-white rounded-full flex items-center justify-center hover:border-[#09033b] transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-[#09033b] focus:ring-opacity-50">
-              <span class="text-gray-600 text-lg">‹</span>
-            </button>
-            <button @click="nextTestimonial"
-                    class="absolute right-0 top-1/2 transform -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 border border-gray-300 bg-white rounded-full flex items-center justify-center hover:border-[#09033b] transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-[#09033b] focus:ring-opacity-50">
-              <span class="text-gray-600 text-lg">›</span>
-            </button>
-
-            <!-- Indicators -->
-            <div class="flex justify-center mt-6 md:mt-8 space-x-2">
-              <button v-for="(testimonial, index) in testimonials" :key="index"
-                      @click="currentTestimonial = index"
-                      :class="[
-                        'w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 focus:outline-none',
-                        currentTestimonial === index ? 'bg-[#09033b] w-4 md:w-6' : 'bg-gray-300'
-                      ]">
-              </button>
-            </div>
-          </div>
-        </div>
-
         <!-- FAQ Tab -->
-        <div v-show="activeTab === 5" class="space-y-12">
+        <div v-show="activeTab === 4" class="space-y-12">
   <div>
     <h3 class="text-3xl font-light text-[#09033b] tracking-tight mb-6">
       Frequently <span class="font-medium">Asked Questions</span>
@@ -389,7 +330,6 @@ import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 
 // Reactive data
 const activeTab = ref(0)
-const currentTestimonial = ref(0)
 const openFaqs = ref([])
 const animatedStats = reactive([0, 0, 0, 0])
 
@@ -399,7 +339,6 @@ const tabs = [
   { title: 'PACEs System', icon: '◇' },
   { title: 'Implementation', icon: '△' },
   { title: 'Comparison', icon: '□' },
-  { title: 'Testimonials', icon: '◎' },
   { title: 'FAQ', icon: '?' }
 ]
 
@@ -553,30 +492,6 @@ const comparisons = [
   }
 ]
 
-// Testimonials
-const testimonials = [
-  {
-    name: 'Mrs. Adebayo',
-    role: 'Parent of 3 A.C.E. Students',
-    text: 'A.C.E. has transformed my children\'s approach to learning. They\'ve become more responsible, disciplined, and their academic performance has improved dramatically.'
-  },
-  {
-    name: 'David Okafor',
-    role: 'A.C.E. Graduate, University Student',
-    text: 'The self-discipline and time management skills I learned through A.C.E. have been invaluable in my university studies. I was well-prepared for independent learning.'
-  },
-  {
-    name: 'Rev. & Mrs. Johnson',
-    role: 'Parents & Educators',
-    text: 'We chose A.C.E. for the biblical foundation it provides. Our children are not just academically excellent but also growing in character and faith.'
-  },
-  {
-    name: 'Sarah Emmanuel',
-    role: 'A.C.E. Student',
-    text: 'I love being able to work at my own pace. When I struggle with a concept, I can take time to master it before moving on. It\'s made learning so much more enjoyable!'
-  }
-]
-
 // FAQ data
 const faqs = [
   {
@@ -618,16 +533,6 @@ const toggleFaq = (index) => {
   }
 }
 
-const nextTestimonial = () => {
-  currentTestimonial.value = (currentTestimonial.value + 1) % testimonials.length
-}
-
-const previousTestimonial = () => {
-  currentTestimonial.value = currentTestimonial.value === 0 
-    ? testimonials.length - 1 
-    : currentTestimonial.value - 1
-}
-
 const animateStats = () => {
   stats.forEach((stat, index) => {
     let current = 0
@@ -643,28 +548,9 @@ const animateStats = () => {
     }, 30)
   })
 }
-
-// Auto-rotate testimonials
-let testimonialInterval = null
-
-const startTestimonialRotation = () => {
-  // Clear any existing interval
-  if (testimonialInterval) clearInterval(testimonialInterval)
-  
-  // Set new interval
-  testimonialInterval = setInterval(() => {
-    nextTestimonial()
-  }, 8000)
-}
-
 // Lifecycle
 onMounted(() => {
   animateStats()
-  startTestimonialRotation()
-})
-
-onBeforeUnmount(() => {
-  if (testimonialInterval) clearInterval(testimonialInterval)
 })
 
 // SEO Meta

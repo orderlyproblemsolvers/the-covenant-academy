@@ -77,24 +77,21 @@
               
               <!-- Dropdown Menus -->
               <div v-for="menu in menus" :key="menu.title" class="relative group">
-                <button
+                <span
                   :class="[
                     'px-3 py-2 font-medium cursor-pointer flex items-center transition-all duration-300 relative hover:text-orange-500',
                     isScrolled ? 'text-white' : 'text-[#120575]',
                     'after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 group-hover:after:w-full after:bg-orange-500 after:transition-all after:duration-300'
                   ]"
                   aria-haspopup="true"
-                  :aria-expanded="mobileMenuState[menu.title] ? 'true' : 'false'"
-                  @click="toggleDesktopMenu(menu.title)"
                 >
                   {{ menu.title }}
                   <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                   </svg>
-                </button>
+                </span>
                 
                 <div 
-                  v-show="mobileMenuState[menu.title]"
                   class="absolute left-0 mt-1 w-56 bg-white shadow-lg transition-all duration-300 transform origin-top scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100 py-1 z-10"
                   role="menu"
                 >
@@ -313,11 +310,6 @@ function closeMobileMenu() {
 }
 
 function toggleMobileSubmenu(title) {
-  mobileMenuState[title] = !mobileMenuState[title];
-}
-
-function toggleDesktopMenu(title) {
-  // For desktop, we might want different behavior
   mobileMenuState[title] = !mobileMenuState[title];
 }
 

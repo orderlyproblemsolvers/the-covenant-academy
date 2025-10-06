@@ -95,7 +95,7 @@
           <div class="flex flex-col sm:flex-row gap-4 pt-8">
             <Button to="/admissions" icon="heroicons:chevron-right" styles="primary" content="Begin your Journey"/>
             
-            <Button to="/curriculum" icon="heroicons:chevron-right" styles="secondary" content="Explore Programs"/>
+            <Button to="/academics/curriculum" icon="heroicons:chevron-right" styles="secondary" content="Explore Programs"/>
           </div>
         </div>
 
