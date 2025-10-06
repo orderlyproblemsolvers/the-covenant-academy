@@ -4,8 +4,9 @@
     <div class="relative w-full h-full">
       <!-- Carousel Items -->
       <div v-for="(item, index) in carouselItems" :key="index" 
-           class="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out"
-           :class="{ 'opacity-100': currentSlide === index, 'opacity-0': currentSlide !== index }">
+           class="absolute inset-0 w-full h-full will-change-opacity"
+           :class="{ 'opacity-100': currentSlide === index, 'opacity-0': currentSlide !== index }"
+           :style="{ transition: 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1)' }">
         <NuxtImg
           :src="item.image"
           :alt="item.title"
@@ -22,12 +23,12 @@
       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30 pointer-events-none"></div>
       
       <!-- Navigation Arrows - Hidden on mobile, visible on hover for larger screens -->
-      <button @click="prevSlide" class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 rounded-full p-2 z-10 transition-all duration-300 items-center justify-center">
+      <button @click="prevSlide" class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 rounded-full p-2 z-10 will-change-transform items-center justify-center" style="transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <button @click="nextSlide" class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 rounded-full p-2 z-10 transition-all duration-300 items-center justify-center">
+      <button @click="nextSlide" class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 rounded-full p-2 z-10 will-change-transform items-center justify-center" style="transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -39,14 +40,15 @@
           v-for="(item, index) in carouselItems" 
           :key="index"
           @click="currentSlide = index"
-          class="w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 focus:outline-none"
-          :class="currentSlide === index ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'">
+          class="w-2 h-2 md:w-3 md:h-3 rounded-full focus:outline-none will-change-transform"
+          :class="currentSlide === index ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'"
+          style="transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)">
         </button>
       </div>
     </div>
 
-    <!-- Overlay Text - Made responsive -->
-    <div class="text-white absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-4 sm:px-6 md:px-8">
+    <!-- Overlay Text - Made responsive with pointer-events fix -->
+    <div class="text-white absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-4 sm:px-6 md:px-8 pointer-events-none">
       <div class="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl animate-fade-in">
         <transition name="fade" mode="out-in">
           <div :key="currentSlide">
@@ -56,7 +58,7 @@
         </transition>
         <!-- Conditional Buttons Section -->
         <div v-if="carouselItems[currentSlide].primaryButtonText || carouselItems[currentSlide].secondaryButtonText" 
-             class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center mt-4 md:mt-8">
+             class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center mt-4 md:mt-8 pointer-events-auto">
           <NuxtLink v-if="carouselItems[currentSlide].primaryButtonText && carouselItems[currentSlide].primaryButtonLink" 
                     :to="carouselItems[currentSlide].primaryButtonLink" 
                     class="w-full sm:w-auto text-center px-6 py-2 md:px-8 md:py-3 bg-orange-500 text-white hover:bg-orange-600 font-medium transition-colors duration-300">
@@ -199,7 +201,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .animate-fade-in {
-  animation: fadeIn 1s ease-out forwards;
+  animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes fadeIn {
@@ -213,13 +215,25 @@ onBeforeUnmount(() => {
   }
 }
 
-.fade-enter-active,
+.fade-enter-active {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Performance optimization */
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-transform {
+  will-change: transform;
 }
 </style>
