@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'netlify'
   },
-  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase'],
+  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase', '@nuxtjs/seo'],
   image: {
     provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
     dir: 'public',
