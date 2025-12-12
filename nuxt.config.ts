@@ -55,8 +55,5 @@ export default defineNuxtConfig({
         adminEmail: process.env.VITE_ADMIN_EMAIL
       }
     },
- 
-  plugins: [
-   
-  ]
+    OgImage: true
 });

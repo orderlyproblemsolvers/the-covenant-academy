@@ -150,6 +150,10 @@
       imageObserver.observe(img)
     })
   })
+
+  defineOgImageComponent('CovenantBlog', {
+  title: 'The School of Tomorrow: Welcome to The Covenant Academy'
+})
   </script>
   
   <style scoped>
