@@ -103,32 +103,29 @@ const route = useRoute()
 const router = useRouter()
 const { getBlogPost } = useBlog()
 
-// 1. Server-Side Data Fetching (Fixes race conditions)
-// We map the outputs of useAsyncData directly to our template variables:
-// data -> post
-// pending -> loading
-// error -> error
+// 1. Server-Side Data Fetching
 const { data: post, pending: loading, error } = await useAsyncData(
   `blog-post-${route.params.id}`, 
   () => getBlogPost(route.params.id)
 )
 
-// 2. SEO & OG Image Configuration
-// We check if 'post' exists immediately because useAsyncData awaits the result on the server
+// 2. OG Image Configuration (Unconditional & Reactive)
+// We define this OUTSIDE the conditional block so it always runs.
+// We use a getter function () => ... to make the title reactive.
+// It tries to use the post title, but falls back to a generic title while loading or on error.
+defineOgImageComponent('CovenantBlog', {
+  title: () => post.value?.title ?? 'The Covenant Academy Blog',
+})
+
+// 3. Standard SEO Meta (Conditional)
+// These still need to be conditional because they rely on specific content formatting
 if (post.value) {
-  // Standard Meta Tags
   useSeoMeta({
     title: () => `${post.value.title} - The Covenant Academy`,
     description: () => post.value.content.replace(/<[^>]*>/g, '').substring(0, 160),
     author: () => post.value.author,
     articlePublishedTime: () => post.value.created_at,
     articleModifiedTime: () => post.value.updated_at
-  })
-
-  // Dynamic OG Image Component
-  // This generates the image on the server using the data we just fetched
-  defineOgImageComponent('CovenantBlog', {
-    title: post.value.title,
   })
 }
 
