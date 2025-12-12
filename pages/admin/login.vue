@@ -80,7 +80,6 @@
   <script setup>
 
   import { ref } from 'vue'
-  import { useSupabaseClient } from '#imports'
   import { useRouter } from 'vue-router'
   
   const supabase = useSupabaseClient()

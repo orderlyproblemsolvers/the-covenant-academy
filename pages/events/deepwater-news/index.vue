@@ -158,7 +158,6 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
-import { useSupabaseClient } from '#imports';
 const supabase = useSupabaseClient()
 
 const videos = ref([])

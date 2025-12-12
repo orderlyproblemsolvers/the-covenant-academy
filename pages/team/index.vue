@@ -260,7 +260,6 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-// import { useSupabaseClient } from '#imports'
 
 const supabase = useSupabaseClient()
 const allStaff = ref([])

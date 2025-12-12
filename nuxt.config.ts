@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     // Global options
     quality: 80,
     format: ['webp', 'avif', 'jpg'],
-    domains: ['https://xxjcpqsodvrenyayjbzb.supabase.co', 'xxjcpqsodvrenyayjbzb.supabase.co']
+    domains: ['https://xxjcpqsodvrenyayjbzb.supabase.co', 'http://localhost:3000']
   },
   app: {
     head: {
@@ -52,8 +52,25 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
       public: {
-        adminEmail: process.env.VITE_ADMIN_EMAIL
+        adminEmail: process.env.VITE_ADMIN_EMAIL,
+        siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       }
     },
-    OgImage: true
+    ogImage: {
+    enabled: true,
+    host: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  },
+    vite: {
+    optimizeDeps: {
+      include: ['@supabase/supabase-js'],
+      esbuildOptions: {
+        target: 'esnext'
+      }
+    },
+    resolve: {
+      alias: {
+        '@supabase/supabase-js': '@supabase/supabase-js/dist/module/index.js'
+      }
+    }
+  }
 });

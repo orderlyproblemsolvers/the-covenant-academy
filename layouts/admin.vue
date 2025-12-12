@@ -105,7 +105,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useSupabaseClient } from '#imports'
 import { useRouter } from '#app'
 
 // SEO Meta

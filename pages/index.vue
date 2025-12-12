@@ -30,7 +30,10 @@
   
         <!-- Mid-section -->
         <section aria-label="Additional Information">
-          <midlay />
+          <ClientOnly>
+
+            <midlay />
+          </ClientOnly>
         </section>
   
         <!-- Gallery Section -->
@@ -151,8 +154,9 @@
     })
   })
 
-  defineOgImageComponent('CovenantBlog', {
-  title: 'The School of Tomorrow: Welcome to The Covenant Academy'
+  defineOgImageComponent('CovenantPages', {
+  title: 'Welcome to The Covenant Academy',
+  subtitle: '...The School Of Tomorrow'
 })
   </script>
   

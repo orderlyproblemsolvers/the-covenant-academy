@@ -114,7 +114,6 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useSupabaseClient } from "#imports";
 import { useFetch } from "#app";
 
 const supabase = useSupabaseClient();

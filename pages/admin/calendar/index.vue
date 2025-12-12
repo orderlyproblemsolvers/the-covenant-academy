@@ -184,7 +184,6 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { useSupabaseClient } from '#imports'
 
 // Add definePageMeta for admin layout
 definePageMeta({

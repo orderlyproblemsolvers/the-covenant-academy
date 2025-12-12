@@ -175,6 +175,12 @@ watch(showModal, (newVal) => {
 </script>
 
 <style scoped>
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
 /* Hide scrollbar but allow scroll */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
@@ -195,10 +201,4 @@ watch(showModal, (newVal) => {
   opacity: 0;
 }
 
-/* Import Inter font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-.font-inter {
-  font-family: 'Inter', sans-serif;
-}
 </style>

@@ -198,7 +198,6 @@
 
 <script setup>
 import { ref, reactive, onMounted, onUnmounted, watch } from 'vue'
-import { useSupabaseClient } from '#imports'
 import { useRouter } from 'vue-router'
 
 const supabase = useSupabaseClient()
