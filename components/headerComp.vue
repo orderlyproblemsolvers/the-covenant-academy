@@ -64,16 +64,6 @@
             
             <!-- Desktop Navigation -->
             <div class="hidden lg:flex items-center space-x-6 lg:mr-12">
-              <!-- Home -->
-              <NuxtLink
-                to="/"
-                :class="[
-                  'px-3 py-2 font-medium transition-all duration-300 relative hover:text-orange-500',
-                  isScrolled ? 'text-white' : 'text-[#120575]',
-                  'after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-orange-500 after:transition-all after:duration-300'
-                ]"
-                aria-current="page"
-              >Home</NuxtLink>
               
               <!-- Dropdown Menus -->
               <div v-for="menu in menus" :key="menu.title" class="relative group">
@@ -253,6 +243,7 @@ const menus = [
   {
     title: 'About',
     items: [
+      { label: 'Partner With Us', to: '/partners' },
       { label: 'Our History', to: '/about/history' },
       { label: 'Vision & Mission', to: '/about/vision' }
     ]
