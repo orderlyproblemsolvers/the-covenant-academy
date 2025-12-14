@@ -35,7 +35,7 @@
           </h2>
           <div class="pl-1 space-y-4">
             <p class="text-gray-700">
-              The Covenant Academy opened its doors in 2004 with just the founding families - Dad, Mum, the Uke's and the Alalades. Their unwavering faith established our core values. In 2005, we welcomed our first students to modest facilities in Nouakchott, pioneering an educational approach that balanced academic rigor with spiritual development.
+              The Covenant Academy opened its doors in 2004 with just the founding families. Their unwavering faith established our core values. In 2005, we welcomed our first students to modest facilities in Nouakchott, pioneering an educational approach that balanced academic rigor with spiritual development.
             </p>
             <p class="text-gray-700">
               By 2006, our growing student body required dedicated educators. Our first staff members brought unique gifts to nurture young minds, establishing our tradition of personalized attention that continues today. These foundational years cemented our commitment to faith-based education in a nurturing environment.

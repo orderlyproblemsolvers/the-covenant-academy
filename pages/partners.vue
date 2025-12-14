@@ -217,4 +217,9 @@ const inKindItems = [
   'Stationery', 
   'Toys & Learning Aids'
 ];
+
+ defineOgImageComponent('CovenantPages', {
+  title: 'Partner With Us',
+  subtitle: 'Support The Covenant Academy through Prayer, Volunteering & Financial Partnership',
+})
 </script>
