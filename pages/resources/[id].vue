@@ -135,6 +135,22 @@ const formatDate = (dateString) => {
     day: 'numeric'
   })
 }
+
+if (post.value) {
+  useJsonld({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.value.title,
+    image: post.value.image_url,
+    author: {
+      "@type": "Person",
+      name: post.value.author
+    },
+    datePublished: post.value.created_at,
+    dateModified: post.value.updated_at,
+    articleBody: post.value.content
+  })
+}
 </script>
 
 <style scoped>

@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'netlify'
   },
-  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase', '@nuxtjs/seo'],
+  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase', '@nuxtjs/seo', 'nuxt-jsonld'],
   image: {
     provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
     dir: 'public',
@@ -77,5 +77,5 @@ export default defineNuxtConfig({
         '@supabase/supabase-js': '@supabase/supabase-js/dist/module/index.js'
       }
     }
-  }
+  },
 });

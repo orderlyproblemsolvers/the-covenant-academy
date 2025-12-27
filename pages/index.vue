@@ -158,6 +158,20 @@
   title: 'Welcome to The Covenant Academy',
   subtitle: '...The School Of Tomorrow'
 })
+
+//jsonld for an organisation
+useJsonld({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "The Covenant Academy",
+  url: "https://www.thecovenantacademy.org",
+  logo: "https://www.thecovenantacademy.org/tcad-nbg.png",
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+234-803-6233-157",
+    contactType: "Customer Service"
+  }
+})
   </script>
   
   <style scoped>
