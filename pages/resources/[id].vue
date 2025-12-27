@@ -11,7 +11,7 @@
       </svg>
     </div>
 
-    <div class="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 py-12">
+    <div class="relative z-10 max-w-3xl mx-auto px-2 lg:px-6 py-12">
       <div v-if="loading" class="text-center py-12 space-y-6">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#09033b]"></div>
         <p class="text-gray-600">Loading blog post...</p>
@@ -90,7 +90,7 @@
         </header>
 
         <div 
-          class="prose prose-lg max-w-none text-gray-600"
+          class="prose prose-lg max-w-none "
           v-html="post.content"
         ></div>
       </article>
@@ -110,9 +110,6 @@ const { data: post, pending: loading, error } = await useAsyncData(
 )
 
 // 2. OG Image Configuration (Unconditional & Reactive)
-// We define this OUTSIDE the conditional block so it always runs.
-// We use a getter function () => ... to make the title reactive.
-// It tries to use the post title, but falls back to a generic title while loading or on error.
 defineOgImageComponent('CovenantBlog', {
   title: () => post.value?.title ?? 'The Covenant Academy Blog',
 })
@@ -141,63 +138,61 @@ const formatDate = (dateString) => {
 </script>
 
 <style scoped>
-.prose {
-  color: #4b5563;
-  line-height: 1.7;
+:deep(.prose) {
+  color: #33373d;
+  line-height: 1.5;
 }
 
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  color: #09033b;
-  font-weight: 400;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.prose h1 { 
+:deep(.prose h1) {
   font-size: 2rem;
   font-weight: 350;
+  color: #0b0354;
+  margin: 2rem 0 1rem;
+  text-decoration: wavy underline 0.5px;
 }
-.prose h2 { 
+
+:deep(.prose h2) {
   font-size: 1.75rem;
   font-weight: 350;
-}
-.prose h3 { 
-  font-size: 1.5rem;
+  color: #0b0354;
+    text-decoration: wavy underline 0.5px; 
 }
 
-.prose p {
-  margin-bottom: 1.25rem;
+:deep(.prose p) {
+  margin-bottom: 0.8rem;
   font-weight: 350;
 }
 
-.prose img {
-  border-radius: 0;
-  margin: 2rem 0;
-}
-
-.prose blockquote {
+:deep(.prose blockquote) {
   font-style: italic;
   border-left: 2px solid #e5e7eb;
   padding-left: 1rem;
   margin: 1.5rem 0;
   color: #6b7280;
-  font-weight: 350;
 }
 
-.prose ul, .prose ol {
+:deep(.prose ul),
+:deep(.prose ol) {
   margin: 1.25rem 0;
   padding-left: 1.5rem;
 }
 
-.prose li {
+:deep(.prose li) {
   margin: 0.5rem 0;
   font-weight: 350;
 }
 
-.prose a {
+:deep(.prose a) {
   color: #09033b;
   text-decoration: underline;
-  text-decoration-thickness: 1px;
   text-underline-offset: 2px;
+}
+
+:deep(.prose img) {
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
 }
 </style>
