@@ -11,7 +11,7 @@
       </svg>
     </div>
 
-    <div class="relative z-10 max-w-3xl mx-auto px-2 lg:px-6 py-12">
+    <div class="relative z-10 max-w-3xl mx-auto px-2 lg:px-6 py-6">
       <div v-if="loading" class="text-center py-12 space-y-6">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#09033b]"></div>
         <p class="text-gray-600">Loading blog post...</p>
