@@ -108,11 +108,6 @@
       </div>
     </div>
 
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-      <span class="text-[10px] uppercase tracking-widest text-gray-400 font-medium">Scroll</span>
-      <UIcon name="i-heroicons-arrow-down" class="w-4 h-4 text-gray-400" />
-    </div>
-
     <div class="absolute left-6 top-1/2 -translate-y-1/2 -rotate-90 origin-left hidden xl:block">
       <div class="flex items-center gap-4">
         <span class="w-8 h-px bg-gray-300"></span>
