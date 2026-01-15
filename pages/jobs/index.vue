@@ -1,321 +1,252 @@
 <template>
-  <div class="relative w-full min-h-screen bg-gray-50 p-4 overflow-hidden font-inter">
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
-        <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
-          </pattern>
-        </defs>
+  <div class="relative w-full min-h-screen bg-[#F8F9FC] font-inter text-gray-800 selection:bg-[#09033b] selection:text-white">
+    
+    <div class="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
+      <svg width="100%" height="100%">
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#09033b"/>
+        </pattern>
         <rect width="100%" height="100%" fill="url(#grid)"/>
       </svg>
     </div>
 
-    <!-- Main Container -->
-    <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 py-12">
-      <!-- Header Section -->
-      <div class="text-center mb-16">
-        <div class="inline-flex items-center space-x-3 mb-6">
-          <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-          <span class="text-sm font-medium text-gray-600 tracking-wide uppercase">
-            Join Our Team
-          </span>
-        </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
         
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-light leading-[0.9] text-[#09033b] tracking-tight mb-6">
-          Career
-          <span class="font-medium block">Application</span>
-        </h1>
-        
-        <div class="w-16 h-px bg-[#09033b] mx-auto mb-8"></div>
-        
-        <p class="text-xl text-gray-600 leading-relaxed font-light max-w-2xl mx-auto">
-          Join The Covenant Academy family and help shape tomorrow's leaders through excellence in Christian education.
-        </p>
-      </div>
-
-      <!-- Application Form -->
-      <div class="bg-white/90 backdrop-blur-sm border border-gray-100 p-8 lg:p-12 transition-all duration-300 hover:shadow-xl">
-        <form @submit.prevent="submitApplication" class="space-y-8">
-          <!-- Personal Information Section -->
-          <div class="space-y-6">
-            <div class="flex items-center space-x-3 mb-6">
-              <div class="w-8 h-8 bg-[#09033b] flex items-center justify-center">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
-              </div>
-              <h2 class="text-xl font-medium text-[#09033b]">Personal Information</h2>
+        <div class="lg:col-span-5 lg:sticky lg:top-12 space-y-10">
+          
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#09033b] text-xs font-bold tracking-wide uppercase mb-6">
+              <span class="w-2 h-2 rounded-full bg-[#FF7F50]"></span>
+              We are hiring
             </div>
-
-            <!-- Name -->
-            <div class="group">
-              <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                Full Name <span class="text-red-500">*</span>
-              </label>
-              <input
-                id="name"
-                v-model="form.name"
-                type="text"
-                required
-                class="w-full px-4 py-3 border border-gray-200 focus:outline-none focus:border-[#09033b] focus:ring-1 focus:ring-[#09033b] transition-all duration-300 placeholder-gray-400"
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            <!-- Email & Phone Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="group">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address <span class="text-red-500">*</span>
-                </label>
-                <input
-                  id="email"
-                  v-model="form.email"
-                  type="email"
-                  required
-                  class="w-full px-4 py-3 border border-gray-200 focus:outline-none focus:border-[#09033b] focus:ring-1 focus:ring-[#09033b] transition-all duration-300 placeholder-gray-400"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-
-              <div class="group">
-                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number <span class="text-red-500">*</span>
-                </label>
-                <input
-                  id="phone"
-                  v-model="form.phone"
-                  type="tel"
-                  required
-                  class="w-full px-4 py-3 border border-gray-200 focus:outline-none focus:border-[#09033b] focus:ring-1 focus:ring-[#09033b] transition-all duration-300 placeholder-gray-400"
-                  placeholder="+234 xxx xxx xxxx"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Position Information Section -->
-          <div class="space-y-6 pt-8 border-t border-gray-100">
-            <div class="flex items-center space-x-3 mb-6">
-              <div class="w-8 h-8 bg-[#09033b] flex items-center justify-center">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
-                </svg>
-              </div>
-              <h2 class="text-xl font-medium text-[#09033b]">Position Details</h2>
-            </div>
-
-            <!-- Position -->
-            <div class="group">
-              <label for="position" class="block text-sm font-medium text-gray-700 mb-2">
-                Desired Position <span class="text-red-500">*</span>
-              </label>
-              <select
-                id="position"
-                v-model="form.position"
-                required
-                class="w-full px-4 py-3 border border-gray-200 focus:outline-none focus:border-[#09033b] focus:ring-1 focus:ring-[#09033b] transition-all duration-300 bg-white text-black"
-              >
-                <option value="">Select a position</option>
-                <option value="Teacher">Teacher</option>
-                <option value="Assistant Teacher">Assistant Teacher</option>
-                <option value="Administrator">Administrator</option>
-                <option value="Deputy Principal">Deputy Principal</option>
-                <option value="Bursar">Bursar</option>
-                <option value="IT Support">IT Support</option>
-                <option value="Facility Manager">Facility Manager</option>
-                <option value="Security">Security</option>
-                <option value="Janitor">Janitor</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            <!-- Details -->
-            <div class="group">
-              <label for="details" class="block text-sm font-medium text-gray-700 mb-2">
-                Cover Letter / Additional Details
-              </label>
-              <textarea
-                id="details"
-                v-model="form.details"
-                rows="6"
-                placeholder="Tell us about your experience, qualifications, and why you're passionate about joining The Covenant Academy family..."
-                class="w-full px-4 py-3 border border-gray-200 focus:outline-none focus:border-[#09033b] focus:ring-1 focus:ring-[#09033b] transition-all duration-300 placeholder-gray-400 resize-none"
-              ></textarea>
-            </div>
-          </div>
-
-          <!-- Document Upload Section -->
-          <div class="space-y-6 pt-8 border-t border-gray-100">
-            <div class="flex items-center space-x-3 mb-6">
-              <div class="w-8 h-8 bg-[#09033b] flex items-center justify-center">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-              </div>
-              <h2 class="text-xl font-medium text-[#09033b]">Supporting Documents</h2>
-            </div>
-
-            <!-- CV Upload -->
-            <div class="group">
-              <label for="cv" class="block text-sm font-medium text-gray-700 mb-2">
-                CV/Resume <span class="text-red-500">*</span>
-              </label>
-              
-              <div class="relative">
-                <input
-                  id="cv"
-                  ref="fileInput"
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  required
-                  @change="handleFileChange"
-                  class="hidden"
-                />
-                
-                <!-- Custom File Upload Button -->
-                <button
-                  type="button"
-                  @click="$refs.fileInput.click()"
-                  class="w-full px-4 py-6 border-2 border-dashed border-gray-200 hover:border-[#09033b] focus:outline-none focus:border-[#09033b] transition-all duration-300 group"
-                  :class="selectedFile ? 'border-[#09033b] bg-[#09033b]/5' : 'hover:bg-gray-50'"
-                >
-                  <div class="flex flex-col items-center space-y-3">
-                    <div class="w-12 h-12 bg-gray-100 group-hover:bg-[#09033b] flex items-center justify-center transition-colors duration-300" :class="selectedFile ? 'bg-[#09033b]' : ''">
-                      <svg class="w-6 h-6 text-gray-400 group-hover:text-white transition-colors duration-300" :class="selectedFile ? 'text-white' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6l.12.003A5 5 0 0121 11a4.5 4.5 0 01-1.826 3.627c-.104.067-.209.134-.316.198"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14l4-4m0 0l4 4m-4-4v12"></path>
-                      </svg>
-                    </div>
-                    
-                    <div class="text-center">
-                      <p class="text-sm font-medium text-gray-700" :class="selectedFile ? 'text-[#09033b]' : ''">
-                        {{ selectedFile ? selectedFile.name : 'Click to upload your CV/Resume' }}
-                      </p>
-                      <p class="text-xs text-gray-500 mt-1">
-                        {{ selectedFile ? `File size: ${formatFileSize(selectedFile.size)}` : 'PDF, DOC, or DOCX files only (Max 10MB)' }}
-                      </p>
-                    </div>
-                    
-                    <!-- File Selected Indicator -->
-                    <div v-if="selectedFile" class="flex items-center space-x-2 text-[#09033b]">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                      <span class="text-sm font-medium">File selected</span>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="pt-8">
-            <button
-              type="submit"
-              :disabled="loading"
-              class="group w-full bg-[#09033b] text-white py-4 px-8 font-medium hover:bg-[#0a0440] focus:outline-none focus:ring-2 focus:ring-[#09033b] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-3"
-            >
-              <span>{{ loading ? 'Submitting Application...' : 'Submit Application' }}</span>
-              <svg v-if="!loading" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-              <svg v-else class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </button>
-          </div>
-        </form>
-
-        <!-- Success/Error Messages -->
-        <div v-if="message" class="mt-8 p-6 transition-all duration-300" :class="messageType === 'success' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'">
-          <div class="flex items-center space-x-3">
-            <div class="flex-shrink-0">
-              <svg v-if="messageType === 'success'" class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <svg v-else class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </div>
-            <p class="font-medium" :class="messageType === 'success' ? 'text-green-800' : 'text-red-800'">
-              {{ message }}
+            <h1 class="text-4xl md:text-5xl font-bold text-[#09033b] leading-tight tracking-tight">
+              Shape the Future with <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#09033b] to-[#4f46e5]">Covenant Academy</span>
+            </h1>
+            <p class="mt-6 text-lg text-gray-600 leading-relaxed">
+              Join a community dedicated to excellence in Christian education. We are looking for passionate individuals ready to make a lasting impact on the next generation.
             </p>
           </div>
-        </div>
-      </div>
 
-      <!-- Contact Information -->
-      <div class="text-center mt-12 text-gray-600">
-        <p class="mb-2">Questions about the application process?</p>
-        <p class="text-sm">
-          Contact us at 
-          <a href="mailto:tcadinfo@gmail.com" class="text-[#09033b] hover:underline font-medium">tcadinfo@gmail.com</a>
-          or call 
-          <a href="tel:+2348036233157" class="text-[#09033b] hover:underline font-medium">+234 803 623 3157</a>
-        </p>
+          <div class="space-y-4">
+            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider">Why join us?</h3>
+            <ul class="space-y-3">
+              <li v-for="(benefit, index) in benefits" :key="index" class="flex items-start">
+                <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                  <UIcon name="i-heroicons-check" class="w-4 h-4 text-green-600" />
+                </div>
+                <span class="ml-3 text-gray-600">{{ benefit }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-[#09033b]">
+                <UIcon name="i-heroicons-chat-bubble-left-right" class="w-6 h-6" />
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">Have questions?</p>
+                <a href="mailto:careers@covenant.edu" class="text-sm text-gray-500 hover:text-[#FF7F50] transition-colors">careers@covenant.edu</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+            <div class="bg-[#09033b] px-8 py-6">
+              <h2 class="text-xl font-semibold text-white">Application Form</h2>
+              <p class="text-blue-200 text-sm mt-1">Please fill out all required fields carefully.</p>
+            </div>
+
+            <form @submit.prevent="submitApplication" class="p-8 space-y-8">
+              
+              <div class="space-y-6">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 pb-2">Personal Details</h3>
+                
+                <div class="space-y-5">
+                  <div class="relative group">
+                    <input 
+                      type="text" 
+                      id="name" 
+                      v-model="form.name" 
+                      required
+                      class="peer w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all pt-6"
+                      placeholder=" "
+                    />
+                    <label for="name" class="absolute left-4 top-2 text-xs text-gray-500 font-medium transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#09033b]">
+                      Full Name <span class="text-red-500">*</span>
+                    </label>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="relative group">
+                      <input 
+                        type="email" 
+                        id="email" 
+                        v-model="form.email" 
+                        required
+                        class="peer w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all pt-6"
+                        placeholder=" "
+                      />
+                      <label for="email" class="absolute left-4 top-2 text-xs text-gray-500 font-medium transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#09033b]">
+                        Email Address <span class="text-red-500">*</span>
+                      </label>
+                    </div>
+
+                    <div class="relative group">
+                      <input 
+                        type="tel" 
+                        id="phone" 
+                        v-model="form.phone" 
+                        required
+                        class="peer w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all pt-6"
+                        placeholder=" "
+                      />
+                      <label for="phone" class="absolute left-4 top-2 text-xs text-gray-500 font-medium transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#09033b]">
+                        Phone Number <span class="text-red-500">*</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-6">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 pb-2">Position</h3>
+                
+                <div class="grid grid-cols-1 gap-5">
+                  <div class="relative">
+                    <select 
+                      v-model="form.position" 
+                      required
+                      class="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled selected>Select a position...</option>
+                      <option v-for="pos in positions" :key="pos" :value="pos">{{ pos }}</option>
+                    </select>
+                    <UIcon name="i-heroicons-chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                  </div>
+
+                  <div class="relative">
+                    <textarea 
+                      v-model="form.details" 
+                      rows="4"
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all placeholder-gray-400 resize-none"
+                      placeholder="Cover Letter: Tell us briefly about your experience and why you want to join us..."
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 pb-2">CV / Resume</h3>
+                
+                <div 
+                  class="relative border-2 border-dashed rounded-2xl transition-all duration-300 ease-in-out text-center"
+                  :class="[
+                    dragActive 
+                      ? 'border-[#09033b] bg-blue-50/50 scale-[1.01]' 
+                      : 'border-gray-200 hover:border-[#09033b]/50 hover:bg-gray-50'
+                  ]"
+                  @dragenter.prevent="dragActive = true"
+                  @dragleave.prevent="dragActive = false"
+                  @dragover.prevent
+                  @drop.prevent="handleDrop"
+                >
+                  <input 
+                    type="file" 
+                    id="cv-upload" 
+                    ref="fileInput"
+                    class="hidden" 
+                    accept=".pdf,.doc,.docx"
+                    @change="handleFileChange"
+                  />
+                  
+                  <div class="p-8 sm:p-10 cursor-pointer" @click="$refs.fileInput.click()">
+                    <div v-if="selectedFile" class="flex flex-col items-center animate-fade-in">
+                      <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mb-3">
+                        <UIcon name="i-heroicons-document-check" class="w-8 h-8 text-green-600" />
+                      </div>
+                      <p class="text-sm font-semibold text-gray-900">{{ selectedFile.name }}</p>
+                      <p class="text-xs text-gray-500 mt-1">{{ formatFileSize(selectedFile.size) }}</p>
+                      <button 
+                        @click.stop="clearFile"
+                        class="mt-3 text-xs text-red-500 hover:text-red-700 font-medium hover:underline"
+                      >
+                        Remove file
+                      </button>
+                    </div>
+
+                    <div v-else class="flex flex-col items-center">
+                      <div class="w-14 h-14 rounded-full bg-indigo-50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <UIcon name="i-heroicons-cloud-arrow-up" class="w-8 h-8 text-[#09033b]" />
+                      </div>
+                      <p class="text-base font-medium text-gray-900">
+                        <span class="text-[#09033b] underline decoration-[#FF7F50] decoration-2 underline-offset-2">Click to upload</span> or drag and drop
+                      </p>
+                      <p class="text-xs text-gray-400 mt-2">PDF, DOC, DOCX up to 10MB</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4">
+                <div v-if="message" class="mb-4 p-4 rounded-xl flex items-start gap-3" :class="messageType === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'">
+                  <UIcon :name="messageType === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-exclamation-circle'" class="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <p class="text-sm">{{ message }}</p>
+                </div>
+
+                <button 
+                  type="submit" 
+                  :disabled="loading"
+                  class="w-full relative group overflow-hidden bg-[#09033b] text-white font-semibold py-4 px-8 rounded-xl shadow-lg shadow-indigo-900/20 hover:shadow-indigo-900/40 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  <span class="relative z-10 flex items-center justify-center gap-2">
+                    <span v-if="loading">Submitting Application...</span>
+                    <span v-else>Submit Application</span>
+                    <UIcon v-if="!loading" name="i-heroicons-arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <UIcon v-else name="i-heroicons-arrow-path" class="w-5 h-5 animate-spin" />
+                  </span>
+                  <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-// SEO and Meta Configuration
+import { ref, reactive } from 'vue'
+
 useHead({
-  title: 'Career Opportunities - Join The Covenant Academy Team',
-  meta: [
-    {
-      name: 'description',
-      content: 'Join The Covenant Academy family as an educator or staff member. Apply for teaching positions, administrative roles, and support staff opportunities in our Christ-centered learning environment.'
-    },
-    {
-      name: 'keywords',
-      content: 'Covenant Academy jobs, teaching positions Nigeria, Christian school careers, education jobs, school administrator positions, teaching vacancies'
-    },
-    {
-      property: 'og:title',
-      content: 'Career Opportunities - Join The Covenant Academy Team'
-    },
-    {
-      property: 'og:description',
-      content: 'Apply to join our dedicated team of educators and staff committed to shaping tomorrow\'s leaders through excellence in Christian education.'
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image'
-    },
-    {
-      name: 'twitter:title',
-      content: 'Career Opportunities - The Covenant Academy'
-    },
-    {
-      name: 'twitter:description',
-      content: 'Join our team of dedicated educators committed to Christian excellence in education.'
-    },
-    {
-      name: 'robots',
-      content: 'index, follow'
-    },
-    {
-      name: 'theme-color',
-      content: '#09033b'
-    }
-  ]
+  title: 'Careers - The Covenant Academy',
 })
 
-// Get Supabase client
 const supabase = useSupabaseClient()
 
-// Form state
-const form = ref({
+// Constants
+const benefits = [
+  'Faith-centered work environment',
+  'Professional development opportunities',
+  'Competitive salary packages',
+  'Health & Wellness support',
+  'Modern teaching facilities'
+]
+
+const positions = [
+  'Teacher', 'Assistant Teacher', 'Administrator', 
+  'Deputy Principal', 'Bursar', 'IT Support', 
+  'Facility Manager', 'Security', 'Janitor', 'Other'
+]
+
+// State
+const form = reactive({
   name: '',
   email: '',
   phone: '',
@@ -325,237 +256,116 @@ const form = ref({
 
 const selectedFile = ref(null)
 const loading = ref(false)
+const dragActive = ref(false)
 const message = ref('')
-const messageType = ref('')
+const messageType = ref('') // 'success' | 'error'
 
-// File handling
-const handleFileChange = (event) => {
-  const file = event.target.files[0]
-  if (file) {
-    // Check file size (10MB limit)
-    if (file.size > 10 * 1024 * 1024) {
-      message.value = 'File size must be less than 10MB. Please select a smaller file.'
-      messageType.value = 'error'
-      event.target.value = ''
-      selectedFile.value = null
-      setTimeout(() => {
-        message.value = ''
-      }, 5000)
-      return
-    }
-    
-    // Check file type
-    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
-    if (!allowedTypes.includes(file.type)) {
-      message.value = 'Please select a PDF, DOC, or DOCX file.'
-      messageType.value = 'error'
-      event.target.value = ''
-      selectedFile.value = null
-      setTimeout(() => {
-        message.value = ''
-      }, 5000)
-      return
-    }
-    
-    selectedFile.value = file
-    if (message.value && messageType.value === 'error') {
-      message.value = ''
-    }
-  }
+// File Handling
+const handleFileChange = (e) => validateAndSetFile(e.target.files[0])
+const handleDrop = (e) => {
+  dragActive.value = false
+  validateAndSetFile(e.dataTransfer.files[0])
 }
 
-// Format file size for display
+const validateAndSetFile = (file) => {
+  if (!file) return
+
+  // Size Check (10MB)
+  if (file.size > 10 * 1024 * 1024) {
+    showFeedback('File is too large (Max 10MB)', 'error')
+    return
+  }
+
+  // Type Check
+  const allowed = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+  if (!allowed.includes(file.type)) {
+    showFeedback('Only PDF, DOC, or DOCX files allowed', 'error')
+    return
+  }
+
+  selectedFile.value = file
+  message.value = '' // Clear errors
+}
+
+const clearFile = () => {
+  selectedFile.value = null
+  const input = document.getElementById('cv-upload')
+  if (input) input.value = ''
+}
+
 const formatFileSize = (bytes) => {
-  if (bytes === 0) return '0 Bytes'
+  if (bytes === 0) return '0 B'
   const k = 1024
-  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const sizes = ['B', 'KB', 'MB', 'GB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
-// Submit application
+const showFeedback = (msg, type) => {
+  message.value = msg
+  messageType.value = type
+  if (type === 'error') setTimeout(() => message.value = '', 5000)
+}
+
+// Submission
 const submitApplication = async () => {
   if (!selectedFile.value) {
-    message.value = 'Please select a CV/Resume file to upload.'
-    messageType.value = 'error'
-    setTimeout(() => {
-      message.value = ''
-    }, 5000)
+    showFeedback('Please upload your CV/Resume', 'error')
     return
   }
 
-  loading.value = true
-  message.value = ''
-
   try {
-    // Upload CV file to Supabase storage
+    loading.value = true
+    message.value = ''
+
+    // 1. Upload CV
     const fileName = `${Date.now()}_${selectedFile.value.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
-    
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('cvs')
       .upload(fileName, selectedFile.value)
 
-    if (uploadError) {
-      console.error('Upload error:', uploadError)
-      throw uploadError
-    }
+    if (uploadError) throw new Error('CV Upload failed: ' + uploadError.message)
 
-    // Get public URL for the uploaded file
-    const { data: urlData } = supabase.storage
-      .from('cvs')
-      .getPublicUrl(fileName)
+    // 2. Get URL
+    const { data: urlData } = supabase.storage.from('cvs').getPublicUrl(fileName)
 
-    // Prepare application data
-    const applicationData = {
-      name: form.value.name.trim(),
-      email: form.value.email.trim(),
-      phone: form.value.phone.trim(),
-      position: form.value.position,
-      details: form.value.details.trim() || null,
+    // 3. Save Data
+    const { error: dbError } = await supabase.from('job_applications').insert({
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      position: form.position,
+      details: form.details,
       cv_url: urlData.publicUrl,
       cv_filename: selectedFile.value.name,
-      application_date: new Date().toISOString(),
       status: 'pending'
-    }
+    })
 
-    // Insert application data into the database
-    const { error: insertError } = await supabase
-      .from('job_applications')
-      .insert(applicationData)
+    if (dbError) throw new Error('Database error: ' + dbError.message)
 
-    if (insertError) {
-      console.error('Insert error:', insertError)
-      throw insertError
-    }
+    // Success
+    showFeedback('Application submitted successfully! We will contact you soon.', 'success')
+    
+    // Reset
+    Object.keys(form).forEach(k => form[k] = '')
+    clearFile()
 
-    message.value = 'Thank you! Your application has been submitted successfully. We will review your application and contact you soon.'
-    messageType.value = 'success'
-    
-    // Reset form
-    form.value = {
-      name: '',
-      email: '',
-      phone: '',
-      position: '',
-      details: ''
-    }
-    selectedFile.value = null
-    
-    // Reset file input
-    const fileInput = document.getElementById('cv')
-    if (fileInput) {
-      fileInput.value = ''
-    }
-
-  } catch (error) {
-    console.error('Error submitting application:', error)
-    
-    let errorMessage = 'We encountered an error while submitting your application. '
-    
-    if (error.message?.includes('storage')) {
-      errorMessage += 'There was an issue uploading your CV. Please try again.'
-    } else if (error.message?.includes('database')) {
-      errorMessage += 'There was an issue saving your application. Please try again.'
-    } else {
-      errorMessage += 'Please try again or contact us directly.'
-    }
-    
-    message.value = errorMessage
-    messageType.value = 'error'
-    
+  } catch (err) {
+    console.error(err)
+    showFeedback(err.message || 'Something went wrong. Please try again.', 'error')
   } finally {
     loading.value = false
-    
-    // Auto-hide message after 10 seconds
-    setTimeout(() => {
-      message.value = ''
-    }, 10000)
   }
 }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
-* {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+/* Fade In Animation for file selection */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, transform, opacity, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Enhanced focus states */
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-  outline: 2px solid #09033b;
-  outline-offset: 2px;
-}
-
-/* Form field hover effects */
-.group:hover input,
-.group:hover select,
-.group:hover textarea {
-  border-color: #09033b;
-}
-
-/* Custom selection color */
-::selection {
-  background-color: #09033b;
-  color: white;
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .text-4xl { font-size: 2rem; }
-  .text-5xl { font-size: 2.5rem; }
-  .text-6xl { font-size: 3rem; }
-  
-  .px-8 { padding-left: 1rem; padding-right: 1rem; }
-  .lg\:px-12 { padding-left: 1.5rem; padding-right: 1.5rem; }
-}
-
-/* Loading animation */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Form validation styles */
-input:invalid:not(:focus):not(:placeholder-shown),
-select:invalid:not(:focus),
-textarea:invalid:not(:focus):not(:placeholder-shown) {
-  border-color: #ef4444;
-}
-
-input:valid:not(:focus):not(:placeholder-shown),
-select:valid:not(:focus),
-textarea:valid:not(:focus):not(:placeholder-shown) {
-  border-color: #10b981;
-}
-
-/* File upload animation */
-.group:hover .w-12 {
-  transform: scale(1.05);
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
 }
 </style>

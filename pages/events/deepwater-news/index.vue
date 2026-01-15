@@ -1,165 +1,161 @@
 <template>
-  <div class="relative w-full min-h-screen bg-white p-4 overflow-hidden font-inter">
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
-        <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
+  <div class="relative w-full min-h-screen bg-[#FDFDFD] font-inter overflow-hidden">
+    
+    <div class="absolute inset-0 pointer-events-none opacity-[0.03]">
+      <svg width="100%" height="100%">
+        <pattern id="video-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="#09033b" stroke-width="1" fill="none"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#video-pattern)" />
       </svg>
     </div>
 
-    <!-- Main Container -->
-    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-      <!-- Header Section -->
-      <div class="text-center mb-16 pt-12">
-        <div class="inline-flex items-center space-x-3 mb-8">
-          <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-          <span class="text-sm font-medium text-gray-600 tracking-wide uppercase">
-            Educational Resources
-          </span>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+      
+      <header class="max-w-3xl mb-16 md:mb-24 text-center md:text-left mx-auto md:mx-0">
+        <div class="inline-flex items-center gap-3 mb-6">
+          <span class="w-8 h-px bg-[#FF7F50]"></span>
+          <span class="text-xs font-bold text-[#FF7F50] uppercase tracking-widest">Deepwater News</span>
         </div>
         
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-light leading-[0.9] text-[#09033b] tracking-tight mb-8">
-          All
-          <span class="font-medium">Videos</span>
+        <h1 class="text-4xl md:text-7xl font-light text-[#09033b] leading-tight md:leading-[1.1] tracking-tighter mb-8">
+          Learning <br class="hidden md:block"/>
+          <span class="font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#09033b] to-[#4f46e5]">Through Sight</span>
         </h1>
         
-        <!-- Subtle Accent Line -->
-        <div class="w-16 h-px bg-[#09033b] mx-auto"></div>
-      </div>
-      
-      <!-- Search Section -->
-      <div class="mb-12">
-        <div class="relative max-w-md mx-auto">
+        <div class="relative mt-10 group max-w-md mx-auto md:mx-0">
+          <div class="absolute inset-0 bg-[#09033b] opacity-5 blur-xl group-focus-within:opacity-10 transition-opacity rounded-full"></div>
           <input 
             v-model="searchQuery" 
             type="text" 
-            placeholder="Search videos..." 
-            class="w-full p-4 pl-12 bg-gray-50 text-[#09033b] rounded-none border-0 border-b-2 border-gray-200 focus:outline-none focus:border-[#09033b] focus:bg-white transition-all duration-300 font-light"
+            placeholder="Search our video library..." 
+            class="relative w-full px-6 py-4 bg-white border border-gray-100 shadow-sm rounded-2xl focus:ring-2 focus:ring-[#09033b] focus:border-transparent outline-none transition-all placeholder:text-gray-300 font-light text-black"
           />
+          <UIcon name="i-heroicons-magnifying-glass" class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+        </div>
+      </header>
+
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div v-for="i in 6" :key="i" class="animate-pulse space-y-4">
+          <div class="aspect-video bg-gray-100 rounded-3xl"></div>
+          <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+          <div class="h-3 bg-gray-100 rounded w-1/2"></div>
         </div>
       </div>
-      
-      <!-- Loading State -->
-      <div v-if="loading" class="text-center p-16">
-        <div class="inline-block h-8 w-8 animate-spin rounded-full border-2 border-solid border-[#09033b] border-r-transparent"></div>
-        <p class="mt-6 text-gray-600 font-light">Loading videos...</p>
+
+      <div v-else-if="filteredVideos.length === 0" class="text-center py-24 bg-white rounded-[3rem] border border-dashed border-gray-200">
+        <UIcon name="i-heroicons-video-camera-slash" class="w-16 h-16 text-gray-200 mx-auto mb-4" />
+        <h3 class="text-xl font-bold text-[#09033b]">No videos found</h3>
+        <p class="text-gray-400">Try adjusting your search filters.</p>
       </div>
-      
-      <!-- Empty State -->
-      <div v-else-if="filteredVideos.length === 0" class="text-center p-16">
-        <div class="max-w-md mx-auto">
-          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <p class="text-[#09033b] text-xl font-light mb-2">No videos found</p>
-          <p class="text-gray-500 font-light">{{ searchQuery ? 'Try a different search term.' : 'Check back later for new content.' }}</p>
-        </div>
-      </div>
-      
-      <!-- Video Grid -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        <div
+
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        <article
           v-for="video in filteredVideos"
           :key="video.id"
-          class="group bg-white border border-gray-100 hover:border-[#09033b] transition-all duration-500 hover:shadow-lg"
+          class="group relative bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-[#09033b]/10 transition-all duration-500 hover:-translate-y-2"
         >
-          <!-- Video Container -->
-          <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden">
+          <div class="aspect-video relative overflow-hidden bg-black">
+            <div class="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/20 backdrop-blur-[2px] transition-all duration-500 pointer-events-none">
+              <div class="w-16 h-16 bg-[#FF7F50] rounded-full flex items-center justify-center text-white shadow-xl shadow-orange-500/40">
+                <UIcon name="i-heroicons-play-solid" class="w-8 h-8" />
+              </div>
+            </div>
+            
             <iframe
-              class="w-full h-full"
-              :src="`https://www.youtube-nocookie.com/embed/${getYoutubeId(video.video_url)}`"
+              class="w-full h-full relative z-0"
+              :src="`https://www.youtube-nocookie.com/embed/${getYoutubeId(video.video_url)}?rel=0&modestbranding=1`"
               frameborder="0"
+              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
           </div>
           
-          <!-- Content -->
-          <div class="p-6">
-            <h3 class="text-[#09033b] text-xl font-light mb-4 group-hover:text-gray-600 transition-colors duration-300 line-clamp-2">
+          <div class="p-8">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-[10px] font-black uppercase tracking-widest text-[#FF7F50]">Academic Resource</span>
+              <span class="h-px flex-1 bg-gray-50"></span>
+            </div>
+
+            <h3 class="text-xl font-bold text-[#09033b] leading-tight mb-4 group-hover:text-[#4f46e5] transition-colors">
               {{ video.title }}
             </h3>
             
-            <p v-if="video.description" class="text-gray-500 text-sm font-light mb-6 line-clamp-3 leading-relaxed">
+            <p v-if="video.description" class="text-sm text-gray-500 font-light mb-8 line-clamp-2 leading-relaxed">
               {{ video.description }}
             </p>
             
-            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-              <span class="text-xs text-gray-400 font-medium tracking-wide uppercase">
-                {{ formatDate(video.created_at) }}
-              </span>
+            <div class="flex justify-between items-center pt-6 border-t border-gray-50">
+              <div class="flex items-center gap-2 text-gray-400">
+                <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
+                <span class="text-[10px] font-bold uppercase tracking-tighter">
+                  {{ formatDate(video.created_at) }}
+                </span>
+              </div>
               
               <a
                 :href="video.video_url"
                 target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center space-x-2 text-[#09033b] hover:text-gray-600 text-sm font-medium transition-colors duration-300"
+                class="flex items-center gap-2 text-[#09033b] hover:text-[#FF7F50] transition-colors"
               >
-                <span>Watch</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                  <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                </svg>
+                <span class="text-xs font-black uppercase tracking-widest">YouTube</span>
+                <UIcon name="i-heroicons-arrow-up-right" class="w-4 h-4" />
               </a>
             </div>
           </div>
-        </div>
+        </article>
       </div>
       
-      <!-- Pagination -->
-      <div v-if="!loading && totalPages > 1" class="flex justify-center pb-16">
-        <div class="flex items-center space-x-2">
+      <nav v-if="!loading && totalPages > 1" class="flex justify-center mt-24">
+        <div class="inline-flex items-center gap-2 p-2 bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100">
           <button 
             @click="page > 1 && (page--)"
             :disabled="page === 1"
-            class="px-6 py-3 text-[#09033b] font-medium border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300"
+            class="p-3 text-[#09033b] hover:bg-gray-50 disabled:opacity-30 rounded-2xl transition-all"
           >
-            Previous
+            <UIcon name="i-heroicons-chevron-left" class="w-5 h-5" />
           </button>
           
-          <div class="flex space-x-1">
-            <div 
+          <div class="flex gap-1">
+            <button 
               v-for="p in totalPages" 
               :key="p" 
-              class="px-4 py-3 cursor-pointer font-medium transition-all duration-300"
-              :class="p === page 
-                ? 'bg-[#09033b] text-white' 
-                : 'text-[#09033b] hover:bg-gray-50'"
               @click="page = p"
+              class="w-11 h-11 flex items-center justify-center text-sm font-bold rounded-2xl transition-all"
+              :class="p === page 
+                ? 'bg-[#09033b] text-white shadow-lg shadow-[#09033b]/20' 
+                : 'text-gray-400 hover:text-[#09033b] hover:bg-gray-50'"
             >
               {{ p }}
-            </div>
+            </button>
           </div>
           
           <button 
             @click="page < totalPages && (page++)"
             :disabled="page === totalPages"
-            class="px-6 py-3 text-[#09033b] font-medium border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300"
+            class="p-3 text-[#09033b] hover:bg-gray-50 disabled:opacity-30 rounded-2xl transition-all"
           >
-            Next
+            <UIcon name="i-heroicons-chevron-right" class="w-5 h-5" />
           </button>
         </div>
-      </div>
+      </nav>
     </div>
 
-    <!-- Side Branding -->
-    <div class="absolute left-8 top-1/2 transform -translate-y-1/2 -rotate-90 hidden xl:block">
-      <span class="text-xs font-medium text-gray-400 tracking-widest uppercase">Excellence • Faith • Character</span>
+    <div class="fixed left-8 top-1/2 -translate-y-1/2 -rotate-90 hidden 2xl:block opacity-20 pointer-events-none">
+      <span class="text-[10px] font-black uppercase tracking-[0.5em] text-[#09033b]">
+        Learning Center • Virtual Library • Multimedia
+      </span>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
+
 const supabase = useSupabaseClient()
 
+// --- State ---
 const videos = ref([])
 const loading = ref(true)
 const searchQuery = ref('')
@@ -167,9 +163,12 @@ const page = ref(1)
 const perPage = 9
 const totalCount = ref(0)
 
-// Computed properties
-const totalPages = computed(() => Math.ceil(totalCount.value / perPage))
+// --- Logic ---
 
+/**
+ * Filter logic: Handles the real-time search filtering.
+ * It filters the current set of videos based on title or description.
+ */
 const filteredVideos = computed(() => {
   if (!searchQuery.value) return videos.value
   
@@ -180,15 +179,26 @@ const filteredVideos = computed(() => {
   )
 })
 
-// Extract YouTube video ID from URL
+/**
+ * Calculate total pages based on the total count from Supabase
+ */
+const totalPages = computed(() => Math.ceil(totalCount.value / perPage))
+
+/**
+ * Cleanly extracts the 11-character YouTube ID from various URL formats
+ */
 const getYoutubeId = (url) => {
+  if (!url) return null
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
   const match = url.match(regExp)
   return (match && match[2].length === 11) ? match[2] : null
 }
 
-// Format date
+/**
+ * Formats the timestamp into a professional editorial date
+ */
 const formatDate = (dateString) => {
+  if (!dateString) return ''
   const date = new Date(dateString)
   return date.toLocaleDateString('en-US', { 
     year: 'numeric', 
@@ -197,11 +207,15 @@ const formatDate = (dateString) => {
   })
 }
 
-// Fetch videos from Supabase with pagination
+/**
+ * Core Data Fetching:
+ * 1. Fetches total count for pagination.
+ * 2. Fetches specific range for the current page.
+ */
 const fetchVideos = async () => {
   loading.value = true
   try {
-    // Get total count
+    // 1. Get total count for the pagination bar
     const { count, error: countError } = await supabase
       .from('videos')
       .select('*', { count: 'exact', head: true })
@@ -209,7 +223,7 @@ const fetchVideos = async () => {
     if (countError) throw countError
     totalCount.value = count || 0
     
-    // Get paginated data
+    // 2. Get paginated data
     const from = (page.value - 1) * perPage
     const to = from + perPage - 1
     
@@ -220,7 +234,7 @@ const fetchVideos = async () => {
       .range(from, to)
     
     if (error) throw error
-    videos.value = data
+    videos.value = data || []
   } catch (error) {
     console.error('Error fetching videos:', error)
   } finally {
@@ -228,135 +242,38 @@ const fetchVideos = async () => {
   }
 }
 
-// Watch for page changes
+// --- Watchers & Lifecycle ---
+
+// Re-fetch data whenever the user changes the page number
 watch(page, () => {
   fetchVideos()
+  // Scroll to top of results for better UX
+  if (process.client) window.scrollTo({ top: 0, behavior: 'smooth' })
 })
 
-// Fetch videos on component mount
 onMounted(() => {
   fetchVideos()
 })
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
-* {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+/* Performance: Avoid layouts shifts */
+.aspect-video {
+  aspect-ratio: 16 / 9;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, transform, opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Hide scrollbar for clean search input on some browsers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Enhanced focus states */
-a:focus,
-button:focus,
-input:focus {
-  outline: 2px solid #09033b;
-  outline-offset: 2px;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom selection color */
+/* Custom selection */
 ::selection {
-  background-color: #09033b;
+  background: #09033b;
   color: white;
 }
 
-/* Fix for aspect ratio on iframes */
-.aspect-w-16 {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  height: 0;
-  overflow: hidden;
-}
-
-.aspect-w-16 iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Line clamp utilities */
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.line-clamp-3 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .text-gray-400,
-  .text-gray-500,
-  .text-gray-600 {
-    color: #000;
-  }
-  
-  .border-gray-200,
-  .border-gray-100 {
-    border-color: #000;
-  }
-}
-
-/* Print styles */
-@media print {
-  .absolute {
-    position: static !important;
-  }
-  
-  .bg-gradient-to-b {
-    background: #09033b !important;
-  }
-}
-
-/* Mobile typography adjustments */
-@media (max-width: 768px) {
-  .text-4xl { font-size: 2rem; }
-  .text-5xl { font-size: 2.5rem; }
-  .text-6xl { font-size: 3rem; }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f8f9fa;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #09033b;
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #0a0440;
+/* Image optimization */
+iframe {
+  will-change: transform;
 }
 </style>

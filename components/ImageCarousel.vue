@@ -1,104 +1,130 @@
 <template>
-  <div class="relative w-full h-[50vh] md:h-[70vh] lg:h-[calc(100vh-80px)] overflow-hidden font-inter">
-    <!-- Tailwind Carousel -->
-    <div class="relative w-full h-full">
-      <!-- Carousel Items -->
-      <div v-for="(item, index) in carouselItems" :key="index" 
-           class="absolute inset-0 w-full h-full will-change-opacity"
-           :class="{ 'opacity-100': currentSlide === index, 'opacity-0': currentSlide !== index }"
-           :style="{ transition: 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1)' }">
-        <NuxtImg
-          :src="item.image"
-          :alt="item.title"
-          class="w-full h-full object-cover"
-          loading="lazy"
-          format="webp"
-          quality="80"
-          :placeholder="[10, 10, 75]"
-          sizes="sm:100vw md:100vw lg:100vw"
-        />
-      </div>
-      
-      <!-- Dark Overlay - Keeping this for better text readability -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30 pointer-events-none"></div>
-      
-      <!-- Navigation Arrows - Hidden on mobile, visible on hover for larger screens -->
-      <button @click="prevSlide" class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 rounded-full p-2 z-10 will-change-transform items-center justify-center" style="transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button @click="nextSlide" class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 rounded-full p-2 z-10 will-change-transform items-center justify-center" style="transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-      
-      <!-- Indicators - Made more touch-friendly -->
-      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
-        <button 
-          v-for="(item, index) in carouselItems" 
-          :key="index"
-          @click="currentSlide = index"
-          class="w-2 h-2 md:w-3 md:h-3 rounded-full focus:outline-none will-change-transform"
-          :class="currentSlide === index ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'"
-          style="transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)">
-        </button>
-      </div>
-    </div>
-
-    <!-- Overlay Text - Made responsive with pointer-events fix -->
-    <div class="text-white absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-4 sm:px-6 md:px-8 pointer-events-none">
-      <div class="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl animate-fade-in">
-        <transition name="fade" mode="out-in">
-          <div :key="currentSlide">
-            <h1 v-if="carouselItems[currentSlide].title" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-4">{{ carouselItems[currentSlide].title }}</h1>
-            <p v-if="carouselItems[currentSlide].description" class="text-base sm:text-lg md:text-xl max-w-prose mx-auto opacity-90">{{ carouselItems[currentSlide].description }}</p>
-          </div>
-        </transition>
-        <!-- Conditional Buttons Section -->
-        <div v-if="carouselItems[currentSlide].primaryButtonText || carouselItems[currentSlide].secondaryButtonText" 
-             class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center mt-4 md:mt-8 pointer-events-auto">
-          <NuxtLink v-if="carouselItems[currentSlide].primaryButtonText && carouselItems[currentSlide].primaryButtonLink" 
-                    :to="carouselItems[currentSlide].primaryButtonLink" 
-                    class="w-full sm:w-auto text-center px-6 py-2 md:px-8 md:py-3 bg-orange-500 text-white hover:bg-orange-600 font-medium transition-colors duration-300">
-            {{ carouselItems[currentSlide].primaryButtonText }}
-          </NuxtLink>
-          <NuxtLink v-if="carouselItems[currentSlide].secondaryButtonText && carouselItems[currentSlide].secondaryButtonLink" 
-                    :to="carouselItems[currentSlide].secondaryButtonLink" 
-                    class="w-full sm:w-auto text-center px-6 py-2 md:px-8 md:py-3 bg-white text-[#09033b] hover:bg-gray-100 font-medium transition-colors duration-300">
-            {{ carouselItems[currentSlide].secondaryButtonText }}
-          </NuxtLink>
+  <div 
+    class="relative w-full h-[85vh] lg:h-screen overflow-hidden font-inter bg-[#09033b]"
+    @mouseenter="pauseTimer"
+    @mouseleave="resumeTimer"
+  >
+    <div class="absolute inset-0 w-full h-full">
+      <div 
+        v-for="(item, index) in carouselItems" 
+        :key="`bg-${index}`" 
+        class="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out will-change-opacity"
+        :class="currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+      >
+        <div 
+          class="relative w-full h-full transform transition-transform duration-[8000ms] ease-out will-change-transform"
+          :class="currentSlide === index ? 'scale-110' : 'scale-100'"
+        >
+          <NuxtImg
+            :src="item.image"
+            :alt="item.title || 'Carousel Slide'"
+            class="w-full h-full object-cover"
+            loading="eager"
+            format="webp"
+            placeholder
+          />
+          <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         </div>
       </div>
     </div>
+
+    <div class="relative z-20 h-full w-full pointer-events-none">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+        
+        <transition name="slide-fade" mode="out-in">
+          
+          <div 
+            v-if="carouselItems[currentSlide].title" 
+            :key="`content-${currentSlide}`"
+            class="w-full max-w-2xl pointer-events-auto"
+          >
+            <div class="p-8 md:p-10 rounded-3xl bg-white/20 md:backdrop-blur-md lg:backdrop-blur-md border border-white/10 shadow-2xl">
+              
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF7F50]/20 border border-[#FF7F50]/30 text-[#FF7F50] text-xs font-bold tracking-wide uppercase mb-6 animate-fade-in-up">
+                <span class="w-2 h-2 rounded-full bg-[#FF7F50] animate-pulse"></span>
+                The Covenant Academy
+              </div>
+
+              <h1 class="text-4xl md:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight animate-fade-in-up delay-100 drop-shadow-lg">
+                {{ carouselItems[currentSlide].title }}
+              </h1>
+
+              <p v-if="carouselItems[currentSlide].description" class="text-lg md:text-xl text-gray-200 leading-relaxed mb-8 animate-fade-in-up delay-200 font-light border-l-4 border-[#FF7F50] pl-6">
+                {{ carouselItems[currentSlide].description }}
+              </p>
+
+              <div class="flex flex-wrap gap-4 animate-fade-in-up delay-300">
+                <NuxtLink 
+                  v-if="carouselItems[currentSlide].primaryButtonText"
+                  :to="carouselItems[currentSlide].primaryButtonLink"
+                  class="group relative px-8 py-3.5 bg-[#FF7F50] text-white font-semibold rounded-xl overflow-hidden shadow-lg shadow-[#FF7F50]/20 transition-all hover:bg-[#ff6b3d] hover:-translate-y-1"
+                >
+                  <span class="relative flex items-center gap-2">
+                    {{ carouselItems[currentSlide].primaryButtonText }}
+                    <UIcon name="i-heroicons-arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </NuxtLink>
+
+                <NuxtLink 
+                  v-if="carouselItems[currentSlide].secondaryButtonText"
+                  :to="carouselItems[currentSlide].secondaryButtonLink"
+                  class="px-8 py-3.5 bg-white/10 border border-white/20 text-white font-medium rounded-xl hover:bg-white hover:text-[#09033b] transition-all hover:-translate-y-1"
+                >
+                  {{ carouselItems[currentSlide].secondaryButtonText }}
+                </NuxtLink>
+              </div>
+              
+            </div>
+          </div>
+        </transition>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-0 w-full z-30 px-4 sm:px-6 lg:px-8 pointer-events-none">
+      <div class="max-w-7xl mx-auto flex items-end justify-between pointer-events-auto">
+        
+        <div class="flex gap-3">
+          <button 
+            v-for="(item, index) in carouselItems" 
+            :key="index"
+            @click="goToSlide(index)"
+            class="group relative h-1.5 rounded-full transition-all duration-500 overflow-hidden"
+            :class="currentSlide === index ? 'w-12 bg-white/20' : 'w-3 bg-white/20 hover:bg-white/40'"
+            aria-label="Go to slide"
+          >
+            <div 
+              v-if="currentSlide === index"
+              class="absolute top-0 left-0 h-full bg-[#FF7F50]"
+              :style="{ width: progress + '%' }"
+            ></div>
+          </button>
+        </div>
+
+        <div class="flex gap-3">
+          <button 
+            @click="prevSlide"
+            class="w-12 h-12 rounded-full border border-white/10 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-[#FF7F50] hover:border-[#FF7F50] transition-colors"
+          >
+            <UIcon name="i-heroicons-chevron-left" class="w-6 h-6" />
+          </button>
+          <button 
+            @click="nextSlide"
+            class="w-12 h-12 rounded-full border border-white/10 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-[#FF7F50] hover:border-[#FF7F50] transition-colors"
+          >
+            <UIcon name="i-heroicons-chevron-right" class="w-6 h-6" />
+          </button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-useHead({
-  title: 'The Covenant Academy - Image Carousel',
-  meta: [
-    { name: 'description', content: 'Explore our image carousel showcasing the heart of The Covenant Academy.' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
-  ],
-  link: [
-    { rel: 'icon', href: '/favicon.ico' },
-    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' }
-  ],
-  preloadLinks: [
-    { rel: 'preload', href: '/images/welcome.jpg', as: 'image' },
-    { rel: 'preload', href: '/assets/images/tcad-web/DSC_1809.jpg', as: 'image' },
-    { rel: 'preload', href: '/assets/images/IMG-20250130-WA0006.jpg', as: 'image' },
-    { rel: 'preload', href: '/assets/images/tcad-web/DSC_1327.jpg', as: 'image' }
-  ]
-});
-
-// Define the carousel items with images and corresponding text
 const carouselItems = [
   {
     image: "/assets/images/tcad-web/DSC_1809.jpg",
@@ -106,7 +132,7 @@ const carouselItems = [
     description: "Where faith meets academic excellence. Join our community of learners dedicated to spiritual and intellectual growth.",
     primaryButtonText: "Enroll a Child",
     primaryButtonLink: "/admissions",
-    secondaryButtonText: "Visit Us",
+    secondaryButtonText: "Visit Campus",
     secondaryButtonLink: "/admissions/visit"
   },
   {
@@ -122,118 +148,103 @@ const carouselItems = [
     image: "/assets/images/tcad-web/DSC_1327.jpg",
     title: "Join Our Community",
     description: "Experience the difference of education centered on Christian values with a commitment to academic excellence.",
-    primaryButtonText: "Apply Student",
+    primaryButtonText: "Student Application",
     primaryButtonLink: "/admissions",
-    secondaryButtonText: "Apply Staff",
+    secondaryButtonText: "Job Openings",
     secondaryButtonLink: "/jobs"
   },
-  {
-    image: "/images/welcome.jpg",
-    // No title, description, or buttons for this slide
-  },
-  {
-    image: "/images/yellowheart.jpg",
-    // No title, description, or buttons for this slide
-  },
+  { image: "/images/welcome.jpg" }, // Image Only
+  { image: "/images/yellowheart.jpg" }, // Image Only
 ];
 
 const currentSlide = ref(0);
-let intervalId = null;
+const progress = ref(0);
+let timer = null;
+let progressTimer = null;
+const SLIDE_DURATION = 8000; // 8 seconds per slide
+const TICK_RATE = 50; 
+
+const startTimer = () => {
+  clearInterval(timer);
+  clearInterval(progressTimer);
+  progress.value = 0;
+  
+  progressTimer = setInterval(() => {
+    if (progress.value < 100) {
+      progress.value += (100 / (SLIDE_DURATION / TICK_RATE));
+    }
+  }, TICK_RATE);
+
+  timer = setInterval(() => {
+    nextSlide();
+  }, SLIDE_DURATION);
+};
+
+const pauseTimer = () => {
+  clearInterval(timer);
+  clearInterval(progressTimer);
+};
+
+const resumeTimer = () => {
+  // Only resume if not explicitly paused by user interaction logic
+  // For simplicity, we restart the timer for the current slide
+  startTimer(); 
+};
 
 const nextSlide = () => {
   currentSlide.value = (currentSlide.value + 1) % carouselItems.length;
+  startTimer();
 };
 
 const prevSlide = () => {
   currentSlide.value = (currentSlide.value - 1 + carouselItems.length) % carouselItems.length;
+  startTimer();
 };
 
-// Add touch swipe support
-let touchStartX = 0;
-let touchEndX = 0;
-
-const handleTouchStart = (e) => {
-  touchStartX = e.changedTouches[0].screenX;
+const goToSlide = (index) => {
+  currentSlide.value = index;
+  startTimer();
 };
 
-const handleTouchEnd = (e) => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-};
-
-const handleSwipe = () => {
-  // Minimum swipe distance (in px)
-  const minSwipeDistance = 50;
-  
-  if (touchStartX - touchEndX > minSwipeDistance) {
-    // Swiped left
-    nextSlide();
-  } else if (touchEndX - touchStartX > minSwipeDistance) {
-    // Swiped right
-    prevSlide();
-  }
-};
-
-// Start autoplay and setup touch events
 onMounted(() => {
-  intervalId = setInterval(() => {
-    nextSlide();
-  }, 5000);
-  
-  const carousel = document.querySelector('.relative.w-full.h-full');
-  if (carousel) {
-    carousel.addEventListener('touchstart', handleTouchStart, false);
-    carousel.addEventListener('touchend', handleTouchEnd, false);
-  }
+  startTimer();
 });
 
-// Clean up interval and event listeners on component destroy
 onBeforeUnmount(() => {
-  if (intervalId) clearInterval(intervalId);
-  
-  const carousel = document.querySelector('.relative.w-full.h-full');
-  if (carousel) {
-    carousel.removeEventListener('touchstart', handleTouchStart);
-    carousel.removeEventListener('touchend', handleTouchEnd);
-  }
+  pauseTimer();
 });
 </script>
 
 <style scoped>
-.animate-fade-in {
-  animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+/* Animations */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.fade-enter-active {
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* Transitions for Text Card */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.5s ease-in-out;
 }
-
-.fade-leave-active {
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.fade-enter-from,
-.fade-leave-to {
+.slide-fade-enter-from {
   opacity: 0;
+  transform: translateX(-30px);
 }
-
-/* Performance optimization */
-.will-change-opacity {
-  will-change: opacity;
-}
-
-.will-change-transform {
-  will-change: transform;
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

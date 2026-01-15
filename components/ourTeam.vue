@@ -1,120 +1,123 @@
 <template>
-  <section class="bg-gray-50 py-12 md:py-16 px-4 sm:px-6 lg:px-8 font-inter overflow-x-hidden">
-    <div class="max-w-7xl mx-auto text-center">
-      <div class="text-center mb-10 md:mb-12">
-        <h2
-          class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-[#09033b] tracking-tight mb-8"
-        >
-          Our
-          <span class="font-medium">Team</span>
-        </h2>
+  <section class="relative py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden font-inter selection:bg-[#09033b] selection:text-white">
+    
+    <div class="absolute inset-0 pointer-events-none">
+      <svg class="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+        <pattern id="team-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#09033b"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#team-grid)" />
+      </svg>
+    </div>
 
-        <!-- Subtle Accent Line -->
-        <div class="w-16 h-px bg-[#09033b] mx-auto mb-8"></div>
-        <p
-          class="mt-4 md:mt-6 text-base sm:text-lg text-gray-700 max-w-2xl mx-auto"
-        >
-          Meet our dedicated team of God-fearing professionals
+    <div class="relative z-10 max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gray-200 text-[#09033b] text-xs font-bold tracking-wide uppercase mb-6 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-[#FF7F50]"></span>
+          Leadership & Staff
+        </div>
+        
+        <h2 class="text-4xl md:text-5xl font-bold text-[#09033b] tracking-tight mb-4">
+          Meet the <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#09033b] to-[#4f46e5]">Team</span>
+        </h2>
+        
+        <p class="text-lg text-gray-600 leading-relaxed">
+          Dedicated professionals committed to raising God-fearing leaders through excellence in education.
         </p>
       </div>
 
-      <!-- Loading State -->
-      <div
-        v-if="isLoading"
-        class="py-12 flex flex-col items-center justify-center"
-      >
-        <div
-          class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#09033b]"
-        ></div>
-        <p class="text-gray-600">Loading team members...</p>
-      </div>
-
-      <!-- Error Message -->
-      <div
-        v-else-if="errorMessage"
-        class="bg-red-100 border-l-4 border-red-500 p-4 mb-6 text-left mx-auto max-w-lg"
-      >
-        <div class="flex">
-          <div class="ml-3">
-            <p class="text-red-700 text-sm">{{ errorMessage }}</p>
-            <button
-              @click="retryFetch"
-              class="mt-2 text-sm text-red-700 font-medium hover:text-red-900 flex items-center"
-            >
-              <UIcon name="i-heroicons-arrow-path" class="mr-1 h-4 w-4" />
-              Retry Loading
-            </button>
-          </div>
+      <div v-if="isLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div v-for="n in 4" :key="n" class="animate-pulse">
+          <div class="bg-gray-200 rounded-2xl aspect-[3/4] mb-4"></div>
+          <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div class="h-3 bg-gray-200 rounded w-1/2"></div>
         </div>
       </div>
 
-      <!-- Team grid with consistent image sizes -->
-      <div
-        v-else-if="staffs.length > 0"
-        class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 md:mb-12"
-      >
-        <div
-          v-for="staff in staffs"
-          :key="staff.id"
-          class="flex flex-col items-center"
+      <div v-else-if="errorMessage" class="max-w-md mx-auto text-center py-12 bg-red-50 rounded-2xl border border-red-100">
+        <UIcon name="i-heroicons-exclamation-circle" class="w-10 h-10 text-red-500 mx-auto mb-3" />
+        <h3 class="text-red-800 font-medium mb-1">Unable to load team</h3>
+        <p class="text-red-600 text-sm mb-4">{{ errorMessage }}</p>
+        <button 
+          @click="retryFetch"
+          class="inline-flex items-center px-4 py-2 bg-white border border-red-200 rounded-lg text-sm font-medium text-red-700 hover:bg-red-50 transition-colors"
         >
-          <!-- Fixed size square container for all images -->
-          <div
-            class="w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] overflow-hidden mb-3 sm:mb-4  shadow-md bg-white"
-          >
+          <UIcon name="i-heroicons-arrow-path" class="mr-2 h-4 w-4" />
+          Retry
+        </button>
+      </div>
+
+      <div v-else-if="staffs.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8 mb-16">
+        <div 
+          v-for="staff in displayedStaff" 
+          :key="staff.id"
+          class="group relative"
+        >
+          <div class="relative aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:shadow-[#09033b]/10 group-hover:-translate-y-1">
             <NuxtImg
               :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
-              :alt="`${staff.name}'s profile`"
-              class="w-full h-full object-cover"
+              :alt="staff.name"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               @error="handleImageError"
               loading="lazy"
-              format="webp"
-              quality="80"
-              sizes="sm:160px md:160px lg:160px"
-              :placeholder="[10, 10, 75]"
-              width="160"
-              height="160"
+              placeholder
             />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-[#09033b]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
-          <div class="text-center w-full max-w-[160px]">
-            <h3
-              class="font-semibold text-base sm:text-lg text-gray-800 truncate"
-            >
+
+          <div class="mt-4 text-center">
+            <h3 class="text-lg font-bold text-[#09033b] leading-tight group-hover:text-[#4f46e5] transition-colors">
               {{ staff.name }}
             </h3>
-            <p class="text-xs sm:text-sm text-gray-600 mt-1 truncate">
+            <p class="text-xs sm:text-sm font-medium text-[#FF7F50] uppercase tracking-wide mt-1">
               {{ staff.position }}
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Empty State -->
-      <div
-        v-else-if="!isLoading"
-        class="py-8 flex flex-col items-center justify-center"
-      >
-        <UIcon
-          name="i-heroicons-user-group"
-          class="h-12 w-12 text-gray-400 mb-3"
-        />
-        <p class="text-gray-600">No team members found</p>
+      <div v-else class="text-center py-20 bg-white rounded-3xl border border-gray-100 border-dashed">
+        <UIcon name="i-heroicons-user-group" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
+        <p class="text-gray-500">No team members found currently.</p>
       </div>
 
-    <Button styles="primary"  to="/team" content="All Staff" icon="heroicons:user"/>
-      <div class="mt-4 text-sm text-gray-500">
-        <p>Want to join our team?</p>
-        <NuxtLink to="/jobs" class="text-blue-600 hover:underline">
-          Submit Application
-        </NuxtLink>
+      <div class="flex flex-col items-center justify-center space-y-8 pt-8 border-t border-gray-100">
+        <Button 
+          styles="primary" 
+          to="/team" 
+          content="View All Staff" 
+          icon="heroicons:user-group" 
+        />
+        
+        <div class="flex items-center gap-2 text-sm text-gray-500 bg-white px-5 py-2 rounded-full border border-gray-200 shadow-sm">
+          <span>Interested in joining us?</span>
+          <NuxtLink to="/jobs" class="font-semibold text-[#09033b] hover:text-[#FF7F50] transition-colors inline-flex items-center">
+            Submit Application
+            <UIcon name="i-heroicons-arrow-right" class="ml-1 w-3 h-3" />
+          </NuxtLink>
+        </div>
       </div>
+
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import { useFetch } from "#app";
+import { ref, onMounted, computed, onUnmounted } from "vue";
+
+// Props
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: 8,
+  },
+  showPositions: {
+    type: Array,
+    default: () => [],
+  },
+});
 
 const supabase = useSupabaseClient();
 const staffs = ref([]);
@@ -122,7 +125,6 @@ const isLoading = ref(true);
 const errorMessage = ref("");
 const fetchController = ref(null);
 
-// Priority positions for sorting
 const POSITION_PRIORITY = {
   "Chairman Board of Trustees": 1,
   "Executive Director": 2,
@@ -131,20 +133,25 @@ const POSITION_PRIORITY = {
   Administrator: 5,
 };
 
-// Create a fetch function that properly uses AbortController for cancellation
-const fetchStaffs = async () => {
-  // Cancel any previous requests
-  if (fetchController.value) {
-    fetchController.value.abort();
+// Computed property for filtering and limiting
+const displayedStaff = computed(() => {
+  let filtered = [...staffs.value];
+  if (props.showPositions.length > 0) {
+    filtered = filtered.filter((staff) =>
+      props.showPositions.includes(staff.position)
+    );
   }
+  return filtered.slice(0, props.limit);
+});
 
-  // Create a new AbortController
+const fetchStaffs = async () => {
+  if (fetchController.value) fetchController.value.abort();
   fetchController.value = new AbortController();
+  
   isLoading.value = true;
   errorMessage.value = "";
 
   try {
-    // Fetch staff members
     const { data, error } = await supabase
       .from("staff")
       .select("id, name, position, team, profile_image, created_at")
@@ -154,40 +161,31 @@ const fetchStaffs = async () => {
 
     if (error) throw error;
 
-    // Process the staff data
     if (data && data.length) {
-      // Create batch signed URLs for better performance
+      // Process images logic (kept from original)
       const staffWithImages = data.filter((staff) => staff.profile_image);
       const imagePromises = [];
-
-      // Process in smaller batches to avoid overwhelming the server
       const batchSize = 5;
+
       for (let i = 0; i < staffWithImages.length; i += batchSize) {
         const batch = staffWithImages.slice(i, i + batchSize);
-
         const batchPromises = batch.map(async (staff) => {
           try {
-            const { data: urlData, error: urlError } = await supabase.storage
+            const { data: urlData } = await supabase.storage
               .from("staff-images")
-              .createSignedUrl(staff.profile_image, 3600); // 1 hour expiry
-
+              .createSignedUrl(staff.profile_image, 3600);
             return {
               staffId: staff.id,
-              pictureUrl: !urlError && urlData ? urlData.signedUrl : null,
+              pictureUrl: urlData ? urlData.signedUrl : null,
             };
           } catch (err) {
-            console.error(`Error fetching image for staff ${staff.id}:`, err);
             return { staffId: staff.id, pictureUrl: null };
           }
         });
-
         imagePromises.push(...batchPromises);
       }
 
-      // Wait for all image URL requests to complete
       const imageResults = await Promise.allSettled(imagePromises);
-
-      // Process the results and update the staff data
       const urlMap = {};
       imageResults.forEach((result) => {
         if (result.status === "fulfilled" && result.value) {
@@ -195,91 +193,42 @@ const fetchStaffs = async () => {
         }
       });
 
-      // Update the staff data with picture URLs
       data.forEach((staff) => {
         staff.pictureUrl = urlMap[staff.id] || null;
       });
 
-      // Custom sorting based on position priority
+      // Sort
       data.sort((a, b) => {
         const priorityA = POSITION_PRIORITY[a.position] || 999;
         const priorityB = POSITION_PRIORITY[b.position] || 999;
-
-        if (priorityA === priorityB) {
-          // If same priority, sort alphabetically by name
-          return a.name.localeCompare(b.name);
-        }
-
+        if (priorityA === priorityB) return a.name.localeCompare(b.name);
         return priorityA - priorityB;
       });
     }
 
     staffs.value = data || [];
   } catch (error) {
-    // Only set error if not aborted
     if (error.name !== "AbortError") {
-      console.error("Error fetching staff:", error);
-      errorMessage.value = "Failed to load team members. Please try again.";
+      console.error("Error:", error);
+      errorMessage.value = "Failed to load team members.";
     }
   } finally {
-    // Only update loading state if not aborted
     if (fetchController.value?.signal?.aborted !== true) {
       isLoading.value = false;
     }
   }
 };
 
-// Handle image loading errors
 const handleImageError = (event) => {
   event.target.src = "/assets/images/default-avatar.webp";
 };
 
-// Function to retry fetching data
-const retryFetch = () => {
-  fetchStaffs();
-};
+const retryFetch = () => fetchStaffs();
 
-// Provide a method to refresh data that can be called from parent components
-defineExpose({
-  refreshData: fetchStaffs,
-});
+defineExpose({ refreshData: fetchStaffs });
 
-// Define props with defaults to allow customization if needed
-const props = defineProps({
-  limit: {
-    type: Number,
-    default: 8, // Default to showing 8 staff members
-  },
-  showPositions: {
-    type: Array,
-    default: () => [], // Optional filter by position
-  },
-});
-
-// Computed property for filtered staff members
-const displayedStaff = computed(() => {
-  let filtered = [...staffs.value];
-
-  // Apply position filter if provided
-  if (props.showPositions.length > 0) {
-    filtered = filtered.filter((staff) =>
-      props.showPositions.includes(staff.position)
-    );
-  }
-
-  // Apply limit
-  return filtered.slice(0, props.limit);
-});
-
-// Clean up on component unmount
+onMounted(() => fetchStaffs());
 onUnmounted(() => {
-  if (fetchController.value) {
-    fetchController.value.abort();
-  }
-});
-
-// Initial data fetch
-onMounted(() => {
-  fetchStaffs();
+  if (fetchController.value) fetchController.value.abort();
 });
 </script>

@@ -1,178 +1,138 @@
 <template>
-  <section class="px-1 py-4 sm:px-1 sm:py-4 lg:p-12 bg-gray-50  font-inter mx-auto  overflow-hidden">
-    <!-- SEO-friendly structured heading -->
-    <header class="text-center mb-8 sm:mb-10 lg:mb-12">
-      <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-[#09033b] tracking-tight mb-4">
-        <span class="block">Discover Our World</span>
-        <span class="block text-base sm:text-lg md:text-xl font-medium text-slate-600 mt-2">A Glimpse into School Life</span>
-      </h1>
-      <p class="sr-only">Interactive photo gallery showcasing school activities, events, and student life experiences</p>
-    </header>
+  <section class="relative w-full py-12 md:py-20 bg-[#09033b] overflow-hidden font-inter selection:bg-[#FF7F50] selection:text-white">
+    
+    <div class="absolute inset-0 opacity-[0.15] pointer-events-none">
+      <svg width="100%" height="100%">
+        <filter id="noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise)" />
+      </svg>
+    </div>
 
-    <!-- Infinite Scroll Container with better mobile spacing -->
-    <div class="p-6 space-y-4 sm:space-y-6 bg-gray-50" role="region" aria-label="Photo gallery with infinite scrolling">
-      <!-- Top Row - Scrolls Left to Right -->
-      <div class="overflow-hidden" aria-label="First row of photos scrolling right">
-        <div 
-          ref="scrollRowRight"
-          class="flex animate-scroll-right"
-          role="group"
-          aria-label="Scrolling photo row"
-        >
-          <div
-            v-for="(image, index) in duplicatedImagesRight"
-            :key="`top-${image.id}-${index}`"
-            class="flex-shrink-0 w-64 sm:w-72 lg:w-80 mx-2 sm:mx-3 relative overflow-hidden shadow-lg sm:shadow-xl transition transform hover:scale-105 hover:shadow-2xl duration-500 ease-in-out cursor-pointer group"
-            @click="openModal(index % galleryImages.length)"
-            @keydown.enter="openModal(index % galleryImages.length)"
-            @keydown.space="openModal(index % galleryImages.length)"
-            tabindex="0"
-            role="button"
-            :aria-label="`View ${image.title} in full screen`"
+    <div class="relative z-10 text-center mb-10 md:mb-16 px-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-blue-200 text-xs font-bold tracking-wide uppercase mb-4 md:mb-6 backdrop-blur-sm">
+        <span class="w-2 h-2 rounded-full bg-[#FF7F50] animate-pulse"></span>
+        Campus Life
+      </div>
+      <h2 class="text-3xl md:text-6xl font-bold text-white tracking-tight mb-3 md:mb-4">
+        Discover Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7F50] to-[#ff9f7c]">World</span>
+      </h2>
+      <p class="text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-light">
+        A glimpse into the daily moments, big celebrations, and learning adventures at TCAD.
+      </p>
+    </div>
+
+    <div class="relative w-full -rotate-2 scale-110 md:scale-110 py-6 md:py-10 space-y-4 md:space-y-8">
+      
+      <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#09033b] to-transparent z-20 pointer-events-none"></div>
+      <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#09033b] to-transparent z-20 pointer-events-none"></div>
+
+      <div class="flex overflow-hidden group/track">
+        <div class="flex gap-3 md:gap-6 animate-scroll-left group-hover/track:[animation-play-state:paused] py-2">
+          <div 
+            v-for="(image, index) in duplicatedImages" 
+            :key="`row1-${index}`"
+            @click="openModal(image)"
+            class="relative flex-shrink-0 w-[180px] h-[120px] sm:w-[300px] sm:h-[200px] md:w-[400px] md:h-[260px] rounded-xl md:rounded-2xl overflow-hidden cursor-pointer group/card transition-transform duration-500 hover:scale-105 hover:z-10 hover:shadow-2xl hover:shadow-[#FF7F50]/20 border border-white/10"
           >
-            <NuxtImg
-              :src="image.src"
+            <NuxtImg 
+              :src="image.src" 
               :alt="image.alt"
-              class="w-full h-48 sm:h-56 lg:h-64 object-cover"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
               loading="lazy"
-              :width="320"
-              :height="256"
-              format="webp"
-              quality="80"
-              sizes="sm:288px lg:320px"
+              sizes="180px md:400px" 
             />
-            <!-- Hover/Focus Overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-3 sm:p-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300">
-              <p class="text-white text-lg sm:text-xl font-semibold text-center leading-tight">{{ image.title }}</p>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex items-end p-3 md:p-6">
+              <span class="text-white font-medium text-xs md:text-lg transform translate-y-4 group-hover/card:translate-y-0 transition-transform duration-300">{{ image.title }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Middle Row - Scrolls Right to Left -->
-      <div class="overflow-hidden" aria-label="Second row of photos scrolling left">
-        <div 
-          ref="scrollRowLeft"
-          class="flex animate-scroll-left"
-          role="group"
-          aria-label="Scrolling photo row"
-        >
-          <div
-            v-for="(image, index) in duplicatedImagesLeft.slice().reverse()"
-            :key="`middle-${image.id}-${index}`"
-            class="flex-shrink-0 w-64 sm:w-72 lg:w-80 mx-2 sm:mx-3 relative overflow-hidden  shadow-lg sm:shadow-xl transition transform hover:scale-105 hover:shadow-2xl duration-500 ease-in-out cursor-pointer group"
-            @click="openModal(index % galleryImages.length)"
-            @keydown.enter="openModal(index % galleryImages.length)"
-            @keydown.space="openModal(index % galleryImages.length)"
-            tabindex="0"
-            role="button"
-            :aria-label="`View ${image.title} in full screen`"
+      <div class="flex overflow-hidden group/track">
+        <div class="flex gap-3 md:gap-6 animate-scroll-right group-hover/track:[animation-play-state:paused] py-2">
+          <div 
+            v-for="(image, index) in duplicatedImagesReverse" 
+            :key="`row2-${index}`"
+            @click="openModal(image)"
+            class="relative flex-shrink-0 w-[180px] h-[120px] sm:w-[300px] sm:h-[200px] md:w-[400px] md:h-[260px] rounded-xl md:rounded-2xl overflow-hidden cursor-pointer group/card transition-transform duration-500 hover:scale-105 hover:z-10 hover:shadow-2xl hover:shadow-[#FF7F50]/20 border border-white/10"
           >
-            <NuxtImg
-              :src="image.src"
+            <NuxtImg 
+              :src="image.src" 
               :alt="image.alt"
-              class="w-full h-48 sm:h-56 lg:h-64 object-cover"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
               loading="lazy"
-              :width="320"
-              :height="256"
-              format="webp"
-              quality="80"
-              sizes="sm:288px lg:320px"
+              sizes="180px md:400px" 
             />
-            <!-- Hover/Focus Overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-3 sm:p-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300">
-              <p class="text-white text-lg sm:text-xl font-semibold text-center leading-tight">{{ image.title }}</p>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex items-end p-3 md:p-6">
+              <span class="text-white font-medium text-xs md:text-lg transform translate-y-4 group-hover/card:translate-y-0 transition-transform duration-300">{{ image.title }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal Overlay with improved mobile experience -->
     <Teleport to="body">
-      <Transition name="fade">
-        <div
-          v-if="showModal"
-          class="fixed inset-0 bg-black bg-opacity-85 flex items-center justify-center z-50 p-2 sm:p-4"
-          @click.self="closeModal"
+      <Transition 
+        enter-active-class="transition duration-300 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-200 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div 
+          v-if="showModal" 
+          class="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8"
           @keydown.esc="closeModal"
           tabindex="0"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="`Image: ${galleryImages[currentImageIndex]?.title}`"
         >
-          <Transition name="slide-up">
-            <div v-if="showModal" class="relative bg-white rounded-lg sm:rounded-xl shadow-2xl max-w-5xl w-full flex flex-col lg:flex-row overflow-hidden transform transition-all duration-500 ease-out max-h-[95vh] sm:max-h-[90vh]">
-              <!-- Close Button -->
-              <button
-                @click="closeModal"
-                class="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 text-white bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                aria-label="Close modal"
-              >
-                <Icon name="heroicons:x-mark" class="h-5 w-5 sm:h-6 sm:w-6" />
-              </button>
+          <div class="absolute inset-0 bg-black/95 backdrop-blur-xl" @click="closeModal"></div>
+          
+          <div class="relative w-full max-w-6xl h-full max-h-[90vh] flex flex-col md:flex-row bg-gray-900 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+            <button 
+              @click="closeModal" 
+              class="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md"
+            >
+              <UIcon name="i-heroicons-x-mark" class="w-6 h-6" />
+            </button>
 
-              <!-- Image Container -->
-              <div class="flex-shrink-0 w-full lg:w-3/5 relative">
-                <NuxtImg
-                  :src="galleryImages[currentImageIndex]?.src"
-                  :alt="galleryImages[currentImageIndex]?.alt"
-                  class="w-full h-auto max-h-[40vh] sm:max-h-[50vh] lg:max-h-[80vh] object-contain rounded-t-lg sm:rounded-t-xl lg:rounded-tr-none lg:rounded-bl-xl"
-                  :width="800"
-                  :height="600"
-                  format="webp"
-                  quality="90"
-                  sizes="sm:640px lg:800px"
-                />
-                <!-- Navigation Buttons for large screens -->
-                <button
-                  v-if="galleryImages.length > 1"
-                  @click.stop="prevImage"
-                  class="hidden lg:block absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-white bg-gray-800 rounded-full p-2 sm:p-3 hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  aria-label="Previous image"
-                >
-                  <Icon name="heroicons:chevron-left" class="h-5 w-5 sm:h-6 sm:w-6" />
-                </button>
-                <button
-                  v-if="galleryImages.length > 1"
-                  @click.stop="nextImage"
-                  class="hidden lg:block absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white bg-gray-800 rounded-full p-2 sm:p-3 hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  aria-label="Next image"
-                >
-                  <Icon name="heroicons:chevron-right" class="h-5 w-5 sm:h-6 sm:w-6" />
-                </button>
+            <div class="relative flex-1 bg-black flex items-center justify-center overflow-hidden group">
+              <NuxtImg 
+                :src="activeImage?.src" 
+                :alt="activeImage?.alt"
+                class="max-w-full max-h-full object-contain" 
+              />
+              <button @click.stop="prevImage" class="absolute left-4 p-3 bg-black/50 text-white rounded-full hover:bg-white hover:text-black transition-all opacity-0 group-hover:opacity-100 hidden md:block">
+                <UIcon name="i-heroicons-chevron-left" class="w-6 h-6" />
+              </button>
+              <button @click.stop="nextImage" class="absolute right-4 p-3 bg-black/50 text-white rounded-full hover:bg-white hover:text-black transition-all opacity-0 group-hover:opacity-100 hidden md:block">
+                <UIcon name="i-heroicons-chevron-right" class="w-6 h-6" />
+              </button>
+            </div>
+
+            <div class="w-full md:w-[350px] bg-gray-900 p-6 md:p-8 flex flex-col justify-between border-l border-white/5">
+              <div>
+                <span class="text-[#FF7F50] text-sm font-bold uppercase tracking-wider mb-2 block">Gallery</span>
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-4 leading-tight">{{ activeImage?.title }}</h3>
+                <p class="text-sm md:text-base text-gray-400 leading-relaxed">{{ activeImage?.description }}</p>
               </div>
 
-              <!-- Image Info and Mobile Navigation -->
-              <div class="p-4 sm:p-6 lg:w-2/5 flex flex-col justify-between overflow-y-auto">
-                <div>
-                  <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">{{ galleryImages[currentImageIndex]?.title }}</h2>
-                  <p class="text-gray-700 text-sm sm:text-base lg:text-lg leading-relaxed">{{ galleryImages[currentImageIndex]?.description }}</p>
-                  <div class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500">
-                    {{ currentImageIndex + 1 }} of {{ galleryImages.length }}
-                  </div>
-                </div>
+              <div class="flex gap-4 mt-8 md:hidden">
+                <button @click.stop="prevImage" class="flex-1 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-medium text-sm">Previous</button>
+                <button @click.stop="nextImage" class="flex-1 py-3 bg-[#FF7F50] text-white rounded-xl hover:bg-[#ff9f7c] font-medium text-sm">Next</button>
+              </div>
 
-                <!-- Mobile Navigation Buttons -->
-                <div v-if="galleryImages.length > 1" class="flex justify-between gap-3 mt-4 sm:mt-6 lg:hidden">
-                  <button
-                    @click.stop="prevImage"
-                    class="flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
-                  >
-                    <Icon name="heroicons:chevron-left" class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
-                    Prev
-                  </button>
-                  <button
-                    @click.stop="nextImage"
-                    class="flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
-                  >
-                    Next
-                    <Icon name="heroicons:chevron-right" class="h-4 w-4 sm:h-5 sm:w-5 ml-1 sm:ml-2" />
-                  </button>
-                </div>
+              <div class="hidden md:flex items-center gap-4 pt-8 border-t border-white/5">
+                 <div class="text-white font-mono">
+                    <span class="text-xl">{{ String(currentImageIndex + 1).padStart(2, '0') }}</span>
+                    <span class="text-gray-600 mx-2">/</span>
+                    <span class="text-gray-500 text-sm">{{ String(galleryImages.length).padStart(2, '0') }}</span>
+                 </div>
               </div>
             </div>
-          </Transition>
+          </div>
         </div>
       </Transition>
     </Teleport>
@@ -180,105 +140,31 @@
 </template>
 
 <script setup lang="ts">
-interface GalleryImage {
-  id: number
-  src: string
-  alt: string
-  title: string
-  description: string
-}
-const galleryImages = ref<GalleryImage[]>([
-  { 
-    id: 1, 
-    src: '/images/policenkids2.jpg', 
-    alt: 'Students visit the Nigerian police force', 
-    title: 'Excursion to the Nigerian police', 
-    description: 'Students visit the Nigerian police force.' 
-  },
-  { 
-    id: 2, 
-    src: '/images/kidsndad.jpg', 
-    alt: 'Chairman and students', 
-    title: 'Chairman Board of Trustees with our students', 
-    description: 'Chairman Board of Trustees with our students.' 
-  },
-  { 
-    id: 3, 
-    src: '/images/learning4.jpg', 
-    alt: 'Individualised learning classroom', 
-    title: 'Engaging Classroom', 
-    description: 'Individualised learning session where students work with PACEs' 
-  },
-  { 
-    id: 4, 
-    src: '/images/roboticsfun.jpg', 
-    alt: 'Children enjoying robotics activities during recess time', 
-    title: 'STEM Learning Fun', 
-    description: 'Students exploring robotics and technology, fostering innovation and problem-solving skills.' 
-  },
-  { 
-    id: 5, 
-    src: '/images/naijaday.jpg', 
-    alt: 'Students celebrating Nigerian culture', 
-    title: 'Cultural Celebration', 
-    description: 'Students celebrating Nigerian heritage and culture, promoting diversity and national pride.' 
-  },
-  { 
-    id: 6, 
-    src: '/images/arts.jpg', 
-    alt: 'Students visit arts and tech museum', 
-    title: 'Arts & Creativity', 
-    description: 'Students visit arts and technology museum' 
-  },
-  { 
-    id: 7, 
-    src: '/images/assembly.jpg', 
-    alt: 'Students gathered for morning school assembly', 
-    title: 'Morning Assembly', 
-    description: 'Daily gathering for announcements, inspirational talks, and fostering community spirit.' 
-  },
-  { 
-    id: 8, 
-    src: '/images/mooshhoodstadia.jpg', 
-    alt: 'Students visit the Moshood Abiola stadium in Abuja', 
-    title: 'Excursion to National Stadium', 
-    description: 'Spectacular musical and theatrical performances by our talented students and faculty.' 
-  },
-  { 
-    id: 9, 
-    src: '/images/graduation.jpg', 
-    alt: 'Happy graduates celebrating graduation day ceremony', 
-    title: 'Graduation Day Joy', 
-    description: 'A memorable day celebrating the achievements and bright futures of our graduating class.' 
-  },
-  { 
-    id: 10, 
-    src: '/images/vr.jpg', 
-    alt: 'Students using virtual reality technology at arts and technology museum', 
-    title: 'VR Learning Experience', 
-    description: 'Students using virtual reality technology at arts and technology museum.' 
-  },
-])
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+
+const galleryImages = [
+  { id: 1, src: '/images/policenkids2.jpg', alt: 'Police visit', title: 'Community Outreach', description: 'Our students visiting the Nigerian Police Force to learn about civic duties and safety.' },
+  { id: 2, src: '/images/kidsndad.jpg', alt: 'Chairman visit', title: 'Leadership Mentoring', description: 'A special session with the Chairman Board of Trustees, inspiring our future leaders.' },
+  { id: 3, src: '/images/learning4.jpg', alt: 'Classroom', title: 'Focused Learning', description: 'Individualised learning sessions where students engage deeply with their PACEs.' },
+  { id: 4, src: '/images/roboticsfun.jpg', alt: 'Robotics', title: 'Innovation Lab', description: 'Exploring the future of technology through hands-on robotics and coding exercises.' },
+  { id: 5, src: '/images/naijaday.jpg', alt: 'Cultural Day', title: 'Nigerian Heritage', description: 'Celebrating the rich diversity of our nation through attire, dance, and music.' },
+  { id: 6, src: '/images/arts.jpg', alt: 'Museum', title: 'Art & History', description: 'An educational excursion to the Arts and Technology Museum.' },
+  { id: 7, src: '/images/assembly.jpg', alt: 'Assembly', title: 'Morning Assembly', description: 'Starting the day with prayer, national anthem, and community announcements.' },
+  { id: 8, src: '/images/mooshhoodstadia.jpg', alt: 'Stadium', title: 'Sports Excellence', description: 'Visiting the Moshood Abiola Stadium to inspire physical fitness and sportsmanship.' },
+  { id: 9, src: '/images/graduation.jpg', alt: 'Graduation', title: 'Class of 2025', description: 'Celebrating the academic milestones and bright futures of our graduates.' },
+  { id: 10, src: '/images/vr.jpg', alt: 'VR', title: 'Virtual Reality', description: 'Immersive learning experiences using state-of-the-art VR technology.' },
+]
+
+const duplicatedImages = computed(() => [...galleryImages, ...galleryImages])
+const duplicatedImagesReverse = computed(() => [...galleryImages.slice().reverse(), ...galleryImages.slice().reverse()])
 
 const showModal = ref(false)
+const activeImage = ref<any>(null)
 const currentImageIndex = ref(0)
-const scrollRowRight = ref<HTMLElement>()
-const scrollRowLeft = ref<HTMLElement>()
 
-// Create duplicated arrays for seamless infinite scroll
-const duplicatedImagesRight = computed(() => {
-  const original = galleryImages.value
-  return [...original, ...original]
-})
-
-const duplicatedImagesLeft = computed(() => {
-  const original = galleryImages.value
-  return [...original, ...original]
-})
-
-// Modal functions
-const openModal = (index: number) => {
-  currentImageIndex.value = index
+const openModal = (image: any) => {
+  activeImage.value = image
+  currentImageIndex.value = galleryImages.findIndex(img => img.id === image.id)
   showModal.value = true
   document.body.style.overflow = 'hidden'
 }
@@ -289,191 +175,51 @@ const closeModal = () => {
 }
 
 const nextImage = () => {
-  currentImageIndex.value = (currentImageIndex.value + 1) % galleryImages.value.length
+  let nextIndex = currentImageIndex.value + 1
+  if (nextIndex >= galleryImages.length) nextIndex = 0
+  currentImageIndex.value = nextIndex
+  activeImage.value = galleryImages[nextIndex]
 }
 
 const prevImage = () => {
-  currentImageIndex.value = currentImageIndex.value === 0 
-    ? galleryImages.value.length - 1 
-    : currentImageIndex.value - 1
+  let prevIndex = currentImageIndex.value - 1
+  if (prevIndex < 0) prevIndex = galleryImages.length - 1
+  currentImageIndex.value = prevIndex
+  activeImage.value = galleryImages[prevIndex]
 }
 
-// Keyboard navigation
-const handleKeyDown = (event: KeyboardEvent) => {
+const handleKeydown = (e: KeyboardEvent) => {
   if (!showModal.value) return
-  
-  switch (event.key) {
-    case 'ArrowRight':
-      event.preventDefault()
-      nextImage()
-      break
-    case 'ArrowLeft':
-      event.preventDefault()
-      prevImage()
-      break
-    case 'Escape':
-      event.preventDefault()
-      closeModal()
-      break
-  }
+  if (e.key === 'ArrowRight') nextImage()
+  if (e.key === 'ArrowLeft') prevImage()
 }
 
-// Touch gestures for mobile
-const touchStartX = ref(0)
-const touchEndX = ref(0)
-
-const handleTouchStart = (event: TouchEvent) => {
-  touchStartX.value = event.changedTouches[0].screenX
-}
-
-const handleTouchEnd = (event: TouchEvent) => {
-  touchEndX.value = event.changedTouches[0].screenX
-  handleSwipeGesture()
-}
-
-const handleSwipeGesture = () => {
-  if (!showModal.value) return
-  
-  const swipeThreshold = 50
-  const swipeDistance = touchStartX.value - touchEndX.value
-  
-  if (Math.abs(swipeDistance) > swipeThreshold) {
-    if (swipeDistance > 0) {
-      nextImage() // Swipe left - next image
-    } else {
-      prevImage() // Swipe right - previous image
-    }
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', handleKeyDown)
-  window.addEventListener('touchstart', handleTouchStart, { passive: true })
-  window.addEventListener('touchend', handleTouchEnd, { passive: true })
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeyDown)
-  window.removeEventListener('touchstart', handleTouchStart)
-  window.removeEventListener('touchend', handleTouchEnd)
-  document.body.style.overflow = ''
-})
+onMounted(() => window.addEventListener('keydown', handleKeydown))
+onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
 </script>
 
 <style scoped>
-/* Transition styles */
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
-
-.slide-up-enter-active, .slide-up-leave-active {
-  transition: all 0.4s ease-out;
-}
-.slide-up-enter-from, .slide-up-leave-to {
-  transform: translateY(20px);
-  opacity: 0;
-}
-
-/* Responsive infinite scroll animations */
-@keyframes scroll-right {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
 @keyframes scroll-left {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 40s linear infinite;
 }
 
 .animate-scroll-right {
-  animation: scroll-right 60s linear infinite;
-  width: fit-content;
+  animation: scroll-right 45s linear infinite;
 }
 
-.animate-scroll-left {
-  animation: scroll-left 55s linear infinite;
-  width: fit-content;
-}
-
-/* Slower animations on mobile for better performance */
-@media (max-width: 640px) {
-  .animate-scroll-right {
-    animation-duration: 80s;
-  }
-  
-  .animate-scroll-left {
-    animation-duration: 75s;
-  }
-}
-
-/* Pause animations on hover/focus for better UX */
-.animate-scroll-right:hover,
-.animate-scroll-left:hover,
-.animate-scroll-right:focus-within,
-.animate-scroll-left:focus-within {
-  animation-play-state: paused;
-}
-
-/* Performance optimizations */
-.animate-scroll-right,
-.animate-scroll-left {
-  will-change: transform;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-}
-
-/* Reduce motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .animate-scroll-right,
-  .animate-scroll-left {
-    animation-duration: 200s;
-  }
-  
-  .transition,
-  .duration-300,
-  .duration-500 {
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Smooth scrolling */
-* {
-  scroll-behavior: smooth;
-}
-
-/* Optimize image rendering */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-/* Focus styles for accessibility */
-[tabindex]:focus {
-  outline: 2px solid #4f46e5;
-  outline-offset: 2px;
-}
-
-/* Screen reader only content */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+/* Slower on mobile so detail is viewable */
+@media (max-width: 768px) {
+  .animate-scroll-left { animation-duration: 30s; }
+  .animate-scroll-right { animation-duration: 35s; }
 }
 </style>

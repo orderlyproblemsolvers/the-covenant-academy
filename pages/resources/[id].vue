@@ -1,52 +1,90 @@
 <template>
-  <div class="relative w-full min-h-screen bg-white p-4 overflow-hidden font-inter">
-    <div class="absolute inset-0 opacity-5">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
-        <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
-      </svg>
-    </div>
-
-    <div class="relative z-10 max-w-3xl mx-auto px-2 lg:px-6 py-6">
-      <div v-if="loading" class="text-center py-12 space-y-6">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#09033b]"></div>
-        <p class="text-gray-600">Loading blog post...</p>
-      </div>
-
-      <div v-else-if="error" class="text-center py-12 space-y-6">
-        <div class="w-12 h-12 mx-auto bg-[#09033b]/10 rounded-full flex items-center justify-center">
-          <svg class="w-6 h-6 text-[#09033b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-        <p class="text-lg text-gray-600">Blog post not found or failed to load.</p>
+  <div class="min-h-screen bg-gray-50 font-inter py-12 px-4 sm:px-6 lg:px-8">
+    
+    <div class="max-w-3xl mx-auto">
+      
+      <nav class="mb-8">
         <NuxtLink 
-          to="/blog"
-          class="inline-flex items-center px-6 py-3 text-sm font-medium text-[#09033b] border border-[#09033b] hover:bg-[#09033b]/5 transition-colors"
+          to="/resources"
+          class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-[#09033b] transition-colors"
         >
-          Back to Blog
+          <UIcon name="i-heroicons-arrow-left" class="w-4 h-4 mr-2" />
+          Back to Resources
         </NuxtLink>
+      </nav>
+
+      <div v-if="loading" class="animate-pulse space-y-6">
+        <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+        <div class="h-64 bg-gray-200 rounded-2xl"></div>
+        <div class="space-y-3">
+          <div class="h-4 bg-gray-200 rounded"></div>
+          <div class="h-4 bg-gray-200 rounded"></div>
+          <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+        </div>
       </div>
 
-      <article v-else class="relative">
-        <div class="mb-8">
-          <NuxtLink 
-            to="#"
-            @click.prevent="router.back()"
-            class="inline-flex items-center text-[#09033b] hover:text-[#0a0440] transition-colors"
-          >
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back
-          </NuxtLink>
-        </div>
+      <div v-else-if="error" class="text-center py-12 bg-white rounded-2xl border border-red-100">
+        <UIcon name="i-heroicons-exclamation-circle" class="w-10 h-10 text-red-500 mx-auto mb-3" />
+        <h2 class="text-gray-900 font-medium">Article not found</h2>
+        <p class="text-gray-500 text-sm mb-4">It may have been removed or renamed.</p>
+        <NuxtLink to="/resources" class="text-[#09033b] underline text-sm">Return Home</NuxtLink>
+      </div>
 
-        <div v-if="post.image_url" class="relative mb-8 h-48 md:h-64 overflow-hidden">
+      <article v-else class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        
+        <header class="px-4 pt-8 pb-6 md:px-10 md:pt-10">
+          <div class="flex items-center gap-3 text-sm mb-4">
+            <span class="font-bold text-[#FF7F50] uppercase tracking-wider text-xs">Blog</span>
+            <span class="text-gray-300">•</span>
+            <span class="text-gray-500">{{ formatDate(post.created_at) }}</span>
+          </div>
+
+          <h1 class="text-3xl md:text-4xl font-bold text-[#09033b] leading-tight mb-6">
+            {{ post.title }}
+          </h1>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-gray-100">
+            
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[#09033b]/10 text-[#09033b] flex items-center justify-center font-bold text-sm">
+                {{ getInitials(post.author) }}
+              </div>
+              <div>
+                <p class="text-sm font-bold text-gray-900">{{ post.author }}</p>
+                <p class="text-xs text-gray-500">The Covenant Academy</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-medium text-gray-400 mr-1 hidden sm:block">Share:</span>
+              
+              <button @click="share('whatsapp')" class="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 transition-colors" aria-label="Share on WhatsApp">
+                <UIcon name="i-simple-icons-whatsapp" class="w-4 h-4" />
+              </button>
+              
+              <button @click="share('twitter')" class="p-2 rounded-full bg-gray-50 text-gray-700 hover:bg-black hover:text-white transition-colors" aria-label="Share on X">
+                <UIcon name="i-simple-icons-x" class="w-4 h-4" />
+              </button>
+
+              <button @click="share('facebook')" class="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" aria-label="Share on Facebook">
+                <UIcon name="i-simple-icons-facebook" class="w-4 h-4" />
+              </button>
+
+              <button @click="share('linkedin')" class="p-2 rounded-full bg-sky-50 text-sky-700 hover:bg-sky-100 transition-colors" aria-label="Share on LinkedIn">
+                <UIcon name="i-simple-icons-linkedin" class="w-4 h-4" />
+              </button>
+              
+              <button @click="copyLink" class="p-2 rounded-full bg-gray-50 text-gray-600 hover:bg-gray-200 transition-colors relative" aria-label="Copy Link">
+                <UIcon name="i-heroicons-link" class="w-4 h-4" />
+                <span v-if="copied" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded">Copied!</span>
+              </button>
+            </div>
+
+          </div>
+        </header>
+
+        <div v-if="post.image_url" class="w-full aspect-[21/9] md:aspect-[16/7] relative bg-gray-100">
           <img 
             :src="post.image_url" 
             :alt="post.title"
@@ -54,79 +92,83 @@
           />
         </div>
 
-        <header class="mb-12">
-          <div class="inline-flex items-center space-x-3 mb-4">
-            <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-            <span class="text-xs font-medium text-gray-600 tracking-wide uppercase">
-              Blog Post
-            </span>
-          </div>
+        <div class="px-6 py-8 md:px-10 md:py-12">
+          <div 
+            class="prose prose-lg prose-blue max-w-none text-gray-700 prose-headings:text-[#09033b] prose-a:text-[#09033b] prose-img:rounded-xl"
+            v-html="post.content"
+          ></div>
+        </div>
 
-          <h1 class="text-3xl md:text-4xl font-light text-[#09033b] tracking-tight mb-6">
-            {{ post.title }}
-          </h1>
-
-          <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
-            <div class="flex items-center">
-              <svg class="w-4 h-4 text-[#09033b] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-              </svg>
-              <span>{{ post.author }}</span>
-            </div>
-            <div class="flex items-center">
-              <svg class="w-4 h-4 text-[#09033b] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-              <span>{{ formatDate(post.created_at) }}</span>
-            </div>
-            <div v-if="post.updated_at !== post.created_at" class="flex items-center">
-              <span class="text-xs">
-                Updated {{ formatDate(post.updated_at) }}
-              </span>
-            </div>
-          </div>
-
-          <div class="w-16 h-px bg-[#09033b] mt-6"></div>
-        </header>
-
-        <div 
-          class="prose prose-lg max-w-none "
-          v-html="post.content"
-        ></div>
       </article>
+
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+
 const route = useRoute()
-const router = useRouter()
 const { getBlogPost } = useBlog()
 
-// 1. Server-Side Data Fetching
+// 1. Data Fetching
 const { data: post, pending: loading, error } = await useAsyncData(
   `blog-post-${route.params.id}`, 
   () => getBlogPost(route.params.id)
 )
 
-// 2. OG Image Configuration (Unconditional & Reactive)
-defineOgImageComponent('CovenantBlog', {
-  title: () => post.value?.title ?? 'The Covenant Academy Blog',
-})
-
-// 3. Standard SEO Meta (Conditional)
-// These still need to be conditional because they rely on specific content formatting
+// 2. SEO
 if (post.value) {
   useSeoMeta({
     title: () => `${post.value.title} - The Covenant Academy`,
-    description: () => post.value.content.replace(/<[^>]*>/g, '').substring(0, 160),
+    description: () => post.value.content?.replace(/<[^>]*>/g, '').substring(0, 160) || '',
     author: () => post.value.author,
-    articlePublishedTime: () => post.value.created_at,
-    articleModifiedTime: () => post.value.updated_at
   })
 }
 
-// Helper: Date Formatter
+// 3. Social Sharing Logic
+const copied = ref(false)
+const currentUrl = ref('')
+
+onMounted(() => {
+  currentUrl.value = window.location.href
+})
+
+const share = (platform) => {
+  const url = encodeURIComponent(currentUrl.value)
+  const text = encodeURIComponent(post.value?.title || 'Check this out')
+  let shareLink = ''
+
+  switch (platform) {
+    case 'whatsapp':
+      shareLink = `https://wa.me/?text=${text}%20${url}`
+      break
+    case 'twitter':
+      shareLink = `https://twitter.com/intent/tweet?url=${url}&text=${text}`
+      break
+    case 'facebook':
+      shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`
+      break
+    case 'linkedin':
+      shareLink = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`
+      break
+  }
+
+  window.open(shareLink, '_blank', 'width=600,height=400')
+}
+
+const copyLink = () => {
+  navigator.clipboard.writeText(currentUrl.value)
+  copied.value = true
+  setTimeout(() => copied.value = false, 2000)
+}
+
+// Helpers
+const getInitials = (name) => {
+  if (!name) return 'TC'
+  return name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase()
+}
+
 const formatDate = (dateString) => {
   if (!dateString) return ''
   return new Date(dateString).toLocaleDateString('en-US', {
@@ -135,80 +177,27 @@ const formatDate = (dateString) => {
     day: 'numeric'
   })
 }
-
-if (post.value) {
-  useJsonld({
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.value.title,
-    image: post.value.image_url,
-    author: {
-      "@type": "Person",
-      name: post.value.author
-    },
-    datePublished: post.value.created_at,
-    dateModified: post.value.updated_at,
-    articleBody: post.value.content
-  })
-}
 </script>
 
 <style scoped>
-:deep(.prose) {
-  color: #33373d;
-  line-height: 1.5;
-}
-
-:deep(.prose h1) {
-  font-size: 2rem;
-  font-weight: 350;
-  color: #0b0354;
-  margin: 2rem 0 1rem;
-  text-decoration: wavy underline 0.5px;
-}
-
+/* Clean up prose typography */
 :deep(.prose h2) {
-  font-size: 1.75rem;
-  font-weight: 350;
-  color: #0b0354;
-    text-decoration: wavy underline 0.5px; 
+  margin-top: 2em;
+  font-weight: 700;
 }
-
 :deep(.prose p) {
-  margin-bottom: 0.8rem;
-  font-weight: 350;
+  line-height: 1.8;
+  margin-bottom: 1.5em;
 }
-
-:deep(.prose blockquote) {
-  font-style: italic;
-  border-left: 2px solid #e5e7eb;
-  padding-left: 1rem;
-  margin: 1.5rem 0;
-  color: #6b7280;
-}
-
-:deep(.prose ul),
-:deep(.prose ol) {
-  margin: 1.25rem 0;
-  padding-left: 1.5rem;
-}
-
-:deep(.prose li) {
-  margin: 0.5rem 0;
-  font-weight: 350;
-}
-
 :deep(.prose a) {
-  color: #09033b;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  font-weight: 500;
+  text-decoration-color: #FF7F50;
+  text-decoration-thickness: 2px;
 }
-
-:deep(.prose img) {
-  border-radius: 0.5rem;
-  margin: 1.5rem 0;
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
+:deep(.prose blockquote) {
+  border-left-color: #FF7F50;
+  font-style: italic;
+  background: #fff;
+  padding-left: 1rem;
 }
 </style>

@@ -1,128 +1,235 @@
 <template>
-    <div class="relative w-full min-h-screen bg-white p-4 overflow-hidden font-inter">
-      <!-- Subtle Background Pattern -->
-      <div class="absolute inset-0 opacity-5">
-        <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
-          <defs>
-            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <circle cx="30" cy="30" r="1" fill="#09033b"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)"/>
-        </svg>
-      </div>
-  
-      <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        <!-- Minimal Header -->
-        <div class="mb-12 space-y-4">
-          <div class="flex items-center space-x-3">
-            <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-            <span class="text-sm font-medium text-gray-600 tracking-wide uppercase">
-              Latest Updates
-            </span>
+  <div class="relative w-full min-h-screen bg-gray-50 font-inter overflow-hidden">
+    
+    <div class="absolute inset-0 pointer-events-none">
+      <svg class="absolute top-0 left-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+        <pattern id="grid-resources" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="#09033b" stroke-width="1" fill="none"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#grid-resources)" />
+      </svg>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div class="max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gray-200 text-[#09033b] text-xs font-bold tracking-wide uppercase mb-6 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#FF7F50] animate-pulse"></span>
+            Knowledge Hub
           </div>
-          <h1 class="text-3xl md:text-4xl font-light text-[#09033b] tracking-tight">
-            Resources
+          
+          <h1 class="text-4xl md:text-5xl font-bold text-[#09033b] tracking-tight mb-4">
+            School <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#09033b] to-[#4f46e5]">Resources</span>
           </h1>
-          <div class="w-16 h-px bg-[#09033b]"></div>
+          <p class="text-lg text-gray-600">
+            Explore our latest articles, educational insights, and community updates.
+          </p>
         </div>
-  
-        <!-- Loading State -->
-        <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="i in 3" :key="i" class="bg-white/80 backdrop-blur-sm p-6 animate-pulse">
-            <div class="h-48 bg-gray-100 mb-4"></div>
-            <div class="h-6 bg-gray-100 mb-2 w-3/4"></div>
-            <div class="h-4 bg-gray-100 mb-2 w-1/2"></div>
-            <div class="h-4 bg-gray-100 w-5/6"></div>
-          </div>
+
+        <div v-if="!loading && posts.length > 0" class="hidden md:block text-right">
+          <span class="text-3xl font-bold text-[#09033b]">{{ posts.length }}</span>
+          <p class="text-sm text-gray-500 uppercase tracking-wide">Total Articles</p>
         </div>
-  
-        <!-- Error State -->
-        <div v-else-if="error" class="text-center py-12 space-y-6">
-          <div class="w-16 h-16 mx-auto bg-[#09033b]/10 rounded-full flex items-center justify-center">
-            <svg class="w-8 h-8 text-[#09033b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <p class="text-lg text-gray-600">{{ error }}</p>
-          <button 
-            @click="fetchPosts"
-            class="inline-flex items-center px-6 py-3 text-sm font-medium text-[#09033b] border border-[#09033b] hover:bg-[#09033b]/5 transition-colors"
-          >
-            Try Again
-          </button>
+      </div>
+
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div v-for="n in 6" :key="n" class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm animate-pulse">
+          <div class="aspect-[16/9] bg-gray-200 rounded-xl mb-4"></div>
+          <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+          <div class="h-3 bg-gray-200 rounded w-1/2"></div>
         </div>
-  
-        <!-- Empty State -->
-        <div v-else-if="posts.length === 0" class="text-center py-12 space-y-6">
-          <svg class="mx-auto h-12 w-12 text-[#09033b]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-          <p class="text-gray-600">No posts to see.</p>
+      </div>
+
+      <div v-else-if="error" class="text-center py-20 bg-white rounded-3xl border border-red-100 shadow-sm">
+        <div class="w-16 h-16 mx-auto bg-red-50 rounded-full flex items-center justify-center mb-4">
+          <UIcon name="i-heroicons-exclamation-triangle" class="w-8 h-8 text-red-500" />
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-2">Unable to load resources</h3>
+        <p class="text-gray-500 mb-6">{{ error }}</p>
+        <button 
+          @click="fetchPosts"
+          class="px-6 py-2 bg-[#09033b] text-white rounded-lg hover:bg-[#0c0552] transition-colors"
+        >
+          Try Again
+        </button>
+      </div>
+
+      <div v-else>
+        
+        <div v-if="posts.length === 0" class="text-center py-24 bg-white rounded-3xl border border-dashed border-gray-200">
+          <UIcon name="i-heroicons-document-text" class="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 class="text-lg font-medium text-gray-900">No posts published yet</h3>
+          <p class="text-gray-500 mt-2 mb-6">Check back later for updates.</p>
           <NuxtLink 
             to="/resources/create"
-            class="inline-flex items-center px-6 py-3 text-sm font-medium text-[#09033b] border border-[#09033b] hover:bg-[#09033b]/5 transition-colors"
+            class="inline-flex items-center px-6 py-2.5 bg-[#09033b] text-white rounded-xl hover:bg-[#0c0552] transition-all hover:shadow-lg hover:shadow-[#09033b]/20"
           >
+            <UIcon name="i-heroicons-pencil-square" class="w-5 h-5 mr-2" />
             Create First Post
           </NuxtLink>
         </div>
-  
-        <!-- Blog Posts Grid -->
-        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <BlogCard 
-            v-for="post in posts" 
-            :key="post.id" 
-            :post="post" 
-          />
+
+        <div v-else id="posts-grid" class="scroll-mt-24">
+          <TransitionGroup 
+            name="fade-grid" 
+            tag="div" 
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+          >
+            <BlogCard 
+              v-for="post in paginatedPosts" 
+              :key="post.id" 
+              :post="post" 
+              class="h-full"
+            />
+          </TransitionGroup>
+
+          <div v-if="totalPages > 1" class="flex flex-col items-center justify-center space-y-4">
+            
+            <div class="inline-flex items-center bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 p-1.5">
+              <button 
+                @click="prevPage" 
+                :disabled="currentPage === 1"
+                class="w-10 h-10 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-50 hover:text-[#09033b] disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+              >
+                <UIcon name="i-heroicons-chevron-left" class="w-5 h-5" />
+              </button>
+
+              <div class="flex items-center px-2 gap-1">
+                <button 
+                  v-for="page in totalPages" 
+                  :key="page"
+                  @click="goToPage(page)"
+                  class="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-all"
+                  :class="currentPage === page 
+                    ? 'bg-[#09033b] text-white shadow-md shadow-[#09033b]/20' 
+                    : 'text-gray-600 hover:bg-gray-50'"
+                >
+                  {{ page }}
+                </button>
+              </div>
+
+              <button 
+                @click="nextPage" 
+                :disabled="currentPage === totalPages"
+                class="w-10 h-10 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-50 hover:text-[#09033b] disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+              >
+                <UIcon name="i-heroicons-chevron-right" class="w-5 h-5" />
+              </button>
+            </div>
+
+            <p class="text-xs text-gray-400">
+              Showing page {{ currentPage }} of {{ totalPages }}
+            </p>
+          </div>
         </div>
-  
-        <!-- Side Branding - Less prominent -->
-        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 -rotate-90 hidden xl:block">
-          <span class="text-xs font-medium text-gray-300 tracking-widest uppercase">Insights • Knowledge</span>
-        </div>
+
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  const { getAllBlogPosts } = useBlog()
-  
-  // SEO
-  useHead({
-    title: 'Resources - The Covenant Academy',
-    meta: [
-      { name: 'description', content: 'Latest articles and updates from The Covenant Academy' },
-      { property: 'og:title', content: 'Resources - The Covenant Academy' },
-      { property: 'og:description', content: 'Explore our latest articles and updates' },
-      { name: 'theme-color', content: '#09033b' }
-    ]
-  })
-  
-  const posts = ref([])
-  const loading = ref(true)
-  const error = ref(null)
-  
-  const fetchPosts = async () => {
-    try {
-      loading.value = true
-      error.value = null
-      posts.value = await getAllBlogPosts()
-    } catch (err) {
-      console.error('Error fetching posts:', err)
-      error.value = 'Failed to load posts. Please try again.'
-    } finally {
-      loading.value = false
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue'
+
+// Assume BlogCard component is globally registered or imported
+// import BlogCard from '~/components/BlogCard.vue'
+
+const { getAllBlogPosts } = useBlog()
+
+useHead({
+  title: 'Resources - The Covenant Academy',
+  meta: [
+    { name: 'description', content: 'Latest articles and updates from The Covenant Academy' },
+    { name: 'theme-color', content: '#09033b' }
+  ]
+})
+
+// State
+const posts = ref([])
+const loading = ref(true)
+const error = ref(null)
+
+// Pagination State
+const currentPage = ref(1)
+const itemsPerPage = 6 // Adjust this number to control posts per page
+
+// Computed Pagination
+const totalPages = computed(() => {
+  return Math.ceil(posts.value.length / itemsPerPage)
+})
+
+const paginatedPosts = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return posts.value.slice(start, end)
+})
+
+// Navigation Methods
+const scrollToTop = () => {
+  if (process.client) {
+    const grid = document.getElementById('posts-grid')
+    if (grid) {
+      grid.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
-  
-  onMounted(() => {
-    fetchPosts()
-  })
-  </script>
-  
-  <style scoped>
-  * {
-    transition-property: color, background-color, border-color, transform, opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+    scrollToTop()
   }
-  </style>
+}
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+    scrollToTop()
+  }
+}
+
+const goToPage = (page) => {
+  currentPage.value = page
+  scrollToTop()
+}
+
+// Fetch Logic
+const fetchPosts = async () => {
+  try {
+    loading.value = true
+    error.value = null
+    posts.value = await getAllBlogPosts()
+    // Reset to page 1 on new fetch
+    currentPage.value = 1
+  } catch (err) {
+    console.error('Error fetching posts:', err)
+    error.value = 'Failed to load posts. Please try again.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchPosts()
+})
+</script>
+
+<style scoped>
+/* Grid Transition Animation */
+.fade-grid-enter-active,
+.fade-grid-leave-active {
+  transition: all 0.4s ease;
+}
+.fade-grid-enter-from,
+.fade-grid-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.fade-grid-leave-active {
+  position: absolute; /* Keeps grid stable during transition */
+  opacity: 0;
+}
+</style>

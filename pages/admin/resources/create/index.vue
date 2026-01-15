@@ -1,61 +1,114 @@
 <template>
-    <div class="min-h-screen bg-gray-50">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Header -->
-        <div class="mb-8">
-          <div class="flex items-center mb-4">
-            <NuxtLink 
-              to="#"
-              @click.prevent="router.back()"
-              class="flex items-center text-blue-600 hover:text-blue-800 mr-4"
-            >
-              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-              </svg>
-              Back to Blog
-            </NuxtLink>
-          </div>
-          <h1 class="text-3xl font-bold text-gray-900">Create New</h1>
-          <p class="mt-2 text-gray-600">Share your thoughts and ideas with the school community</p>
+  <div class="relative w-full min-h-screen bg-gray-50 font-inter text-gray-800">
+    <div class="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
+      <svg width="100%" height="100%">
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#09033b"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+      </svg>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      
+      <nav class="flex items-center text-sm font-medium text-gray-500 mb-6">
+        <NuxtLink 
+          to="/admin/resources" 
+          class="hover:text-[#09033b] transition-colors flex items-center"
+        >
+          <UIcon name="i-heroicons-arrow-left" class="w-4 h-4 mr-1" />
+          Resources
+        </NuxtLink>
+        <span class="mx-3 text-gray-300">/</span>
+        <span class="text-[#09033b] font-semibold">New Entry</span>
+      </nav>
+
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl font-bold text-[#09033b] tracking-tight">Create Resource</h1>
+          <p class="mt-1 text-gray-500">Draft a new article, announcement, or educational guide.</p>
         </div>
-  
-        <!-- Blog Editor -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        
+        <div class="hidden sm:flex items-center gap-2 px-4 py-2 bg-indigo-50 text-[#09033b] rounded-lg border border-indigo-100 text-sm font-medium">
+          <span class="w-2 h-2 rounded-full bg-[#FF7F50] animate-pulse"></span>
+          Draft Mode
+        </div>
+      </div>
+
+      <Transition
+        enter-active-class="transform ease-out duration-300 transition"
+        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div v-if="showSuccess" class="fixed top-6 right-6 z-50 bg-white border-l-4 border-green-500 shadow-xl rounded-r-lg p-4 flex items-center gap-3">
+          <div class="p-1 bg-green-100 rounded-full text-green-600">
+            <UIcon name="i-heroicons-check" class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-green-900">Published Successfully</h3>
+            <p class="text-xs text-green-600 mt-0.5">Redirecting to resource view...</p>
+          </div>
+        </div>
+      </Transition>
+
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="h-1 w-full bg-gradient-to-r from-[#09033b] via-[#4f46e5] to-[#FF7F50]"></div>
+        
+        <div class="p-6 sm:p-8">
           <BlogEditor 
-            @submit="handleSubmit"
+            @submit="handleSubmit" 
             @cancel="handleCancel"
+            class="space-y-6"
           />
         </div>
       </div>
-    </div>
-  </template>
-  
-  <script setup>
 
-  definePageMeta({
-    layout: 'admin'
-  })
-  // SEO
-  useHead({
-    title: 'Create Resource - School Website',
-    meta: [
-      { name: 'description', content: 'Create and publish a new resource.' }
-    ]
-  })
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+definePageMeta({
+  layout: 'admin',
+  middleware: ['admin'],
+  auth: true
+})
+
+useHead({
+  title: 'Create Resource - Admin Dashboard',
+})
+
+const router = useRouter()
+const showSuccess = ref(false)
+
+const handleSubmit = async (post) => {
+  // Show visual feedback
+  showSuccess.value = true
   
-  const router = useRouter()
-  
-  const handleSubmit = (post) => {
-    // Show success message
-    alert('created successfully!')
-    
-    // Redirect to the new post or blog list
-    router.push(`/admin/resources/${post.id}`)
+  // Wait a moment for the toast to be seen before redirecting
+  setTimeout(() => {
+    // Assuming the API response (post) contains the new ID
+    const targetId = post?.id || ''
+    router.push(targetId ? `/admin/resources/${targetId}` : '/admin/resources')
+  }, 1500)
+}
+
+const handleCancel = () => {
+  // We use the browser confirm for safety, but styling the trigger differently
+  if (confirm('Discard unsaved changes? This action cannot be undone.')) {
+    router.push('/admin/resources')
   }
-  
-  const handleCancel = () => {
-    if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
-      router.push('/admin/resources')
-    }
-  }
-  </script>
+}
+</script>
+
+<style scoped>
+/* Optional: If BlogEditor relies on inherited styles */
+:deep(.prose) {
+  max-width: none;
+}
+</style>

@@ -1,282 +1,219 @@
 <template>
-  <div class="relative w-full bg-gray-50 p-6 lg:p-8 overflow-hidden font-inter">
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
-        <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
-      </svg>
-    </div>
-
-    <div class="relative z-10 max-w-6xl mx-auto">
-      <!-- Error State -->
-      <div v-if="error" class="mb-6 p-4 bg-red-50 border border-red-100 rounded-lg">
-        <div class="flex items-center justify-between">
-          <p class="text-sm text-red-700 font-medium">{{ error }}</p>
-          <button 
-            @click="fetchEvents" 
-            class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded transition-colors duration-200"
-          >
-            Retry
+  <div class="relative w-full bg-white rounded-3xl overflow-hidden font-inter border border-gray-100 shadow-xl">
+    
+    <div class="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-4">
+        <h2 class="text-3xl font-bold text-[#09033b] tracking-tight min-w-[200px]">
+          {{ currentMonth }}
+        </h2>
+        <div class="hidden md:flex gap-1">
+          <button @click="prevMonth" class="p-2 hover:bg-gray-100 rounded-full text-gray-600 transition-colors">
+            <UIcon name="i-heroicons-chevron-left" class="w-5 h-5" />
+          </button>
+          <button @click="nextMonth" class="p-2 hover:bg-gray-100 rounded-full text-gray-600 transition-colors">
+            <UIcon name="i-heroicons-chevron-right" class="w-5 h-5" />
           </button>
         </div>
       </div>
 
-      <!-- Header -->
-      <div class="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="space-y-2">
-          <h2 class="text-3xl md:text-4xl font-light text-[#09033b] tracking-tight">{{ currentMonth }}</h2>
-          <div class="w-12 h-px bg-[#09033b]"></div>
-        </div>
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <button 
+          @click="currentDate = new Date()"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors"
+        >
+          Today
+        </button>
         
-        <div class="flex items-center gap-3">
-          <button 
-            @click="currentDate = new Date()" 
-            class="px-4 py-2 text-sm font-medium text-[#09033b] bg-white border border-gray-200 hover:border-[#09033b] hover:bg-gray-50 rounded transition-all duration-300"
-          >
-            Today
+        <div class="flex md:hidden gap-1 ml-auto">
+           <button @click="prevMonth" class="p-2 hover:bg-gray-100 rounded-full text-gray-600 border border-gray-200">
+            <UIcon name="i-heroicons-chevron-left" class="w-5 h-5" />
           </button>
-          <div class="flex items-center gap-1">
-            <button 
-              @click="prevMonth" 
-              class="p-2 text-[#09033b] hover:bg-gray-50 rounded-full transition-colors duration-200"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path>
-              </svg>
-            </button>
-            <button 
-              @click="nextMonth" 
-              class="p-2 text-[#09033b] hover:bg-gray-50 rounded-full transition-colors duration-200"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hide Empty Days Toggle (Mobile Only) -->
-      <div class="sm:hidden mb-4 flex items-center justify-end">
-        <label class="inline-flex items-center cursor-pointer">
-          <span class="mr-3 text-sm font-medium text-[#09033b]">Hide empty days</span>
-          <div class="relative">
-            <input 
-              type="checkbox" 
-              class="sr-only peer" 
-              v-model="hideEmptyDays"
-            >
-            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#09033b]"></div>
-          </div>
-        </label>
-      </div>
-
-      <!-- Loading State -->
-      <div v-if="loading" class="text-center py-16">
-        <div class="inline-flex items-center space-x-3">
-          <div class="w-6 h-6 border-2 border-[#09033b] border-t-transparent rounded-full animate-spin"></div>
-          <span class="text-base font-light text-gray-600">Loading calendar...</span>
-        </div>
-      </div>
-
-      <!-- Calendar Content -->
-      <div v-else class="space-y-6">
-        <!-- Desktop Calendar -->
-        <div class="hidden sm:block">
-          <div class="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-sm">
-            <!-- Week Header -->
-            <div class="grid grid-cols-7 bg-[#09033b]">
-              <div 
-                v-for="day in weekDays" 
-                :key="day"
-                class="p-4 text-center text-sm font-medium text-white tracking-wide"
-              >
-                {{ day }}
-              </div>
-            </div>
-
-            <!-- Calendar Grid -->
-            <div class="grid grid-cols-7">
-              <div
-                v-for="(date, index) in currentMonthDays"
-                :key="index"
-                class="min-h-32 p-3 border-b border-r border-gray-100 last:border-r-0 transition-all duration-200 hover:bg-gray-50 group"
-                :class="{
-                  'bg-gray-50/50 text-gray-400': !date.isCurrentMonth,
-                  'bg-[#09033b]/5 ring-1 ring-[#09033b]/20': date.isToday && date.isCurrentMonth,
-                }"
-              >
-                <div class="flex items-center justify-between mb-2">
-                  <span 
-                    class="text-sm font-medium transition-colors duration-200" 
-                    :class="{ 
-                      'font-semibold text-[#09033b]': date.isToday,
-                      'text-[#09033b]': date.isCurrentMonth && !date.isToday,
-                      'text-gray-400': !date.isCurrentMonth
-                    }"
-                  >
-                    {{ date.day }}
-                  </span>
-                  <div 
-                    v-if="date.isToday" 
-                    class="w-2 h-2 bg-[#09033b] rounded-full"
-                  ></div>
-                </div>
-                
-                <!-- Events -->
-                <div class="space-y-1 max-h-20 overflow-y-auto calendar-scrollbar">
-                  <div
-                    v-for="event in getEventsForDate(date.date)"
-                    :key="event.id"
-                    class="text-xs p-2 bg-[#09033b]/10 hover:bg-[#09033b]/20 text-[#09033b] rounded cursor-pointer truncate transition-all duration-200 border-l-2 border-[#09033b]"
-                    @click="$emit('event-click', event)"
-                  >
-                    {{ event.title }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile Calendar - Vertical List -->
-        <div class="sm:hidden space-y-4">
-          <!-- Month Navigation -->
-          <div class="flex items-center justify-between bg-white p-3 rounded-lg shadow-xs border border-gray-100">
-            <button 
-              @click="prevMonth" 
-              class="p-2 text-[#09033b] hover:bg-gray-50 rounded-full transition-colors duration-200"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path>
-              </svg>
-            </button>
-            <h3 class="text-lg font-medium text-[#09033b]">{{ currentMonth }}</h3>
-            <button 
-              @click="nextMonth" 
-              class="p-2 text-[#09033b] hover:bg-gray-50 rounded-full transition-colors duration-200"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Days List -->
-          <div class="space-y-2">
-            <div
-              v-for="(date, index) in filteredCurrentMonthDays"
-              :key="index"
-              class="bg-white rounded-lg border border-gray-100 shadow-xs overflow-hidden"
-              :class="{
-                'ring-1 ring-[#09033b]/50': date.isToday
-              }"
-            >
-              <!-- Day Header -->
-              <div 
-                class="p-3 border-b border-gray-100 flex items-center justify-between"
-                :class="{
-                  'bg-[#09033b]/5': date.isToday,
-                  'text-gray-400': !date.isCurrentMonth
-                }"
-              >
-                <div class="flex items-center">
-                  <span 
-                    class="text-sm font-medium mr-2"
-                    :class="{
-                      'font-semibold text-[#09033b]': date.isToday,
-                      'text-[#09033b]': date.isCurrentMonth && !date.isToday,
-                    }"
-                  >
-                    {{ date.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) }}
-                  </span>
-                  <span 
-                    v-if="date.isToday" 
-                    class="text-xs px-2 py-1 bg-[#09033b] text-white rounded-full"
-                  >
-                    Today
-                  </span>
-                </div>
-                <span 
-                  v-if="getEventsForDate(date.date).length > 0"
-                  class="text-xs text-gray-500"
-                >
-                  {{ getEventsForDate(date.date).length }} event{{ getEventsForDate(date.date).length > 1 ? 's' : '' }}
-                </span>
-              </div>
-              
-              <!-- Events List -->
-              <div class="divide-y divide-gray-100">
-                <div
-                  v-for="event in getEventsForDate(date.date)"
-                  :key="event.id"
-                  class="p-3 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
-                  @click="$emit('event-click', event)"
-                >
-                  <div class="flex items-start">
-                    <div 
-                      class="w-10 h-10 flex-shrink-0 rounded-full bg-[#09033b]/10 flex items-center justify-center mr-3 mt-0.5"
-                      :class="{
-                        'bg-[#09033b]/20': isAllDayEvent(event)
-                      }"
-                    >
-                      <span 
-                        class="text-xs font-medium text-[#09033b]"
-                        :class="{
-                          'text-[10px]': isAllDayEvent(event)
-                        }"
-                      >
-                        {{ isAllDayEvent(event) ? 'All day' : formatEventTime(event.start_date) }}
-                      </span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <div class="font-medium text-[#09033b] truncate">{{ event.title }}</div>
-                      <div v-if="event.description" class="text-xs text-gray-500 mt-1 truncate-2-lines">
-                        {{ event.description }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- No Events -->
-                <div 
-                  v-if="getEventsForDate(date.date).length === 0 && !hideEmptyDays"
-                  class="p-4 text-center text-sm text-gray-400"
-                >
-                  No events
-                </div>
-              </div>
-            </div>
-          </div>
+          <button @click="nextMonth" class="p-2 hover:bg-gray-100 rounded-full text-gray-600 border border-gray-200">
+            <UIcon name="i-heroicons-chevron-right" class="w-5 h-5" />
+          </button>
         </div>
       </div>
     </div>
+
+    <div v-if="error" class="p-4 bg-red-50 border-b border-red-100 flex items-center justify-between">
+      <span class="text-sm text-red-600">{{ error }}</span>
+      <button @click="fetchEvents" class="text-xs font-bold text-red-700 hover:underline">Retry</button>
+    </div>
+
+    <div v-if="loading" class="h-96 flex flex-col items-center justify-center">
+      <div class="w-8 h-8 border-2 border-[#09033b] border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p class="text-gray-400 text-sm">Syncing schedule...</p>
+    </div>
+
+    <div v-else>
+      <div class="hidden md:block">
+        <div class="grid grid-cols-7 border-b border-gray-100 bg-gray-50/50">
+          <div v-for="day in weekDays" :key="day" class="py-3 text-center text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            {{ day }}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-7 auto-rows-fr bg-gray-100 gap-px border-b border-gray-100">
+          <div 
+            v-for="(date, index) in currentMonthDays" 
+            :key="index"
+            class="min-h-[140px] bg-white p-2 transition-colors hover:bg-gray-50/50 relative group"
+            :class="{ 'bg-gray-50/30': !date.isCurrentMonth }"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span 
+                class="text-sm font-medium w-7 h-7 flex items-center justify-center rounded-full"
+                :class="{
+                  'bg-[#09033b] text-white': date.isToday,
+                  'text-gray-900': date.isCurrentMonth && !date.isToday,
+                  'text-gray-300': !date.isCurrentMonth
+                }"
+              >
+                {{ date.day }}
+              </span>
+            </div>
+
+            <div class="space-y-1.5">
+              <button
+                v-for="event in getEventsForDate(date.date)"
+                :key="event.id"
+                @click="openEventModal(event)"
+                class="w-full text-left px-2 py-1.5 rounded-md text-xs font-medium truncate transition-all duration-200 border-l-[3px] shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                :class="isAllDayEvent(event) 
+                  ? 'bg-blue-50 text-blue-700 border-blue-500' 
+                  : 'bg-white border-[#FF7F50] text-gray-700 ring-1 ring-gray-100'"
+              >
+                {{ event.title }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="md:hidden divide-y divide-gray-100">
+        <template v-for="(date, index) in filteredCurrentMonthDays" :key="index">
+          <div class="p-4 bg-white">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-lg font-bold text-[#09033b]">{{ date.day }}</span>
+              <span class="text-sm text-gray-500 uppercase">{{ date.date.toLocaleDateString('en-US', { weekday: 'short' }) }}</span>
+              <span v-if="date.isToday" class="ml-auto text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Today</span>
+            </div>
+
+            <div class="space-y-3">
+              <div 
+                v-for="event in getEventsForDate(date.date)" 
+                :key="event.id"
+                @click="openEventModal(event)"
+                class="flex items-start p-3 bg-gray-50 rounded-xl active:bg-gray-100 transition-colors"
+              >
+                <div class="w-1 h-10 rounded-full bg-[#FF7F50] mr-3 flex-shrink-0"></div>
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-900">{{ event.title }}</h4>
+                  <p class="text-xs text-gray-500 mt-1 line-clamp-1">{{ event.description }}</p>
+                  <p class="text-xs font-medium text-gray-400 mt-2">
+                    {{ isAllDayEvent(event) ? 'All Day' : formatEventTime(event.start_date) }}
+                  </p>
+                </div>
+              </div>
+              <div v-if="getEventsForDate(date.date).length === 0" class="text-sm text-gray-400 italic">No events</div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <Teleport to="body">
+      <Transition 
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div v-if="showModal && selectedEvent" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" @click="closeModal"></div>
+          
+          <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="bg-[#09033b] p-6 text-white relative overflow-hidden">
+               <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+               <button @click="closeModal" class="absolute top-4 right-4 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-1 transition-colors">
+                 <UIcon name="i-heroicons-x-mark" class="w-5 h-5" />
+               </button>
+               
+               <div class="text-[#FF7F50] text-xs font-bold uppercase tracking-wider mb-2">Event Details</div>
+               <h3 class="text-xl font-bold leading-tight">{{ selectedEvent.title }}</h3>
+            </div>
+
+            <div class="p-6 overflow-y-auto">
+              <div class="flex items-start gap-3 mb-6">
+                <div class="bg-gray-100 p-2 rounded-lg text-gray-500">
+                  <UIcon name="i-heroicons-clock" class="w-5 h-5" />
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ new Date(selectedEvent.start_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) }}
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    {{ isAllDayEvent(selectedEvent) ? 'All Day Event' : formatEventTime(selectedEvent.start_date) }}
+                  </p>
+                </div>
+              </div>
+
+              <div v-if="selectedEvent.description" class="mb-8">
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Description</h4>
+                <p class="text-sm text-gray-600 leading-relaxed">{{ selectedEvent.description }}</p>
+              </div>
+
+              <div class="space-y-3">
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 text-center">Add to Calendar</h4>
+                
+                <a 
+                  :href="googleCalendarUrl" 
+                  target="_blank"
+                  class="flex items-center justify-center w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm group"
+                >
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" class="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" alt="Google">
+                  Google Calendar
+                </a>
+
+                <button 
+                  @click="downloadICS"
+                  class="flex items-center justify-center w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm group"
+                >
+                  <UIcon name="i-heroicons-calendar" class="w-5 h-5 mr-3 text-blue-600 group-hover:scale-110 transition-transform" />
+                  Apple / Outlook (.ICS)
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-const emit = defineEmits(['event-click'])
 const supabase = useSupabaseClient()
 
+// State
 const events = ref([])
 const loading = ref(true)
 const error = ref(null)
 const currentDate = ref(new Date())
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-const hideEmptyDays = ref(true)
+const showModal = ref(false)
+const selectedEvent = ref(null)
 
+// Computed
 const currentMonth = computed(() => {
-  return currentDate.value.toLocaleDateString('en-US', {
-    month: 'long',
-    year: 'numeric'
-  })
+  return currentDate.value.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 })
 
 const currentMonthDays = computed(() => {
@@ -289,19 +226,19 @@ const currentMonthDays = computed(() => {
   const startDay = firstDay.getDay()
   const endDate = lastDay.getDate()
   
-  // Previous month days
+  // Previous month padding
   for (let i = startDay - 1; i >= 0; i--) {
     const date = new Date(year, month, -i)
     days.push(createCalendarDay(date, false))
   }
 
-  // Current month days
+  // Current month
   for (let day = 1; day <= endDate; day++) {
     const date = new Date(year, month, day)
     days.push(createCalendarDay(date, true))
   }
 
-  // Next month days
+  // Next month padding
   const remainingDays = 42 - days.length
   for (let i = 1; i <= remainingDays; i++) {
     const date = new Date(year, month + 1, i)
@@ -312,12 +249,29 @@ const currentMonthDays = computed(() => {
 })
 
 const filteredCurrentMonthDays = computed(() => {
-  if (!hideEmptyDays.value) return currentMonthDays.value
-  return currentMonthDays.value.filter(date => {
-    return getEventsForDate(date.date).length > 0 || date.isToday
-  })
+  // Simple filter for mobile list view: show all days in month
+  return currentMonthDays.value.filter(d => d.isCurrentMonth)
 })
 
+const googleCalendarUrl = computed(() => {
+  if (!selectedEvent.value) return '#'
+  
+  const event = selectedEvent.value
+  const title = encodeURIComponent(event.title)
+  const details = encodeURIComponent(event.description || '')
+  
+  // Format dates for Google (YYYYMMDDTHHmmSSZ)
+  const start = new Date(event.start_date).toISOString().replace(/-|:|\.\d\d\d/g, "")
+  // Default end time to +1 hour if not specified (basic logic)
+  let end = start 
+  // You would ideally have an end_date field. If not, add 1 hour:
+  const endDateObj = new Date(new Date(event.start_date).getTime() + 60*60*1000)
+  end = endDateObj.toISOString().replace(/-|:|\.\d\d\d/g, "")
+
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${start}/${end}`
+})
+
+// Methods
 function createCalendarDay(date, isCurrentMonth) {
   const today = new Date()
   return {
@@ -336,12 +290,7 @@ function getEventsForDate(date) {
       eventDate.getMonth() === date.getMonth() &&
       eventDate.getDate() === date.getDate()
     )
-  }).sort((a, b) => {
-    // Sort by time, all-day events first
-    if (isAllDayEvent(a)) return -1
-    if (isAllDayEvent(b)) return 1
-    return new Date(a.start_date) - new Date(b.start_date)
-  })
+  }).sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
 }
 
 function isAllDayEvent(event) {
@@ -350,8 +299,7 @@ function isAllDayEvent(event) {
 }
 
 function formatEventTime(dateString) {
-  const date = new Date(dateString)
-  return date.toLocaleTimeString('en-US', { 
+  return new Date(dateString).toLocaleTimeString('en-US', { 
     hour: 'numeric', 
     minute: '2-digit',
     hour12: true 
@@ -359,26 +307,56 @@ function formatEventTime(dateString) {
 }
 
 function prevMonth() {
-  currentDate.value = new Date(
-    currentDate.value.getFullYear(),
-    currentDate.value.getMonth() - 1,
-    1
-  )
+  currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1)
 }
 
 function nextMonth() {
-  currentDate.value = new Date(
-    currentDate.value.getFullYear(),
-    currentDate.value.getMonth() + 1,
-    1
-  )
+  currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
+}
+
+function openEventModal(event) {
+  selectedEvent.value = event
+  showModal.value = true
+}
+
+function closeModal() {
+  showModal.value = false
+  selectedEvent.value = null
+}
+
+function downloadICS() {
+  if (!selectedEvent.value) return
+
+  const event = selectedEvent.value
+  // Basic ICS formatting
+  const formatDate = (date) => date.toISOString().replace(/-|:|\.\d\d\d/g, "")
+  const start = formatDate(new Date(event.start_date))
+  const end = formatDate(new Date(new Date(event.start_date).getTime() + 60*60*1000)) // +1 hour default
+
+  const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+URL:${window.location.href}
+DTSTART:${start}
+DTEND:${end}
+SUMMARY:${event.title}
+DESCRIPTION:${event.description || ''}
+END:VEVENT
+END:VCALENDAR`
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
+  const link = document.createElement('a')
+  link.href = window.URL.createObjectURL(blob)
+  link.setAttribute('download', `${event.title.replace(/\s+/g, '_')}.ics`)
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 async function fetchEvents() {
   try {
     loading.value = true
     error.value = null
-    
     const { data, error: sbError } = await supabase
       .from('events')
       .select('*')
@@ -387,8 +365,8 @@ async function fetchEvents() {
     if (sbError) throw sbError
     events.value = data || []
   } catch (err) {
-    error.value = 'Failed to load events. Please try again later.'
-    console.error('Calendar error:', err)
+    error.value = 'Failed to load events.'
+    console.error(err)
   } finally {
     loading.value = false
   }
@@ -396,68 +374,3 @@ async function fetchEvents() {
 
 onMounted(fetchEvents)
 </script>
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
-* {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-}
-
-/* Custom scrollbar */
-.calendar-scrollbar::-webkit-scrollbar {
-  width: 2px;
-}
-
-.calendar-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.calendar-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #09033b;
-  border-radius: 1px;
-}
-
-.calendar-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #0a0440;
-}
-
-/* Firefox scrollbar */
-.calendar-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #09033b transparent;
-}
-
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, transform, opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Custom selection color */
-::selection {
-  background-color: #09033b;
-  color: white;
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-
-/* Truncate 2 lines */
-.truncate-2-lines {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Small shadow */
-.shadow-xs {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-</style>

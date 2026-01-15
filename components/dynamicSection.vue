@@ -1,34 +1,82 @@
 <template>
-  <div class="bg-white font-inter ">
-    <!-- Important Dates Section -->
-    <div class="py-4 sm:py-6 md:py-8 w-full bg-gray-50 flex items-center justify-center px-3 sm:px-4 md:px-6">
-      <div class="w-full lg:w-11/12 xl:w-4/5 border-2 border-black flex flex-col sm:flex-row flex-wrap justify-between items-start sm:items-center p-3 md:p-4 gap-3 sm:gap-2 ">
-        <!-- Header Text -->
-        <div class="text-black w-full sm:w-auto">
-          <p class="font-semibold text-base md:text-lg">Upcoming Events at The Covenant Academy</p>
-          <p class="text-xs sm:text-sm">Join us for our exciting school activities this month</p>
-        </div>
+  <div class="w-full bg-gray-50 font-inter border-y border-gray-200 relative overflow-hidden">
+    
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none">
+      <svg width="100%" height="100%">
+        <pattern id="dot-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#09033b"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#dot-pattern)" />
+      </svg>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-12">
         
-        <!-- Events List - Mobile: Stack, Desktop: Row -->
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-          <div v-if="isLoading" class="text-black text-center w-full">
-            Loading upcoming events...
+        <div class="flex-shrink-0 max-w-xs">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF7F50] opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF7F50]"></span>
+            </span>
+            <h3 class="text-[#FF7F50] font-bold uppercase tracking-wider text-xs">Save the dates</h3>
           </div>
-          <div v-else-if="upcomingEvents.length === 0" class="text-black text-center w-full">
-            No upcoming events
-          </div>
-          <div v-else v-for="(event, index) in upcomingEvents" :key="index" 
-               class="text-black text-base flex items-center gap-2 sm:gap-3">
-            <div class="flex flex-col font-semibold border-gray-600 border-r-2 pr-2 min-w-12 text-center sm:text-left">
-              <p>{{ formatDay(event.start_date) }}</p>
-              <p>{{ formatMonth(event.start_date) }}</p>
+          <h2 class="text-[#09033b] text-2xl font-bold leading-tight">Upcoming Events</h2>
+          <p class="text-gray-500 text-sm mt-1">Don't miss out on school activities.</p>
+        </div>
+
+        <div class="flex-grow w-full lg:w-auto">
+          
+          <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div v-for="n in 2" :key="n" class="bg-white rounded-xl p-3 border border-gray-100 flex items-center gap-4 animate-pulse shadow-sm">
+              <div class="w-14 h-14 bg-gray-200 rounded-lg"></div>
+              <div class="flex-1 space-y-2">
+                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+              </div>
             </div>
-            <p class="text-lg md:text-xl lg:text-2xl">{{ event.title }}</p>
+          </div>
+
+          <div v-else-if="upcomingEvents.length === 0" class="bg-white rounded-xl p-4 text-center border border-gray-200 border-dashed">
+            <p class="text-gray-500 text-sm">No upcoming events scheduled at the moment.</p>
+          </div>
+
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div 
+              v-for="(event, index) in upcomingEvents" 
+              :key="index"
+              class="group flex items-center gap-4 bg-white hover:bg-white hover:shadow-md hover:shadow-gray-200/50 border border-gray-200 hover:border-[#09033b]/30 transition-all duration-300 rounded-xl p-3 pr-5 cursor-default"
+            >
+              <div class="flex-shrink-0 flex flex-col items-center justify-center w-14 h-14 bg-[#09033b] text-white rounded-lg shadow-sm group-hover:scale-105 transition-transform duration-300">
+                <span class="text-[10px] font-bold uppercase tracking-wider leading-none mt-1 opacity-80">{{ formatMonth(event.start_date) }}</span>
+                <span class="text-xl font-bold leading-none">{{ formatDayNumber(event.start_date) }}</span>
+              </div>
+
+              <div class="min-w-0">
+                <h4 class="text-gray-900 font-semibold text-lg truncate group-hover:text-[#09033b] transition-colors">
+                  {{ event.title }}
+                </h4>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <UIcon name="i-heroicons-clock" class="w-3.5 h-3.5 text-[#FF7F50]" />
+                  <p class="text-gray-500 text-xs font-medium">
+                    {{ formatDateFull(event.start_date) }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <!-- Calendar Button -->
-        <Button to="/events/calendar" icon="heroicons:calendar" styles="primary" content="Calendar"/>
+
+        <div class="flex-shrink-0 w-full lg:w-auto">
+          <NuxtLink 
+            to="/events/calendar"
+            class="group flex items-center justify-center gap-2 w-full lg:w-auto px-6 py-3.5 bg-[#09033b] text-white font-medium rounded-lg shadow-lg shadow-[#09033b]/10 hover:bg-[#0c0552] hover:shadow-xl transition-all active:scale-95"
+          >
+            <span>View Calendar</span>
+            <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </NuxtLink>
+        </div>
+
       </div>
     </div>
   </div>
@@ -37,37 +85,30 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-
 const supabase = useSupabaseClient()
 const upcomingEvents = ref([])
 const isLoading = ref(true)
 
-// Format date components for display
-const formatDay = (dateString) => {
-  const date = new Date(dateString)
-  const day = date.getDate()
-  
-  // Add suffix to day
-  const suffix = ['th', 'st', 'nd', 'rd']
-  const relevantDigits = (day > 3 && day < 21) || day % 10 > 3 ? 0 : day % 10
-  return day + (suffix[relevantDigits] || suffix[0])
+// Helpers
+const formatMonth = (dateString) => new Date(dateString).toLocaleString('default', { month: 'short' })
+const formatDayNumber = (dateString) => new Date(dateString).getDate()
+
+const formatDateFull = (dateString) => {
+  const options = { weekday: 'long', hour: 'numeric', minute: '2-digit', hour12: true }
+  const d = new Date(dateString)
+  // If midnight, assume all day / no specific time needed
+  if (d.getHours() === 0 && d.getMinutes() === 0) {
+    return d.toLocaleDateString('en-US', { weekday: 'long' })
+  }
+  return d.toLocaleString('en-US', options)
 }
 
-const formatMonth = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleString('default', { month: 'short' })
-}
-
-// Fetch upcoming events when component mounts
 onMounted(async () => {
   try {
     isLoading.value = true
-    
-    // Get current date at midnight
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     
-    // Fetch events that haven't happened yet
     const { data, error } = await supabase
       .from('events')
       .select('*')
@@ -76,15 +117,11 @@ onMounted(async () => {
       .limit(2)
     
     if (error) throw error
-    
-    // Store the upcoming events
     upcomingEvents.value = data || []
   } catch (err) {
-    console.error('Error fetching upcoming events:', err)
+    console.error('Error fetching events:', err)
   } finally {
     isLoading.value = false
   }
 })
 </script>
-
-<style scoped></style>

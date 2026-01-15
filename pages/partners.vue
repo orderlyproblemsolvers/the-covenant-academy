@@ -2,7 +2,7 @@
   <main class="bg-gray-50 min-h-screen font-inter text-[#09033b]">
     <div class="relative bg-[#09033b] text-white py-20 px-4">
       <div class="container mx-auto text-center relative z-10">
-        <h1 class="text-4xl md:text-5xl font-bold font-garamond mb-4">Partner With Us</h1>
+        <h1 class="text-4xl md:text-5xl font-bold font-inter mb-4">Partner With Us</h1>
         <p class="text-xl text-orange-200 max-w-2xl mx-auto">
           "Praying for Christ to be formed in all stakeholders: students, staff, parents, and partners."
         </p>
