@@ -190,7 +190,7 @@
                   v-model="form.title" 
                   required 
                   type="text"
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#09033b] focus:ring-[#09033b] sm:text-sm py-2.5 px-3 border"
+                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#09033b] focus:ring-[#09033b] sm:text-sm py-2.5 px-3 border text-white"
                   placeholder="e.g. Science Fair"
                 >
               </div>
@@ -200,7 +200,7 @@
                 <textarea 
                   v-model="form.description" 
                   rows="4" 
-                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#09033b] focus:ring-[#09033b] sm:text-sm py-2.5 px-3 border"
+                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-[#09033b] focus:ring-[#09033b] sm:text-sm py-2.5 px-3 border text-white"
                   placeholder="Details about the event..."
                 ></textarea>
               </div>
