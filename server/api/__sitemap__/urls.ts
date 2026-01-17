@@ -1,23 +1,31 @@
-// server/api/__sitemap__/urls.ts
 import { serverSupabaseClient } from '#supabase/server'
+
+// 1. Define the shape of your data
+interface SitemapPost {
+  slug: string
+  updated_at: string
+}
 
 export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient(event)
 
-  // 1. Fetch your dynamic data (e.g., blog posts)
-  const { data: posts } = await client
-    .from('posts')
-    .select('slug, updated_at') // Fetch only what you need
-  
+  // 2. Fetch data (Note: changed table name to 'blog_posts')
+  const { data } = await client
+    .from('blog_posts') 
+    .select('slug, updated_at')
+
+  // 3. Cast the data to your interface so TS knows 'slug' exists
+  const posts = data as unknown as SitemapPost[]
+
   if (!posts) return []
 
-  // 2. Map them to the sitemap format
+  // 4. Map to sitemap format
   return posts.map((p) => {
     return {
-      loc: `/blog/${p.slug}`,      // The URL path
-      lastmod: p.updated_at,       // (Optional) Date for SEO freshness
-      changefreq: 'weekly',        // (Optional) Hint to crawlers
-      priority: 0.8                // (Optional) Priority relative to other pages
+      loc: `/resources/${p.slug}`, // Ensure this matches your actual frontend route
+      lastmod: p.updated_at,
+      changefreq: 'weekly',
+      priority: 0.8
     }
   })
 })

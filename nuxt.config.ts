@@ -83,6 +83,11 @@ export default defineNuxtConfig({
     // This tells Nuxt to look for dynamic routes at this endpoint
     sources: [
       '/api/__sitemap__/urls'
-    ]
+    ],
+    exclude: [
+      '/admin/**',
+      '/admin',
+      '/login' 
+    ],
   }
 });
