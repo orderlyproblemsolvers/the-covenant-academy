@@ -22,8 +22,9 @@
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sticky top-6">
         <div class="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
           <span class="text-sm font-medium text-gray-500">Status</span>
-          <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
-            {{ props.initialData.id ? 'Editing' : 'Draft' }}
+          <span class="px-2.5 py-1 rounded-full text-xs font-bold" 
+            :class="props.initialData.id ? 'bg-indigo-100 text-[#09033b]' : 'bg-orange-100 text-[#FF7F50]'">
+            {{ props.initialData.id ? 'Editing' : 'Draft Mode' }}
           </span>
         </div>
         
@@ -34,7 +35,7 @@
             class="w-full flex items-center justify-center px-4 py-3 bg-[#09033b] hover:bg-[#0c0552] text-white font-medium rounded-lg shadow-md transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             <UIcon v-if="loading" name="i-heroicons-arrow-path" class="animate-spin mr-2 w-5 h-5" />
-            {{ loading ? 'Publishing...' : (props.initialData.id ? 'Update Resource' : 'Publish Resource') }}
+            {{ loading ? 'Saving...' : (props.initialData.id ? 'Update Resource' : 'Publish Resource') }}
           </button>
           
           <button
@@ -59,6 +60,19 @@
               required
               class="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-[#09033b] focus:border-[#09033b]"
               placeholder="e.g. Principal Smith"
+            />
+          </div>
+        </div>
+
+        <div v-if="props.initialData.slug" class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Slug (URL)</label>
+          <div class="relative">
+            <UIcon name="i-heroicons-link" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <input
+              :value="props.initialData.slug"
+              type="text"
+              readonly
+              class="w-full pl-9 pr-3 py-2 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-500 cursor-not-allowed"
             />
           </div>
         </div>
@@ -102,10 +116,9 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, watch } from 'vue'
 import Quill from 'quill'
-// Ensure Quill CSS is imported in your nuxt.config or global CSS, 
-// otherwise import it here: import 'quill/dist/quill.snow.css'
+// Ensure Quill CSS is imported globally or in nuxt.config
 
 const emit = defineEmits(['submit', 'cancel'])
 const props = defineProps({
@@ -118,14 +131,14 @@ const props = defineProps({
 const { uploadImage, createBlogPost, updateBlogPost } = useBlog()
 
 const form = reactive({
-  title: props.initialData.title || '',
-  author: props.initialData.author || '',
-  content: props.initialData.content || '',
-  image_url: props.initialData.image_url || ''
+  title: '',
+  author: '',
+  content: '',
+  image_url: ''
 })
 
 const loading = ref(false)
-const imagePreview = ref(props.initialData.image_url || '')
+const imagePreview = ref('')
 const selectedImage = ref(null)
 const editorContainer = ref(null)
 const imageInput = ref(null)
@@ -156,9 +169,9 @@ const submitPost = async () => {
     // Get content from Quill editor
     const content = quill.root.innerHTML
     
-    // Basic Validation
+    // Validation
     if (!form.title.trim()) {
-      alert('Please enter a title') // Replace with toast in real app
+      alert('Please enter a title') 
       loading.value = false
       return
     }
@@ -173,7 +186,6 @@ const submitPost = async () => {
 
     // Upload new image if selected
     if (selectedImage.value) {
-      // Assuming uploadImage returns the public URL string
       imageUrl = await uploadImage(selectedImage.value)
     }
 
@@ -182,17 +194,20 @@ const submitPost = async () => {
       author: form.author.trim(),
       content: content,
       image_url: imageUrl,
-      // Add published date automatically if new
+      // If creating, add timestamp. If updating, useBlog handles updated_at
       ...(props.initialData.id ? {} : { created_at: new Date() }) 
     }
 
     let result
     if (props.initialData.id) {
+      // Update existing post
       result = await updateBlogPost(props.initialData.id, postData)
     } else {
+      // Create new post (Slug is generated inside createBlogPost)
       result = await createBlogPost(postData)
     }
 
+    // Emit the full result (including the new slug) so the parent can redirect
     emit('submit', result)
     
   } catch (error) {
@@ -203,7 +218,26 @@ const submitPost = async () => {
   }
 }
 
-// --- Editor Init ---
+// --- Initialization & Watchers ---
+
+// Watch for changes in initialData (e.g., when fetching async data)
+watch(() => props.initialData, (newData) => {
+  if (newData) {
+    form.title = newData.title || ''
+    form.author = newData.author || ''
+    form.image_url = newData.image_url || ''
+    imagePreview.value = newData.image_url || ''
+    
+    // Update Quill content if it's initialized
+    if (quill && newData.content) {
+      // Only update if editor is empty or matches previous content to avoid overwriting user input
+      if (quill.root.innerHTML !== newData.content) {
+         quill.root.innerHTML = newData.content
+      }
+    }
+  }
+}, { deep: true, immediate: true })
+
 onMounted(() => {
   const toolbarOptions = [
     [{ 'header': [2, 3, false] }],
@@ -222,6 +256,7 @@ onMounted(() => {
     }
   })
 
+  // Set initial content if available immediately on mount
   if (props.initialData.content) {
     quill.root.innerHTML = props.initialData.content
   }
@@ -229,10 +264,7 @@ onMounted(() => {
 </script>
 
 <style>
-/* Global Override for Quill within this component scope 
-  Using un-scoped style block to target Quill classes generated at runtime 
-*/
-
+/* Scoped overrides for Quill to match the UI theme */
 .ql-toolbar.ql-snow {
   border: none !important;
   border-bottom: 1px solid #f3f4f6 !important;
@@ -241,7 +273,7 @@ onMounted(() => {
   border-radius: 12px 12px 0 0;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 30;
 }
 
 .ql-container.ql-snow {

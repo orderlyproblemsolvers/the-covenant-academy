@@ -109,12 +109,14 @@
 import { ref, onMounted } from 'vue'
 
 const route = useRoute()
-const { getBlogPost } = useBlog()
+// Changed: Import the slug-based fetcher
+const { getBlogPostBySlug } = useBlog()
 
-// 1. Data Fetching
+// 1. Data Fetching (SSR Compatible)
+// Changed: Key is now based on slug, and we pass route.params.slug
 const { data: post, pending: loading, error } = await useAsyncData(
-  `blog-post-${route.params.id}`, 
-  () => getBlogPost(route.params.id)
+  `blog-post-${route.params.slug}`, 
+  () => getBlogPostBySlug(route.params.slug)
 )
 
 // 2. SEO
@@ -123,6 +125,10 @@ if (post.value) {
     title: () => `${post.value.title} - The Covenant Academy`,
     description: () => post.value.content?.replace(/<[^>]*>/g, '').substring(0, 160) || '',
     author: () => post.value.author,
+    // Add Open Graph for better social sharing
+    ogTitle: () => post.value.title,
+    ogDescription: () => post.value.content?.replace(/<[^>]*>/g, '').substring(0, 160) || '',
+    ogImage: () => post.value.image_url,
   })
 }
 

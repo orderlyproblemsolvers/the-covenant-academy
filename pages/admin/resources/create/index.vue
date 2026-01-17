@@ -87,19 +87,20 @@ const router = useRouter()
 const showSuccess = ref(false)
 
 const handleSubmit = async (post) => {
-  // Show visual feedback
+  // Show visual feedback immediately
   showSuccess.value = true
   
   // Wait a moment for the toast to be seen before redirecting
   setTimeout(() => {
-    // Assuming the API response (post) contains the new ID
-    const targetId = post?.id || ''
-    router.push(targetId ? `/admin/resources/${targetId}` : '/admin/resources')
+    // UPDATED: We now check for the slug instead of the ID
+    const targetSlug = post?.slug || ''
+    
+    // Redirect to the slug-based route
+    router.push(targetSlug ? `/admin/resources/${targetSlug}` : '/admin/resources')
   }, 1500)
 }
 
 const handleCancel = () => {
-  // We use the browser confirm for safety, but styling the trigger differently
   if (confirm('Discard unsaved changes? This action cannot be undone.')) {
     router.push('/admin/resources')
   }
@@ -107,7 +108,7 @@ const handleCancel = () => {
 </script>
 
 <style scoped>
-/* Optional: If BlogEditor relies on inherited styles */
+/* Ensure prose content takes full width within the editor */
 :deep(.prose) {
   max-width: none;
 }

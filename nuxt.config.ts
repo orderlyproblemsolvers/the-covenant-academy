@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'netlify'
   },
-  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase', '@nuxtjs/seo', 'nuxt-jsonld'],
+  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase', '@nuxtjs/seo', 'nuxt-jsonld', '@pinia/nuxt'],
   image: {
     provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
     dir: 'public',
@@ -78,4 +78,11 @@ export default defineNuxtConfig({
       }
     }
   },
+
+  sitemap: {
+    // This tells Nuxt to look for dynamic routes at this endpoint
+    sources: [
+      '/api/__sitemap__/urls'
+    ]
+  }
 });

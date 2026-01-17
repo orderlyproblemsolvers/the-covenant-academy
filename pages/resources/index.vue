@@ -58,16 +58,11 @@
       <div v-else>
         
         <div v-if="posts.length === 0" class="text-center py-24 bg-white rounded-3xl border border-dashed border-gray-200">
-          <UIcon name="i-heroicons-document-text" class="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 class="text-lg font-medium text-gray-900">No posts published yet</h3>
-          <p class="text-gray-500 mt-2 mb-6">Check back later for updates.</p>
-          <NuxtLink 
-            to="/resources/create"
-            class="inline-flex items-center px-6 py-2.5 bg-[#09033b] text-white rounded-xl hover:bg-[#0c0552] transition-all hover:shadow-lg hover:shadow-[#09033b]/20"
-          >
-            <UIcon name="i-heroicons-pencil-square" class="w-5 h-5 mr-2" />
-            Create First Post
-          </NuxtLink>
+          <div class="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <UIcon name="i-heroicons-newspaper" class="w-10 h-10 text-gray-400" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">News & Resources Coming Soon</h3>
+          <p class="text-gray-500 max-w-sm mx-auto">We haven't published any articles yet. Please check back later for updates and educational insights.</p>
         </div>
 
         <div v-else id="posts-grid" class="scroll-mt-24">
@@ -97,7 +92,7 @@
 
               <div class="flex items-center px-2 gap-1">
                 <button 
-                  v-for="page in totalPages" 
+                  v-for="page in displayedPages" 
                   :key="page"
                   @click="goToPage(page)"
                   class="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-all"
@@ -130,10 +125,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-
-// Assume BlogCard component is globally registered or imported
-// import BlogCard from '~/components/BlogCard.vue'
+import { ref, computed, onMounted } from 'vue'
 
 const { getAllBlogPosts } = useBlog()
 
@@ -152,12 +144,10 @@ const error = ref(null)
 
 // Pagination State
 const currentPage = ref(1)
-const itemsPerPage = 6 // Adjust this number to control posts per page
+const itemsPerPage = 6 
 
 // Computed Pagination
-const totalPages = computed(() => {
-  return Math.ceil(posts.value.length / itemsPerPage)
-})
+const totalPages = computed(() => Math.ceil(posts.value.length / itemsPerPage))
 
 const paginatedPosts = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
@@ -165,14 +155,30 @@ const paginatedPosts = computed(() => {
   return posts.value.slice(start, end)
 })
 
+// Smart Pagination
+const displayedPages = computed(() => {
+  const total = totalPages.value
+  const current = currentPage.value
+  const maxVisible = 5
+  
+  if (total <= maxVisible) return total
+  
+  let start = Math.max(1, current - 2)
+  let end = Math.min(total, start + maxVisible - 1)
+  
+  if (end - start < maxVisible - 1) {
+    start = Math.max(1, end - maxVisible + 1)
+  }
+  
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
+})
+
 // Navigation Methods
 const scrollToTop = () => {
   if (process.client) {
     const grid = document.getElementById('posts-grid')
     if (grid) {
-      grid.scrollIntoView({ behavior: 'smooth' })
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 }
@@ -202,7 +208,6 @@ const fetchPosts = async () => {
     loading.value = true
     error.value = null
     posts.value = await getAllBlogPosts()
-    // Reset to page 1 on new fetch
     currentPage.value = 1
   } catch (err) {
     console.error('Error fetching posts:', err)
@@ -218,7 +223,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Grid Transition Animation */
 .fade-grid-enter-active,
 .fade-grid-leave-active {
   transition: all 0.4s ease;
@@ -229,7 +233,7 @@ onMounted(() => {
   transform: translateY(20px);
 }
 .fade-grid-leave-active {
-  position: absolute; /* Keeps grid stable during transition */
+  position: absolute;
   opacity: 0;
 }
 </style>

@@ -72,10 +72,10 @@
             :key="post.id" 
             class="group flex flex-col bg-white/5 hover:bg-white/[0.07] border border-white/10 hover:border-[#FF7F50]/30 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#FF7F50]/10"
           >
-            <NuxtLink :to="`/resources/${post.slug || post.id}`" class="relative aspect-[16/10] overflow-hidden">
+            <NuxtLink :to="`/resources/${post.slug}`" class="relative aspect-[16/10] overflow-hidden">
               <div class="absolute inset-0 bg-gray-800 animate-pulse" v-if="!imageLoaded[post.id]"></div>
               <NuxtImg
-                :src="post.image_url || '/images/placeholder-blog.jpg'"
+                :src="post.image_url"
                 :alt="post.title"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 @load="imageLoaded[post.id] = true"
@@ -90,23 +90,23 @@
 
             <div class="flex-1 p-6 flex flex-col">
               <div class="flex items-center gap-3 text-xs font-medium text-[#FF7F50] mb-3 uppercase tracking-wider">
-                <span>{{ post.category || 'Update' }}</span>
+                <span>Article</span>
                 <span class="w-1 h-1 rounded-full bg-white/20"></span>
-                <span class="text-gray-400">{{ post.read_time || '3 min read' }}</span>
+                <span class="text-gray-400">{{ getReadTime(post.content) }}</span>
               </div>
 
-              <NuxtLink :to="`/resources/${post.slug || post.id}`">
+              <NuxtLink :to="`/resources/${post.slug}`">
                 <h3 class="text-xl font-bold text-white mb-3 line-clamp-2 leading-tight group-hover:text-[#FF7F50] transition-colors">
                   {{ post.title }}
                 </h3>
               </NuxtLink>
 
               <p class="text-gray-400 text-sm leading-relaxed line-clamp-3 mb-6 flex-1">
-                {{ createExcerpt(post.content || post.summary) }}
+                {{ createExcerpt(post.content) }}
               </p>
 
               <NuxtLink 
-                :to="`/resources/${post.slug || post.id}`"
+                :to="`/resources/${post.slug}`"
                 class="inline-flex items-center text-sm font-medium text-white group-hover:text-[#FF7F50] transition-colors mt-auto"
               >
                 Read Article
@@ -150,17 +150,20 @@ const formatDate = (dateString) => {
   })
 }
 
+// Calculate Read Time dynamically
+const getReadTime = (content) => {
+  if (!content) return '1 min read'
+  const text = content.replace(/<[^>]+>/g, '') // strip HTML
+  const wordsPerMinute = 200
+  const noOfWords = text.split(/\s/g).length
+  const minutes = Math.ceil(noOfWords / wordsPerMinute)
+  return `${minutes} min read`
+}
+
 // Function to Strip HTML and Truncate
 const createExcerpt = (html, length = 120) => {
   if (!html) return ''
-  
-  // 1. Remove HTML tags using Regex
   const plainText = html.replace(/<[^>]+>/g, '')
-  
-  // 2. Decode HTML entities (basic) if needed, or leave as string
-  // (Browser treats plain strings safely in {{ }})
-  
-  // 3. Truncate
   if (plainText.length <= length) return plainText
   return plainText.substring(0, length).trim() + '...'
 }
