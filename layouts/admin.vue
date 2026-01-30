@@ -151,6 +151,11 @@ const links = [
     path: "/admin/jobs",
     icon: "i-heroicons-briefcase",
   },
+  {
+    name: "Pathway to Wisdom",
+    path: "/admin/pathway-to-wisdom",
+    icon: "i-heroicons-lightbulb",
+  },
 ]
 
 // Mobile menu functions
