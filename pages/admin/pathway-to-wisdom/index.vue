@@ -30,16 +30,6 @@
             Resource <span class="font-bold">Downloads</span>
           </h1>
         </div>
-
-        <div class="flex items-center gap-4">
-          <div class="text-right hidden sm:block">
-            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Logged in as</p>
-            <p class="text-sm font-bold text-[#09033b]">{{ user.email }}</p>
-          </div>
-          <button @click="signOut" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-          </button>
-        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -122,6 +112,9 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+definePageMeta({
+    layout: 'admin'
+})
 
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
@@ -148,12 +141,7 @@ const filteredDownloads = computed(() => {
 const signIn = async () => {
   // Simple redirect to Supabase hosted login or your custom login page
   // Adjust this based on your auth implementation
-  await supabase.auth.signInWithOAuth({ provider: 'google' }) 
-  // OR: router.push('/login')
-}
-
-const signOut = async () => {
-  await supabase.auth.signOut()
+  router.push('/admin/login')
 }
 
 const fetchDownloads = async () => {

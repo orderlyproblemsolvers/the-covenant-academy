@@ -154,7 +154,7 @@ const links = [
   {
     name: "Pathway to Wisdom",
     path: "/admin/pathway-to-wisdom",
-    icon: "i-heroicons-lightbulb",
+    icon: "i-heroicons-light-bulb",
   },
 ]
 
