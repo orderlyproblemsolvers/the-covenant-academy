@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
   // 4. Map to sitemap format
   return posts.map((p) => {
     return {
-      loc: `/resources/${p.slug}`, // Ensure this matches your actual frontend route
+      loc: `/resources/${p.slug}`,
       lastmod: p.updated_at,
       changefreq: 'weekly',
       priority: 0.8

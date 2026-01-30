@@ -254,6 +254,7 @@ const menus = [
       { label: 'What is ACE?', to: '/academics/ace' },
       { label: 'Our Curriculum', to: '/academics/curriculum' },
       { label: 'Extra-Curricular', to: '/academics/extra-curricular' },
+      { label: 'Pathway to Wisdom', to: '/academics/pathway-to-wisdom' },
     ]
   },
   {
