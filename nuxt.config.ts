@@ -59,10 +59,9 @@ export default defineNuxtConfig({
     ogImage: {
     enabled: true,
     debug: true,
-    host: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   },
   site: { 
- url:process.env.NUXT_PUBLIC_SITE_URL ||  'https://thecovenantacademy.org', 
+ url: 'https://thecovenantacademy.org', 
  name: 'The Covenant Academy', 
  }, 
     vite: {

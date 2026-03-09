@@ -4,9 +4,11 @@ export const useBlog = () => {
   // --- Utility: Slug Generation ---
   const generateSlug = (title) => {
     return title
+      .normalize("NFD") // Safely separates accented characters (e.g., 'é' becomes 'e' + accent)
+      .replace(/[\u0300-\u036f]/g, "") // Removes the isolated accents
       .toLowerCase()
       .trim()
-      .replace(/[^\w\s-]/g, '')     // Remove special characters
+      .replace(/[^a-z0-9\s-]/g, '') // Remove all non-alphanumeric characters except spaces and hyphens
       .replace(/[\s_-]+/g, '-')      // Replace spaces/underscores with hyphens
       .replace(/^-+|-+$/g, '')       // Trim hyphens from start/end
   }
@@ -14,7 +16,6 @@ export const useBlog = () => {
   const ensureUniqueSlug = async (title) => {
     const baseSlug = generateSlug(title)
     
-    // Check if slug exists
     const { data } = await supabase
       .from('blog_posts')
       .select('slug')
@@ -22,13 +23,17 @@ export const useBlog = () => {
 
     if (!data || data.length === 0) return baseSlug
 
-    // If exists, append a short random string (e.g., "my-post-4f2a")
     const suffix = Math.random().toString(36).substring(2, 6)
     return `${baseSlug}-${suffix}`
   }
 
   // --- Utility: Image Handling ---
   const convertToWebP = async (file) => {
+    // Guard: Prevent server-side execution of DOM APIs
+    if (import.meta.server) {
+      throw new Error('Image conversion can only be performed in the browser.')
+    }
+
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
@@ -57,6 +62,7 @@ export const useBlog = () => {
       const fileName = `${Date.now()}-${webpFile.name}`
       const { error } = await supabase.storage.from('blog-images').upload(fileName, webpFile)
       if (error) throw error
+      
       const { data: { publicUrl } } = supabase.storage.from('blog-images').getPublicUrl(fileName)
       return publicUrl
     } catch (error) {
@@ -69,7 +75,6 @@ export const useBlog = () => {
 
   const createBlogPost = async (postData) => {
     try {
-      // Automatically generate a unique slug on creation
       const slug = await ensureUniqueSlug(postData.title)
       
       const { data, error } = await supabase
@@ -87,10 +92,13 @@ export const useBlog = () => {
 
   const getAllBlogPosts = async () => {
     try {
+      // OPTIMIZATION: Explicitly excluded 'content' to save bandwidth.
+      // If you have a 'summary' or 'excerpt' column in your DB, add it to this list.
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('*')
+        .select('id, title, slug, image_url, author, created_at, updated_at') 
         .order('created_at', { ascending: false })
+      
       if (error) throw error
       return data
     } catch (error) {
@@ -101,11 +109,13 @@ export const useBlog = () => {
 
   const getBlogPostBySlug = async (slug) => {
     try {
+      // We NEED the full content here, so select('*') is perfectly fine
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
         .eq('slug', slug)
         .single()
+      
       if (error) throw error
       return data
     } catch (error) {
@@ -116,9 +126,6 @@ export const useBlog = () => {
 
   const updateBlogPost = async (id, postData) => {
     try {
-      // Note: Usually, we DON'T update the slug once published to avoid breaking SEO links.
-      // If you specifically want to update the slug when the title changes, 
-      // you would call ensureUniqueSlug here too.
       const { data, error } = await supabase
         .from('blog_posts')
         .update({ ...postData, updated_at: new Date().toISOString() })
@@ -133,22 +140,22 @@ export const useBlog = () => {
     }
   }
 
-  //get recent blog posts 3
-    const getRecentBlogPosts = async (limit = 3) => {
-      try {
-        const { data, error } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(limit)
-  
-        if (error) throw error
-        return data
-      } catch (error) {
-        console.error('Error fetching recent blog posts:', error)
-        throw error
-      }
+  const getRecentBlogPosts = async (limit = 3) => {
+    try {
+      // OPTIMIZATION: Exclude 'content' to keep the homepage/sidebar lightning fast
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('id, title, slug, image_url, author, created_at')
+        .order('created_at', { ascending: false })
+        .limit(limit)
+
+      if (error) throw error
+      return data
+    } catch (error) {
+      console.error('Error fetching recent blog posts:', error)
+      throw error
     }
+  }
 
   const deleteBlogPost = async (id) => {
     try {
@@ -165,7 +172,7 @@ export const useBlog = () => {
     uploadImage,
     createBlogPost,
     getAllBlogPosts,
-    getBlogPostBySlug, // Changed from getBlogPost (ID) to Slug
+    getBlogPostBySlug,
     updateBlogPost,
     deleteBlogPost,
     generateSlug,
