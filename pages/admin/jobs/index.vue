@@ -145,17 +145,17 @@
             <div class="grid md:grid-cols-2 gap-6">
               <div class="space-y-1">
                 <label class="block text-sm font-medium text-gray-700">Job Title</label>
-                <input v-model="newJob.title" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all" placeholder="e.g. Senior Mathematics Teacher" />
+                <input v-model="newJob.title" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all text-black" placeholder="e.g. Senior Mathematics Teacher" />
               </div>
               <div class="space-y-1">
                 <label class="block text-sm font-medium text-gray-700">Short Description</label>
-                <input v-model="newJob.description" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all" placeholder="Brief overview of the role..." />
+                <input v-model="newJob.description" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all text-black" placeholder="Brief overview of the role..." />
               </div>
             </div>
             
             <div class="space-y-1">
               <label class="block text-sm font-medium text-gray-700">Requirements (One per line)</label>
-              <textarea v-model="newJob.requirements" required rows="4" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all resize-none" placeholder="- Bachelor's Degree in Education&#10;- Minimum 3 years of teaching experience&#10;- Strong communication skills"></textarea>
+              <textarea v-model="newJob.requirements" required rows="4" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 outline-none focus:ring-2 focus:ring-[#09033b]/20 focus:border-[#09033b] focus:bg-white transition-all resize-none text-black" placeholder="- Bachelor's Degree in Education&#10;- Minimum 3 years of teaching experience&#10;- Strong communication skills"></textarea>
             </div>
             
             <div class="flex items-center justify-between pt-2">
