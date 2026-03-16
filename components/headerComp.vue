@@ -7,17 +7,13 @@
       ]"
       role="banner"
     >
-      <!-- Top mini header with contact info -->
       <div class="w-full h-10 bg-gradient-to-r from-[#09033b] via-[#120575] to-[#09033b] flex gap-4 justify-end items-center px-4 lg:px-12">
         <a 
           href="mailto:tcadinfo@gmail.com" 
           class="text-white text-xs flex items-center hover:text-orange-200 transition-colors"
           aria-label="Email The Covenant Academy"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-          </svg>
+          <UIcon name="i-heroicons-envelope-solid" class="h-4 w-4 mr-1" aria-hidden="true" />
           tcadinfo@gmail.com
         </a>
         <span class="text-white/50" aria-hidden="true">|</span>
@@ -26,9 +22,7 @@
           class="text-white text-xs flex items-center hover:text-orange-200 transition-colors"
           aria-label="Call The Covenant Academy"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-          </svg>
+          <UIcon name="i-heroicons-phone-solid" class="h-4 w-4 mr-1" aria-hidden="true" />
           +2348036233157
         </a>
       </div>
@@ -36,7 +30,6 @@
       <div class="container mx-auto px-2">
         <nav class="py-4" aria-label="Main navigation">
           <div class="flex items-center justify-between">
-            <!-- Logo -->
             <NuxtLink 
               to="/" 
               class="flex items-center lg:ml-12 group" 
@@ -50,7 +43,7 @@
                   class="w-12 h-12 object-contain transition-transform duration-300 group-hover:scale-110"
                   width="48"
                   height="48"
-                  loading="lazy"
+                  loading="eager" 
                 >
                 <div class="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
               </div>
@@ -62,10 +55,8 @@
               >The Covenant Academy</span>
             </NuxtLink>
             
-            <!-- Desktop Navigation -->
             <div class="hidden lg:flex items-center space-x-6 lg:mr-12">
               
-              <!-- Dropdown Menus -->
               <div v-for="menu in menus" :key="menu.title" class="relative group">
                 <span
                   :class="[
@@ -76,9 +67,7 @@
                   aria-haspopup="true"
                 >
                   {{ menu.title }}
-                  <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
+                  <UIcon name="i-heroicons-chevron-down" class="ml-1 w-4 h-4 transition-transform duration-300 group-hover:rotate-180" aria-hidden="true" />
                 </span>
                 
                 <div 
@@ -97,7 +86,6 @@
                 </div>
               </div>
               
-              <!-- Apply Button -->
               <NuxtLink
                 to="/admissions"
                 class="bg-gradient-to-r from-orange-500 to-orange-600 font-medium px-6 py-2 text-white transition-all duration-300 hover:shadow-md hover:shadow-orange-500/30 hover:-translate-y-0.5 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
@@ -107,7 +95,6 @@
               </NuxtLink>
             </div>
             
-            <!-- Mobile Menu Button -->
             <button 
               @click="toggleMobileMenu" 
               class="lg:hidden focus:outline-none p-2 rounded-md"
@@ -115,16 +102,11 @@
               :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
               :aria-expanded="isMobileMenuOpen ? 'true' : 'false'"
             >
-              <svg v-if="!isMobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <UIcon v-if="!isMobileMenuOpen" name="i-heroicons-bars-3" class="h-6 w-6" aria-hidden="true" />
+              <UIcon v-else name="i-heroicons-x-mark" class="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
           
-          <!-- Mobile Navigation -->
           <transition
             enter-active-class="transition-all duration-300 ease-in-out"
             leave-active-class="transition-all duration-300 ease-in-out"
@@ -153,7 +135,6 @@
                   aria-current="page"
                 >Home</NuxtLink>
                 
-                <!-- Mobile Menu Items -->
                 <div v-for="menu in menus" :key="menu.title">
                   <button 
                     :class="[
@@ -161,20 +142,15 @@
                       isScrolled ? 'text-white hover:bg-[#120575]' : 'text-[#060223] hover:bg-gray-100 hover:text-orange-500'
                     ]"
                     @click="() => toggleMobileSubmenu(menu.title)"
-                    :aria-expanded="mobileMenuState[menu.title] ? 'true' : 'false'"
+                    :aria-expanded="openMobileSubmenu === menu.title ? 'true' : 'false'"
                   >
                     <span>{{ menu.title }}</span>
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
+                    <UIcon 
+                      name="i-heroicons-chevron-down" 
                       class="w-5 h-5 transition-transform duration-300" 
-                      :class="mobileMenuState[menu.title] ? 'rotate-180' : ''"
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
+                      :class="openMobileSubmenu === menu.title ? 'rotate-180' : ''"
                       aria-hidden="true"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    />
                   </button>
                   
                   <transition
@@ -186,7 +162,7 @@
                     leave-to-class="max-h-0 opacity-0"
                   >
                     <div 
-                      v-show="mobileMenuState[menu.title]"
+                      v-show="openMobileSubmenu === menu.title"
                       class="pl-6 overflow-hidden"
                       :class="isScrolled ? 'bg-[#120575]/50' : 'bg-gray-50'"
                       role="menu"
@@ -221,23 +197,17 @@
       </div>
     </header>
     
-    <!-- Spacer div to prevent content from being hidden behind the fixed header -->
     <div class="h-[90px] md:h-[100px]"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const isMobileMenuOpen = ref(false);
 const isScrolled = ref(false);
-const mobileMenuState = reactive({
-  'About': false,
-  'Academics': false,
-  'Admission': false,
-  'Our Team': false,
-  'Events': false
-});
+const openMobileSubmenu = ref(null);
+let ticking = false;
 
 const menus = [
   {
@@ -284,50 +254,36 @@ const menus = [
 
 function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
-  // Close all submenus when toggling the main mobile menu
   if (!isMobileMenuOpen.value) {
-    Object.keys(mobileMenuState).forEach(key => {
-      mobileMenuState[key] = false;
-    });
+    openMobileSubmenu.value = null;
   }
 }
 
 function closeMobileMenu() {
   isMobileMenuOpen.value = false;
-  // Close all submenus
-  Object.keys(mobileMenuState).forEach(key => {
-    mobileMenuState[key] = false;
-  });
+  openMobileSubmenu.value = null;
 }
 
 function toggleMobileSubmenu(title) {
-  mobileMenuState[title] = !mobileMenuState[title];
+  openMobileSubmenu.value = openMobileSubmenu.value === title ? null : title;
 }
 
-// Handle scroll event to change header style
 const handleScroll = () => {
-  try {
-    isScrolled.value = window.scrollY > 50;
-  } catch (error) {
-    console.error("Error handling scroll event:", error);
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      isScrolled.value = window.scrollY > 50;
+      ticking = false;
+    });
+    ticking = true;
   }
 };
 
 onMounted(() => {
-  try {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Check initial scroll position
-    handleScroll();
-  } catch (error) {
-    console.error("Error in onMounted:", error);
-  }
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll(); 
 });
 
 onUnmounted(() => {
-  try {
-    window.removeEventListener('scroll', handleScroll);
-  } catch (error) {
-    console.error("Error in onUnmounted:", error);
-  }
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>

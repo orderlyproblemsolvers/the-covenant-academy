@@ -1,25 +1,25 @@
 <template>
   <div 
     class="relative w-full h-[85vh] lg:h-screen overflow-hidden font-inter bg-[#09033b]"
-    @mouseenter="pauseTimer"
-    @mouseleave="resumeTimer"
+    @mouseenter="isPaused = true"
+    @mouseleave="isPaused = false"
   >
     <div class="absolute inset-0 w-full h-full">
       <div 
         v-for="(item, index) in carouselItems" 
         :key="`bg-${index}`" 
-        class="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out will-change-opacity"
-        :class="currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+        class="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out"
+        :class="currentSlide === index ? 'opacity-100 z-10 will-change-opacity' : 'opacity-0 z-0'"
       >
         <div 
-          class="relative w-full h-full transform transition-transform duration-[8000ms] ease-out will-change-transform"
-          :class="currentSlide === index ? 'scale-110' : 'scale-100'"
+          class="relative w-full h-full transform transition-transform duration-[8000ms] ease-out"
+          :class="currentSlide === index ? 'scale-110 will-change-transform' : 'scale-100'"
         >
           <NuxtImg
             :src="item.image"
             :alt="item.title || 'Carousel Slide'"
             class="w-full h-full object-cover"
-            loading="eager"
+            :loading="index === 0 ? 'eager' : 'lazy'"
             format="webp"
             placeholder
           />
@@ -95,8 +95,9 @@
           >
             <div 
               v-if="currentSlide === index"
-              class="absolute top-0 left-0 h-full bg-[#FF7F50]"
-              :style="{ width: progress + '%' }"
+              class="absolute top-0 left-0 h-full bg-[#FF7F50] progress-bar-fill"
+              :class="{ 'progress-bar-paused': isPaused }"
+              @animationend="nextSlide"
             ></div>
           </button>
         </div>
@@ -123,7 +124,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 
 const carouselItems = [
   {
@@ -153,70 +154,43 @@ const carouselItems = [
     secondaryButtonText: "Job Openings",
     secondaryButtonLink: "/jobs"
   },
-  { image: "/images/welcome.jpg" }, // Image Only
-  { image: "/images/yellowheart.jpg" }, // Image Only
+  { image: "/images/welcome.jpg" },
+  { image: "/images/yellowheart.jpg" }
 ];
 
 const currentSlide = ref(0);
-const progress = ref(0);
-let timer = null;
-let progressTimer = null;
-const SLIDE_DURATION = 8000; // 8 seconds per slide
-const TICK_RATE = 50; 
-
-const startTimer = () => {
-  clearInterval(timer);
-  clearInterval(progressTimer);
-  progress.value = 0;
-  
-  progressTimer = setInterval(() => {
-    if (progress.value < 100) {
-      progress.value += (100 / (SLIDE_DURATION / TICK_RATE));
-    }
-  }, TICK_RATE);
-
-  timer = setInterval(() => {
-    nextSlide();
-  }, SLIDE_DURATION);
-};
-
-const pauseTimer = () => {
-  clearInterval(timer);
-  clearInterval(progressTimer);
-};
-
-const resumeTimer = () => {
-  // Only resume if not explicitly paused by user interaction logic
-  // For simplicity, we restart the timer for the current slide
-  startTimer(); 
-};
+const isPaused = ref(false);
 
 const nextSlide = () => {
   currentSlide.value = (currentSlide.value + 1) % carouselItems.length;
-  startTimer();
 };
 
 const prevSlide = () => {
   currentSlide.value = (currentSlide.value - 1 + carouselItems.length) % carouselItems.length;
-  startTimer();
 };
 
 const goToSlide = (index) => {
   currentSlide.value = index;
-  startTimer();
 };
-
-onMounted(() => {
-  startTimer();
-});
-
-onBeforeUnmount(() => {
-  pauseTimer();
-});
 </script>
 
 <style scoped>
-/* Animations */
+/* Progress Bar Animations */
+@keyframes progress-fill {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.progress-bar-fill {
+  /* 8s duration matches your original SLIDE_DURATION */
+  animation: progress-fill 8s linear forwards; 
+}
+
+.progress-bar-paused {
+  animation-play-state: paused;
+}
+
+/* Text Animations */
 .animate-fade-in-up {
   animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
