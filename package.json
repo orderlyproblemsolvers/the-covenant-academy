@@ -31,11 +31,11 @@
     "pocketbase": "^0.25.2",
     "quill": "^2.0.3",
     "vue": "latest",
-    "vue-router": "latest",
-    "xlsx": "^0.18.5"
+    "vue-router": "latest"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.2.1",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "xlsx": "^0.18.5"
   }
 }
