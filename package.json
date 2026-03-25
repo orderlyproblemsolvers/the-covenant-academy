@@ -31,7 +31,8 @@
     "pocketbase": "^0.25.2",
     "quill": "^2.0.3",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.2.1",
