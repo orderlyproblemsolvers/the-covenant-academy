@@ -343,7 +343,7 @@ const parseFlatFee = (name) => {
 const cleanName = (name) => {
   return String(name)
     // 1. Identify 20%, (20%), 20% discount, etc., and replace with the specific string
-    .replace(/\(?\d+%\s*(?:discount)?\)?/gi, '(20% discount off tuition only)')
+    .replace(/\(?\d+%\s*(?:discount)?\)?/gi, '(20% Discount off tuition only)')
     
     // 2. Identify and remove flat fee variations (including currency, commas, 'k', and slashes)
     .replace(/N?\d+(?:,\d+)*[kK]?\s*flat(?:\s*fee)?(?:\/flat\s*fee)?/gi, '')
@@ -582,7 +582,7 @@ const buildPDF = (student, flatFee = null) => {
   doc.text('PLEASE NOTE:', marginLeft, y)
   y += 6
   doc.setFont('helvetica', 'normal')
-  doc.text('PTC Levy is N10,000 for the whole year and not included above.', marginLeft, y)
+  doc.text('PTC Levy is N15,000 for the whole year and not included above.', marginLeft, y)
 
   // Payment details
   y += 12
