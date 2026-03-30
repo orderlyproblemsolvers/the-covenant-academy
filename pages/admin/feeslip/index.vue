@@ -283,6 +283,7 @@ const COLUMN_LABELS = {
   'CARDIGAN': 'Cardigan',
   'UNIFORM': 'Uniform',
   'DEV. LEVY': 'Dev. Levy'
+  'GRADUATION': 'Graduation'
 }
 
 // ─── File handling ────────────────────────────────────────────────────────────
