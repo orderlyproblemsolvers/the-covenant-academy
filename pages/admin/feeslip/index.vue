@@ -289,7 +289,7 @@
                     Dear Parents, we sincerely apologize for an error in the 2nd term diesel charges. We realized that we undercharged due to the absence of a proper bursar and with diesel prices increasing again, there is a difference that needs to be covered.
                   </p>
                   <p style="font-size:8.5px; color:#444; line-height:1.55; margin:0;">
-                    We kindly want to notify you that this difference will be included with the <strong>3rd term fees slip</strong>. Thank you for your understanding and support. Also look out for the Graduation Fee which will be communicated soon.
+                    We kindly want to notify you that this difference will be included with the <strong>3rd term fees slip</strong>. Thank you for your understanding and support. Also look out for the Graduation & End of Year Party contribution which will be communicated soon.
                   </p>
                 </div>
 
@@ -624,7 +624,7 @@ const buildPDF = (student, flatFee = null) => {
   doc.text('again, there is a difference that needs to be covered.', mL + 6, y + 20)
   doc.text('We kindly notify you that this difference will be included with the 3rd term fees slip.', mL + 6, y + 25)
   doc.text('Thank you for your understanding and support.', mL + 6, y + 30)
-  doc.text('Also look out for the Graduation Fee which will be communicated soon.', mL + 6, y + 35) // NEW LINE
+  doc.text('Also look out for the Graduation & End of Year Party contribution which will be communicated soon.', mL + 6, y + 35) // NEW LINE
   y += noteH + 6
 
   // ── Bottom 2-column section ──
