@@ -7,18 +7,16 @@ export default defineNuxtConfig({
     preset: 'netlify'
   },
   modules: ["@nuxt/ui", '@nuxtjs/supabase', '@nuxtjs/seo', 'nuxt-jsonld', '@nuxt/image'],
-  // image: {
-  //   provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
-  //   dir: 'public',
-  //   quality: 80,
-  //   format: ['webp', 'avif', 'jpg'],
-  //   domains: [
-  //     'xxjcpqsodvrenyayjbzb.supabase.co', 
-  //     'localhost:3000', 
-  //     'thecovenantacademy.org', 
-  //     'localhost:3001'
-  //   ],
-  // },
+  image: {
+    quality: 80,
+    format: ['png', 'webp', 'avif', 'jpg'],
+    domains: [
+      'xxjcpqsodvrenyayjbzb.supabase.co', 
+      'localhost:3000', 
+      'thecovenantacademy.org', 
+      'localhost:3001'
+    ],
+  },
   app: {
     head: {
       link: [
