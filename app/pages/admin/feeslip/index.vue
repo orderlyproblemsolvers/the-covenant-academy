@@ -467,7 +467,7 @@ const openPreview = (student) => { previewStudent.value = student }
 
 onMounted(async () => {
   try {
-    const res = await fetch('/assets/images/tcad-nbg.png')
+    const res = await fetch('/images/tcad-nbg.png')
     const blob = await res.blob()
     const reader = new FileReader()
     reader.onloadend = () => { logoBase64.value = reader.result }

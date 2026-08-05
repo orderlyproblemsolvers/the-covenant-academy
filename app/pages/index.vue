@@ -17,7 +17,7 @@
 
       <!-- Benefits Section -->
       <section v-animate aria-label="Why Choose The Covenant Academy">
-        <Benefits />
+        <HeroSection />
       </section>
 
       <!-- Recent Blog Posts -->
@@ -32,12 +32,12 @@
 
       <!-- Mid-section -->
       <section v-animate  aria-label="Additional Information">
-        <midlay />
+        <ConnectSection />
       </section>
 
       <!-- Gallery Section -->
       <section v-animate  aria-label="Campus Gallery">
-        <Gallery />
+        <GallerySection />
       </section>
 
       <section aria-label="Testimonials">
@@ -61,7 +61,7 @@
 
       <!-- School Life Section -->
       <section aria-label="School Life and Activities">
-        <SchoolLife />
+        <ActivitiesSection />
       </section>
     </main>
   </div>

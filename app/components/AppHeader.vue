@@ -37,14 +37,14 @@
               aria-label="The Covenant Academy home page"
             >
               <div class="relative">
-                <img 
-                  src="/assets/images/tcad-nbg.png" 
+                <NuxtImg 
+                  src="/images/tcad-nbg.png" 
                   alt="The Covenant Academy logo" 
                   class="w-12 h-12 object-contain transition-transform duration-300 group-hover:scale-110"
                   width="48"
                   height="48"
                   loading="eager" 
-                >
+                />
                 <div class="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
               </div>
               <span

@@ -205,7 +205,7 @@ useHead({
     { name: 'description', content: 'Support The Covenant Academy through prayer, volunteering, and financial partnership. Your giving helps provide scholarships for orphans and maintains our facilities.' },
     { property: 'og:title', content: 'Partner With The Covenant Academy' },
     { property: 'og:description', content: 'Help us provide excellent, God-centered education to children from all backgrounds.' },
-    { property: 'og:image', content: '/assets/images/tcad-nbg.png' } // Assuming this exists from your header
+    { property: 'og:image', content: '/images/tcad-nbg.png' } // Assuming this exists from your header
   ]
 })
 

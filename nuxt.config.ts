@@ -6,15 +6,19 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'netlify'
   },
-  modules: ["@nuxt/ui", "@nuxt/image", '@nuxtjs/supabase', '@nuxtjs/seo', 'nuxt-jsonld', '@pinia/nuxt'],
-  image: {
-    provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
-    dir: 'public',
-    // Global options
-    quality: 80,
-    format: ['webp', 'avif', 'jpg'],
-    domains: ['https://xxjcpqsodvrenyayjbzb.supabase.co', 'http://localhost:3000']
-  },
+  modules: ["@nuxt/ui", '@nuxtjs/supabase', '@nuxtjs/seo', 'nuxt-jsonld', '@nuxt/image'],
+  // image: {
+  //   provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
+  //   dir: 'public',
+  //   quality: 80,
+  //   format: ['webp', 'avif', 'jpg'],
+  //   domains: [
+  //     'xxjcpqsodvrenyayjbzb.supabase.co', 
+  //     'localhost:3000', 
+  //     'thecovenantacademy.org', 
+  //     'localhost:3001'
+  //   ],
+  // },
   app: {
     head: {
       link: [
@@ -67,7 +71,7 @@ export default defineNuxtConfig({
     vite: {
     optimizeDeps: {
       include: ['@supabase/supabase-js'],
-      esbuildOptions: {
+      rolldownOptions: {
         target: 'esnext'
       }
     },

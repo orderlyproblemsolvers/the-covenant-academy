@@ -41,7 +41,7 @@
           <div class="lg:w-2/5 relative">
             <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white group">
               <img 
-                src="/assets/images/dad.png" 
+                src="/images/dad.png" 
                 alt="Our Vision" 
                 class="w-full h-auto object-cover transition-transform duration-1000 group-hover:scale-110"
               />

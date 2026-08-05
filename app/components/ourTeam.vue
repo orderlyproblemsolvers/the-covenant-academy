@@ -56,7 +56,7 @@
         >
           <div class="relative aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:shadow-[#09033b]/10 group-hover:-translate-y-1">
             <NuxtImg
-              :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
+              :src="staff.pictureUrl || '/images/default-avatar.webp'"
               :alt="staff.name"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               @error="handleImageError"
@@ -220,7 +220,7 @@ const fetchStaffs = async () => {
 };
 
 const handleImageError = (event) => {
-  event.target.src = "/assets/images/default-avatar.webp";
+  event.target.src = "/images/default-avatar.webp";
 };
 
 const retryFetch = () => fetchStaffs();

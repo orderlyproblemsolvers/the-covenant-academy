@@ -53,7 +53,7 @@
             >
               <div class="relative aspect-[3/4] overflow-hidden rounded-[2rem] bg-gray-50 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-[#09033b]/10 group-hover:-translate-y-2">
                 <NuxtImg
-                  :src="staff.pictureUrl || '/assets/images/default-avatar.webp'"
+                  :src="staff.pictureUrl || '/images/default-avatar.webp'"
                   :alt="staff.name"
                   class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   loading="lazy"

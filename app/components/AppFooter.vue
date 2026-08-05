@@ -6,7 +6,7 @@
         <div class="flex flex-col space-y-4">
           <NuxtLink to="/" class="flex items-center w-max" aria-label="The Covenant Academy Home">
             <img 
-              src="/assets/images/tcad-nbg.png" 
+              src="/images/tcad-nbg.png" 
               class="h-12 mr-3" 
               alt="The Covenant Academy Logo"
               width="48"

@@ -124,7 +124,7 @@
         <div class="flex justify-center">
           <div class="bg-white p-4 rounded-full shadow-2xl">
             <NuxtImg 
-              src="/assets/images/tcad-nbg.png" 
+              src="/images/tcad-nbg.png" 
               alt="The Covenant Academy Crest" 
               class="w-20 h-20 object-contain"
             />

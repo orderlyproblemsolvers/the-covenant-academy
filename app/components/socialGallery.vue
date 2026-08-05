@@ -34,7 +34,7 @@
         <!-- Main large image -->
         <div class="col-span-2 row-span-2 rounded-md overflow-hidden h-64 md:h-auto">
           <img 
-            :src="'/assets/images/IMG-20250130-WA0006.jpg'" 
+            :src="'/images/IMG-20250130-WA0006.jpg'" 
             alt="Featured image" 
             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />
@@ -42,28 +42,28 @@
         <!-- Smaller gallery images -->
         <div class="rounded-md overflow-hidden h-32 md:h-40">
           <img 
-            :src="'/assets/images/Hitube_jQxd8UA605_2025_03_04_01_25_25.jpg'" 
+            :src="'/images/Hitube_jQxd8UA605_2025_03_04_01_25_25.jpg'" 
             alt="Gallery image 1" 
             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />
         </div>
         <div class="rounded-md overflow-hidden h-32 md:h-40">
           <img 
-            :src="'/assets/images/tower.jpg'" 
+            :src="'/images/tower.jpg'" 
             alt="Gallery image 2" 
             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />
         </div>
         <div class="rounded-md overflow-hidden h-32 md:h-40">
           <img 
-            :src="'/assets/images/IMG-20250130-WA0006.jpg'" 
+            :src="'/images/IMG-20250130-WA0006.jpg'" 
             alt="Gallery image 3" 
             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />
         </div>
         <div class="rounded-md overflow-hidden h-32 md:h-40">
           <img 
-            :src="'/assets/images/tower.jpg'" 
+            :src="'/images/tower.jpg'" 
             alt="Gallery image 4" 
             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           />

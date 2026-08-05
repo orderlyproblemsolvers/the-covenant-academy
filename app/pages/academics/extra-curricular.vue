@@ -64,7 +64,7 @@
             <div class="bg-white overflow-hidden transition-all duration-500 hover:shadow-xl">
               <div class="aspect-[4/3] overflow-hidden bg-gray-100">
                 <NuxtImg 
-                  :src="activity.image || '/public/assets/images/IMG-20250130-WA0006.jpg'" 
+                  :src="activity.image || '/public/images/IMG-20250130-WA0006.jpg'" 
                   :alt="activity.title"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
@@ -130,7 +130,7 @@
                 <div class="relative group">
                   <div class="aspect-[4/5] max-w-md mx-auto overflow-hidden">
                     <NuxtImg 
-                      :src="activity.image || '/public/assets/images/IMG-20250130-WA0006.jpg'" 
+                      :src="activity.image || '/public/images/IMG-20250130-WA0006.jpg'" 
                       :alt="activity.title"
                       class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                       loading="lazy"
@@ -160,7 +160,7 @@
         <!-- Modal Image -->
         <div class="h-64 lg:h-auto overflow-hidden bg-gray-100">
           <NuxtImg 
-            :src="selectedActivity.image || '/public/assets/images/IMG-20250130-WA0006.jpg'" 
+            :src="selectedActivity.image || '/public/images/IMG-20250130-WA0006.jpg'" 
             :alt="selectedActivity.title"
             class="w-full h-full object-cover"
             loading="eager"

@@ -78,7 +78,7 @@
 
           <div class="relative w-full max-w-md lg:max-w-full">
             <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl shadow-[#09033b]/10 transition-transform duration-700 ease-out">
-              <img 
+              <NuxtImg 
                 src="/images/history.jpg" 
                 alt="Students at The Covenant Academy" 
                 class="w-full h-auto object-cover aspect-[4/5]"

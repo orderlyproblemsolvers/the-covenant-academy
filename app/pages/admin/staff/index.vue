@@ -359,7 +359,7 @@ const convertToWebP = async (file) => {
 // Function to get a signed URL for a staff image.
 const getStaffImageUrl = (staff) => {
   if (staff?.signed_url) return staff.signed_url
-  return '/assets/images/default-avatar.webp'
+  return '/images/default-avatar.webp'
 }
 
 // For the edit modal, return the new file preview if available,
@@ -371,7 +371,7 @@ const getEditImagePreview = () => {
   if (editImagePreviewUrl.value) {
     return editImagePreviewUrl.value
   }
-  return '/assets/images/default-avatar.webp'
+  return '/images/default-avatar.webp'
 }
 
 // Fetch staff and generate signed URLs for each image

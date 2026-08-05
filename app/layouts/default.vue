@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-    <HeaderComp />
+    <AppHeader />
     <main class="relative bg-white min-h-[100dvh] pt-[70px] md:pt-0">
       <slot />
     </main>
-    <FooterComp />
+    <AppFooter />
   </div>
 </template>
 
