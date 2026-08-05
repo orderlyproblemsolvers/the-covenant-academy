@@ -1,11 +1,12 @@
 <template>
   <section class="relative w-full min-h-screen bg-gray-50 py-16 md:py-24 overflow-hidden font-inter">
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 right-0 h-[420px] w-[420px] rounded-full bg-blue-100/40 blur-[120px]"></div>
+      <div class="absolute bottom-0 left-0 h-[380px] w-[380px] rounded-full bg-orange-100/40 blur-[120px]"></div>
+      <svg width="100%" height="100%" viewBox="0 0 100 100" class="absolute inset-0 opacity-10" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="#09033b" stroke-width="1" fill="none"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)"/>
@@ -15,22 +16,16 @@
     <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
       <!-- Hero Section -->
       <div class="text-center mb-20 md:mb-28 space-y-8">
-        <!-- Minimal Badge -->
-        <div class="inline-flex items-center space-x-3 mb-8">
-          <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-          <span class="text-sm font-medium text-gray-600 tracking-wide uppercase">
-            Beyond the Classroom
-          </span>
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-[#09033b] text-xs font-bold uppercase tracking-[0.2em] shadow-sm mx-auto mb-8">
+          Beyond the Classroom
         </div>
 
-        <!-- Main Headline -->
         <div class="space-y-6">
-          <h1 class="text-4xl md:text-6xl lg:text-7xl font-light leading-[0.9] text-[#09033b] tracking-tight">
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-[0.9] text-[#09033b] tracking-tight">
             Discover
-            <span class="font-medium block">Our Activities</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7F50] to-[#ff9f7c] block">Our Activities</span>
           </h1>
-          
-          <!-- Subtle Accent Line -->
+
           <div class="w-16 h-px bg-[#09033b] mx-auto"></div>
         </div>
 
@@ -41,10 +36,10 @@
             :key="category" 
             @click="setActiveCategory(category)"
             :class="[
-              'px-6 py-3 text-sm font-medium tracking-wide transition-all duration-300 border',
+              'rounded-full px-5 py-3 text-sm font-medium tracking-wide transition-all duration-300 border',
               activeCategory === category 
                 ? 'bg-[#09033b] text-white border-[#09033b]' 
-                : 'bg-transparent border-gray-200 text-[#09033b] hover:border-[#09033b] hover:bg-gray-50'
+                : 'bg-white border-gray-200 text-[#09033b] hover:bg-gray-50 hover:text-[#09033b]'
             ]"
           >
             {{ category }}
@@ -61,7 +56,7 @@
         >
           <!-- Mobile Card Layout (Stacked) -->
           <div class="block md:hidden">
-            <div class="bg-white overflow-hidden transition-all duration-500 hover:shadow-xl">
+            <div class="rounded-[2rem] bg-white overflow-hidden shadow-sm transition-all duration-500 hover:shadow-xl">
               <div class="aspect-[4/3] overflow-hidden bg-gray-100">
                 <NuxtImg 
                   :src="activity.image || '/public/images/IMG-20250130-WA0006.jpg'" 
@@ -100,7 +95,7 @@
             <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center" :class="{ 'lg:grid-flow-col-reverse': index % 2 !== 0 }">
               
               <!-- Content Side -->
-              <div class="space-y-8" :class="{ 'lg:order-2': index % 2 !== 0 }">
+              <div class="space-y-8 rounded-[2rem] bg-white p-10 shadow-sm" :class="{ 'lg:order-2': index % 2 !== 0 }">
                 <!-- Category Badge -->
                 <div class="inline-flex items-center space-x-2">
                   <div class="w-1 h-1 bg-[#09033b] rounded-full"></div>
@@ -127,8 +122,8 @@
 
               <!-- Image Side -->
               <div class="relative" :class="{ 'lg:order-1': index % 2 !== 0 }">
-                <div class="relative group">
-                  <div class="aspect-[4/5] max-w-md mx-auto overflow-hidden">
+                <div class="relative overflow-hidden rounded-[2rem] shadow-xl group">
+                  <div class="aspect-[4/5] max-w-md mx-auto overflow-hidden rounded-[2rem]">
                     <NuxtImg 
                       :src="activity.image || '/public/images/IMG-20250130-WA0006.jpg'" 
                       :alt="activity.title"

@@ -1,11 +1,12 @@
 <template>
-  <div class="relative w-full min-h-screen bg-white overflow-x-hidden font-inter max-w-[100dvw]">
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5 overflow-hidden">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
+  <div class="relative w-full min-h-screen bg-gray-50 overflow-x-hidden font-inter max-w-[100dvw]">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 right-0 h-[420px] w-[420px] rounded-full bg-blue-100/40 blur-[120px]"></div>
+      <div class="absolute bottom-0 left-0 h-[380px] w-[380px] rounded-full bg-orange-100/40 blur-[120px]"></div>
+      <svg width="100%" height="100%" viewBox="0 0 100 100" class="absolute inset-0 opacity-10" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="#09033b" stroke-width="1" fill="none"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)"/>
@@ -15,78 +16,82 @@
     <div class="relative z-10 w-full">
       <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden">
         <!-- Hero Section -->
-        <div class="relative py-12 sm:py-24 md:py-28 w-full">
+        <div class="relative py-16 sm:py-24 md:py-28 w-full">
           <div class="text-center w-full">
-            <div class="inline-flex items-center space-x-3 mb-6 max-w-full">
-              <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-              <span class="text-sm font-medium text-gray-600 tracking-wide uppercase truncate">
-                Academic Excellence
-              </span>
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-[#09033b] text-xs font-bold uppercase tracking-[0.2em] shadow-sm mx-auto mb-6">
+              Academic Excellence
             </div>
-            
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-light leading-[0.9] text-[#09033b] tracking-tight mb-6 px-2 sm:px-0 break-words">
-              Our <span class="font-medium">Curriculum</span>
+
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#09033b] mb-6">
+              Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7F50] to-[#ff9f7c]">Curriculum</span>
             </h1>
-            
-            <div class="w-16 h-px bg-[#09033b] mx-auto mb-8"></div>
-            
-            <p class="text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed font-light max-w-3xl mx-auto mb-8 px-4 sm:px-0 break-words">
+
+            <div class="mx-auto mb-8 h-1 w-24 rounded-full bg-[#09033b]/10"></div>
+
+            <p class="text-lg sm:text-xl md:text-2xl text-gray-600 leading-relaxed font-light max-w-3xl mx-auto mb-8">
               Where world-class curriculum meets Christian values in an individualized learning environment.
             </p>
-            
           </div>
         </div>
 
         <!-- Stats Section -->
         <div class="py-10 sm:py-12 md:py-16 px-2 sm:px-0">
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            <div class="text-center p-2 sm:p-0">
-              <div class="text-2xl sm:text-3xl font-light text-[#09033b] mb-1 sm:mb-2">3</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+            <div class="rounded-[2rem] border border-gray-100 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-3xl sm:text-4xl font-semibold text-[#09033b] mb-2">3</div>
               <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Curriculum Standards</div>
             </div>
-            <div class="text-center p-2 sm:p-0">
-              <div class="text-2xl sm:text-3xl font-light text-[#09033b] mb-1 sm:mb-2">15+</div>
+            <div class="rounded-[2rem] border border-gray-100 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-3xl sm:text-4xl font-semibold text-[#09033b] mb-2">15+</div>
               <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Core Subjects</div>
             </div>
-            <div class="text-center p-2 sm:p-0">
-              <div class="text-2xl sm:text-3xl font-light text-[#09033b] mb-1 sm:mb-2">80%</div>
+            <div class="rounded-[2rem] border border-gray-100 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-3xl sm:text-4xl font-semibold text-[#09033b] mb-2">80%</div>
               <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Mastery Required</div>
             </div>
-            <div class="text-center p-2 sm:p-0">
-              <div class="text-2xl sm:text-3xl font-light text-[#09033b] mb-1 sm:mb-2">1:1</div>
+            <div class="rounded-[2rem] border border-gray-100 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-3xl sm:text-4xl font-semibold text-[#09033b] mb-2">1:1</div>
               <div class="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Learning Approach</div>
             </div>
           </div>
         </div>
 
         <!-- Sticky Navigation -->
-        <div class="sticky top-0 bg-white shadow-sm z-40 py-3 sm:py-4 border-b border-gray-100 px-2 sm:px-0">
-          <div class="flex overflow-x-auto space-x-4 sm:space-x-6 md:space-x-8 text-xs sm:text-sm font-medium hide-scrollbar sm:overflow-x-scroll">
+        <div class="sticky top-0 bg-gray-50 shadow-sm z-40 py-3 sm:py-4 border-b border-gray-100 px-2 sm:px-0">
+          <div class="flex flex-wrap justify-center gap-2 bg-white rounded-full p-1 shadow-sm border border-gray-200 w-full max-w-4xl mx-auto">
             <button 
               @click="activeSection = 'overview'"
-              :class="activeSection === 'overview' ? 'text-[#09033b] border-b-2 border-[#09033b]' : 'text-gray-600 hover:text-[#09033b]'"
-              class="whitespace-nowrap pb-2 px-1 sm:px-0 transition-colors"
+              :class="[
+                'rounded-full px-5 py-3 text-sm font-medium transition duration-300',
+                activeSection === 'overview' ? 'bg-[#09033b] text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-[#09033b]'
+              ]"
             >
               Program Overview
             </button>
             <button 
               @click="activeSection = 'early'"
-              :class="activeSection === 'early' ? 'text-[#09033b] border-b-2 border-[#09033b]' : 'text-gray-600 hover:text-[#09033b]'"
-              class="whitespace-nowrap pb-2 px-1 sm:px-0 transition-colors"
+              :class="[
+                'rounded-full px-5 py-3 text-sm font-medium transition duration-300',
+                activeSection === 'early' ? 'bg-[#09033b] text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-[#09033b]'
+              ]"
             >
               Early Years
             </button>
             <button 
               @click="activeSection = 'primary'"
-              :class="activeSection === 'primary' ? 'text-[#09033b] border-b-2 border-[#09033b]' : 'text-gray-600 hover:text-[#09033b]'"
-              class="whitespace-nowrap pb-2 px-1 sm:px-0 transition-colors"
+              :class="[
+                'rounded-full px-5 py-3 text-sm font-medium transition duration-300',
+                activeSection === 'primary' ? 'bg-[#09033b] text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-[#09033b]'
+              ]"
             >
               Primary School
             </button>
             <button 
               @click="activeSection = 'approach'"
-              :class="activeSection === 'approach' ? 'text-[#09033b] border-b-2 border-[#09033b]' : 'text-gray-600 hover:text-[#09033b]'"
-              class="whitespace-nowrap pb-2 px-1 sm:px-0 transition-colors"
+              :class="[
+                'rounded-full px-5 py-3 text-sm font-medium transition duration-300',
+                activeSection === 'approach' ? 'bg-[#09033b] text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-[#09033b]'
+              ]"
             >
               Our Approach
             </button>
@@ -118,12 +123,12 @@
               </h3>
               
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                <div class="relative p-4 sm:p-6 md:p-8 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300 group">
-                  <div class="flex items-center mb-4 sm:mb-6">
-                    <div class="w-8 sm:w-10 h-8 sm:h-10 bg-[#09033b] flex items-center justify-center text-white mr-3 sm:mr-4">
-                      <span class="text-lg sm:text-xl">🇺🇸</span>
+                <div class="rounded-[2rem] border border-gray-100 bg-white p-6 sm:p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl group">
+                  <div class="flex items-center mb-4 sm:mb-6 gap-3">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#09033b] text-white text-lg sm:text-xl">
+                      🇺🇸
                     </div>
-                    <h4 class="text-lg sm:text-xl font-medium text-[#09033b]">A.C.E. Curriculum</h4>
+                    <h4 class="text-lg sm:text-xl font-semibold text-[#09033b]">A.C.E. Curriculum</h4>
                   </div>
                   <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-gray-600 text-sm sm:text-base">
                     <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Self-paced individualized learning</li>
@@ -134,12 +139,12 @@
                   <div class="absolute -top-2 -right-2 w-8 sm:w-10 h-8 sm:h-10 border border-gray-200 opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
                 
-                <div class="relative p-4 sm:p-6 md:p-8 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300 group">
-                  <div class="flex items-center mb-4 sm:mb-6">
-                    <div class="w-8 sm:w-10 h-8 sm:h-10 bg-[#09033b] flex items-center justify-center text-white mr-3 sm:mr-4">
-                      <span class="text-lg sm:text-xl">🇳🇬</span>
+                <div class="rounded-[2rem] border border-gray-100 bg-white p-6 sm:p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl group">
+                  <div class="flex items-center mb-4 sm:mb-6 gap-3">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#09033b] text-white text-lg sm:text-xl">
+                      🇳🇬
                     </div>
-                    <h4 class="text-lg sm:text-xl font-medium text-[#09033b]">Nigerian Curriculum</h4>
+                    <h4 class="text-lg sm:text-xl font-semibold text-[#09033b]">Nigerian Curriculum</h4>
                   </div>
                   <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-gray-600 text-sm sm:text-base">
                     <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> National standards alignment</li>
@@ -172,15 +177,15 @@
               <div 
                 v-for="(stage, index) in earlyChildhoodStages" 
                 :key="index"
-                class="relative p-4 sm:p-6 md:p-8 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300 group"
+                class="relative rounded-[2rem] bg-white p-4 sm:p-6 md:p-8 border border-gray-100 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl group"
               >
                 <div class="flex items-center mb-4 sm:mb-6">
-                  <div class="w-8 sm:w-10 h-8 sm:h-10 bg-[#09033b] flex items-center justify-center text-white mr-3 sm:mr-4">
+                  <div class="w-10 sm:w-12 h-10 sm:h-12 bg-[#09033b] flex items-center justify-center text-white mr-3 sm:mr-4 rounded-2xl">
                     <span class="text-lg sm:text-xl">{{ stage.icon }}</span>
                   </div>
-                  <h3 class="text-lg sm:text-xl font-medium text-[#09033b]">{{ stage.title }}</h3>
+                  <h3 class="text-lg sm:text-xl font-semibold text-[#09033b]">{{ stage.title }}</h3>
                 </div>
-                <ul class="space-y-2 sm:space-y-3 md:space-y-4">
+                <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-gray-600">
                   <li v-for="(item, i) in stage.features" :key="i" class="flex items-start text-gray-600 text-sm sm:text-base">
                     <span class="text-[#09033b] mr-2 mt-1">•</span>
                     <span>{{ item }}</span>
@@ -214,22 +219,22 @@
                 <div 
                   v-for="(subject, index) in primarySubjects" 
                   :key="index" 
-                  class="p-4 sm:p-6 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300"
+                  class="rounded-[2rem] bg-white p-4 sm:p-6 border border-gray-100 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div class="flex items-center mb-3 sm:mb-4">
-                    <div class="w-7 sm:w-8 h-7 sm:h-8 bg-[#09033b] flex items-center justify-center text-white mr-2 sm:mr-3">
+                    <div class="w-10 sm:w-11 h-10 sm:h-11 bg-[#09033b] flex items-center justify-center text-white mr-3 sm:mr-4 rounded-2xl">
                       <span class="text-sm sm:text-lg">{{ subject.icon }}</span>
                     </div>
-                    <span class="font-medium text-[#09033b] text-sm sm:text-base">{{ subject.name }}</span>
+                    <span class="font-semibold text-[#09033b] text-sm sm:text-base">{{ subject.name }}</span>
                   </div>
-                  <p class="text-xs sm:text-sm text-gray-600">{{ subject.description }}</p>
+                  <p class="text-sm text-gray-600">{{ subject.description }}</p>
                 </div>
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-              <div class="p-4 sm:p-6 md:p-8 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300">
-                <h3 class="text-lg sm:text-xl font-medium text-[#09033b] mb-4 sm:mb-6">Lower Primary (Grades 1-3)</h3>
+              <div class="rounded-[2rem] bg-white p-4 sm:p-6 md:p-8 border border-gray-100 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <h3 class="text-lg sm:text-xl font-semibold text-[#09033b] mb-4 sm:mb-6">Lower Primary (Grades 1-3)</h3>
                 <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-gray-600 text-sm sm:text-base">
                   <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Foundational literacy and numeracy</li>
                   <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Introduction to scientific concepts</li>
@@ -238,8 +243,8 @@
                 </ul>
               </div>
               
-              <div class="p-4 sm:p-6 md:p-8 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300">
-                <h3 class="text-lg sm:text-xl font-medium text-[#09033b] mb-4 sm:mb-6">Upper Primary (Grades 4-6)</h3>
+              <div class="rounded-[2rem] bg-white p-4 sm:p-6 md:p-8 border border-gray-100 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <h3 class="text-lg sm:text-xl font-semibold text-[#09033b] mb-4 sm:mb-6">Upper Primary (Grades 4-6)</h3>
                 <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-gray-600 text-sm sm:text-base">
                   <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> Advanced language and math</li>
                   <li class="flex items-start"><span class="text-[#09033b] mr-2 mt-1">•</span> In-depth science studies</li>
@@ -269,7 +274,7 @@
               <div 
                 v-for="(approach, index) in approaches" 
                 :key="index" 
-                class="relative p-4 sm:p-6 md:p-8 border border-gray-100 hover:border-[#09033b]/20 transition-colors duration-300 group"
+                class="rounded-[2rem] border border-gray-100 bg-white p-6 sm:p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl group"
               >
                 <div class="flex items-center mb-4 sm:mb-6">
                   <div class="w-8 sm:w-10 h-8 sm:h-10 bg-[#09033b] flex items-center justify-center text-white mr-3 sm:mr-4">
@@ -304,12 +309,12 @@
             </p>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-2 sm:px-0">
-              <div v-for="(outcome, index) in outcomes" :key="index" class="text-center p-2 sm:p-0">
-                <div class="w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+              <div v-for="(outcome, index) in outcomes" :key="index" class="rounded-[2rem] bg-[#0b0a31] bg-opacity-90 p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
                   <span class="text-xl sm:text-2xl">{{ outcome.icon }}</span>
                 </div>
-                <h4 class="font-medium mb-1 sm:mb-2 text-sm sm:text-base">{{ outcome.title }}</h4>
-                <p class="text-xs sm:text-sm text-white/80">{{ outcome.description }}</p>
+                <h4 class="font-semibold mb-2 text-base sm:text-lg text-white">{{ outcome.title }}</h4>
+                <p class="text-sm text-white/80">{{ outcome.description }}</p>
               </div>
             </div>
           </div>
@@ -324,11 +329,11 @@
             
             <div class="w-16 h-px bg-[#09033b] mb-6 sm:mb-8"></div>
             
-            <div class="space-y-3 sm:space-y-4">
+            <div class="space-y-4 sm:space-y-5">
               <div 
                 v-for="(faq, index) in faqs" 
                 :key="index" 
-                class="border-b border-gray-100 pb-3 sm:pb-4"
+                class="rounded-[2rem] border border-gray-100 bg-white p-5 sm:p-6 shadow-sm"
               >
                 <button 
                   @click="toggleFaq(index)"

@@ -1,31 +1,69 @@
 <template>
   <main class="bg-gray-50 min-h-screen font-inter text-[#09033b]">
-    <div class="relative bg-[#09033b] text-white py-20 px-4">
-      <div class="container mx-auto text-center relative z-10">
-        <h1 class="text-4xl md:text-5xl font-bold font-inter mb-4">Partner With Us</h1>
-        <p class="text-xl text-orange-200 max-w-2xl mx-auto">
-          "Praying for Christ to be formed in all stakeholders: students, staff, parents, and partners."
-        </p>
+    <section class="relative overflow-hidden bg-gray-50">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 right-0 w-[480px] h-[480px] rounded-full bg-blue-100/40 blur-[120px]" />
+        <div class="absolute bottom-0 left-0 w-[420px] h-[420px] rounded-full bg-orange-100/40 blur-[120px]" />
+        <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <pattern id="partners-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="#09033b" stroke-width="1" fill="none" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#partners-grid)" />
+        </svg>
       </div>
-      <div aria-hidden="true" class="absolute inset-0 opacity-10 mix-blend-overlay"></div>
-    </div>
+
+      <div class="relative container mx-auto px-4 py-24 lg:py-28">
+        <div class="max-w-3xl mx-auto text-center space-y-8">
+          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-[#09033b] text-xs font-bold uppercase tracking-[0.2em] shadow-sm">
+            Become a partner
+          </span>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#09033b]">
+            Partner With The Covenant Academy
+          </h1>
+
+          <p class="text-lg sm:text-xl text-gray-600 leading-relaxed">
+            Join us in praying, volunteering, and supporting the next generation of Christian leaders through accessible, world-class education.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <NuxtLink
+              to="/partners"
+              class="inline-flex items-center justify-center rounded-xl bg-[#09033b] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#09033b]/10 transition duration-200 hover:bg-[#0f0b57]"
+            >
+              Learn How to Partner
+            </NuxtLink>
+            <NuxtLink
+              to="/admissions/visit"
+              class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-8 py-4 text-base font-medium text-[#09033b] transition duration-200 hover:bg-gray-50"
+            >
+              Schedule a Visit
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="container mx-auto px-4 py-12 space-y-20">
 
-      <section aria-labelledby="prayer-heading" class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <span class="inline-block px-3 py-1 bg-orange-100 text-orange-800 text-sm font-bold uppercase tracking-wider mb-4">Pillar 1</span>
-          <h2 id="prayer-heading" class="text-3xl font-bold mb-6">Prayer Partners</h2>
-          <p class="text-gray-700 text-lg leading-relaxed mb-6">
+      <section aria-labelledby="prayer-heading" class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 text-orange-800 text-sm font-bold uppercase tracking-wider shadow-sm">
+            Pillar 1
+          </span>
+          <h2 id="prayer-heading" class="text-3xl md:text-4xl font-bold text-[#09033b]">Prayer Partners</h2>
+          <p class="text-gray-700 text-lg leading-relaxed">
             Our primary partnership is spiritual. We need partners who are committed to praying for Christ to be formed in all stakeholders: our students, staff, parents, and partners.
           </p>
-          <blockquote class="bg-white p-6 shadow-sm border-l-4 border-orange-500">
-            <p class="italic text-gray-600 mb-2">"Since joining the prayer chain, I have seen remarkable changes in the atmosphere of the school..."</p>
+          <blockquote class="rounded-3xl bg-white p-8 shadow-sm border border-gray-100">
+            <p class="italic text-gray-600 mb-3">"Since joining the prayer chain, I have seen remarkable changes in the atmosphere of the school..."</p>
             <footer class="text-sm text-gray-500 font-bold">— Prayer Partner</footer>
           </blockquote>
         </div>
         
-        <div class="relative w-full pb-[56.25%] bg-black shadow-lg rounded-lg overflow-hidden">
+        <div class="relative w-full pb-[56.25%] bg-black shadow-2xl rounded-[2rem] overflow-hidden border border-white/10">
           <iframe 
             class="absolute top-0 left-0 w-full h-full"
             src="https://www.youtube.com/embed/JcMHW4uEd-A?rel=0" 
@@ -49,8 +87,8 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="bg-white p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
-            <div class="w-12 h-12 bg-orange-100 flex items-center justify-center text-orange-600 mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+          <div class="group relative overflow-hidden rounded-3xl bg-white border border-gray-100 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="w-12 h-12 bg-orange-100 flex items-center justify-center text-orange-600 mb-4 rounded-2xl group-hover:bg-orange-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             </div>
             <h3 class="font-bold text-lg mb-2">Admin & Teaching</h3>
@@ -84,16 +122,16 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
           
-          <article class="border p-6 hover:border-orange-500 transition-colors group bg-gray-50/50">
+          <article class="rounded-3xl border border-gray-100 bg-gray-50 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl group">
             <h3 class="font-bold text-xl mb-2 group-hover:text-orange-600">Operational Subsidy</h3>
             <p class="text-sm text-gray-500 mb-4">Subsidizing school facilities</p>
             <p class="text-gray-700 mb-4">It costs approximately <span class="font-bold">N5.6 million/year</span> to run the school facilities efficiently.</p>
-            <div class="w-full bg-gray-200 h-2 mb-4" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Progress towards operational costs">
-              <div class="bg-orange-500 h-2" style="width: 45%"></div>
+            <div class="w-full bg-gray-200 h-2 mb-4 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Progress towards operational costs">
+              <div class="bg-orange-500 h-2 rounded-full" style="width: 45%"></div>
             </div>
           </article>
 
-          <article class="border p-6 bg-[#09033b] text-white relative">
+          <article class="relative overflow-hidden rounded-3xl border border-gray-100 bg-[#09033b] p-6 text-white shadow-2xl">
             <div class="absolute top-0 right-0 bg-orange-500 text-xs font-bold px-3 py-1 uppercase tracking-widest">Urgent</div>
             <h3 class="font-bold text-xl mb-2">The Building Project</h3>
             <p class="text-sm text-gray-300 mb-4">Rent & Future Home</p>
@@ -142,18 +180,25 @@
         </div>
       </section>
 
-      <section aria-labelledby="inkind-heading" class="bg-orange-50 p-8 border border-orange-100">
-        <h2 id="inkind-heading" class="text-2xl font-bold mb-6">Give In Kind</h2>
-        <p class="mb-6 text-gray-700">You can also support us with tangible items needed for daily operations:</p>
-        <ul class="flex flex-wrap gap-3">
-          <li v-for="item in inKindItems" :key="item" class="px-4 py-2 bg-white text-sm font-medium text-gray-700 border border-orange-100 shadow-sm">
+      <section aria-labelledby="inkind-heading" class="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
+        <div class="max-w-3xl">
+          <h2 id="inkind-heading" class="text-2xl font-bold mb-4">Give In Kind</h2>
+          <p class="mb-6 text-gray-600">You can also support us with tangible items needed for daily operations:</p>
+        </div>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <li v-for="item in inKindItems" :key="item" class="rounded-3xl border border-gray-100 bg-gray-50 px-4 py-4 text-sm font-medium text-gray-700 shadow-sm">
             {{ item }}
           </li>
         </ul>
       </section>
 
-      <section id="giving-details" aria-labelledby="giving-heading" class="bg-[#09033b] text-white p-8 md:p-12 text-center mt-12 scroll-mt-24">
-        <h2 id="giving-heading" class="text-3xl font-bold mb-8 text-orange-400 font-garamond">Giving Details</h2>
+      <section id="giving-details" aria-labelledby="giving-heading" class="bg-[#09033b] text-white p-8 md:p-12 rounded-3xl mt-12 scroll-mt-24">
+        <div class="max-w-4xl mx-auto text-center mb-10">
+          <h2 id="giving-heading" class="text-3xl font-bold mb-4 text-orange-400 font-garamond">Giving Details</h2>
+          <p class="text-sm text-blue-100/90 max-w-2xl mx-auto leading-relaxed">
+            Your gifts help maintain our facilities, provide scholarships, and support children from many backgrounds as they learn and grow in Christ.
+          </p>
+        </div>
         
         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-10">
           

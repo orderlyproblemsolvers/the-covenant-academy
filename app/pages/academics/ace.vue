@@ -1,11 +1,12 @@
 <template>
-  <div class="relative w-full min-h-screen bg-white dark:bg-white overflow-hidden font-inter">
-    <!-- Subtle Background Pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <svg width="60" height="60" viewBox="0 0 60 60" class="absolute top-0 left-0 w-full h-full">
+  <div class="relative w-full min-h-screen bg-gray-50 overflow-hidden font-inter">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 right-0 h-[420px] w-[420px] rounded-full bg-blue-100/40 blur-[120px]"></div>
+      <div class="absolute bottom-0 left-0 h-[380px] w-[380px] rounded-full bg-orange-100/40 blur-[120px]"></div>
+      <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="30" cy="30" r="1" fill="#09033b"/>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M0 40L40 0H20L0 20M40 40V20L20 40" stroke="#09033b" stroke-width="1" fill="none"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)"/>
@@ -16,31 +17,29 @@
     <section class="relative z-10 py-24 md:py-32">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <!-- Main Title -->
-        <div class="text-center mb-20 md:mb-24">
-          <div class="inline-flex items-center space-x-3 mb-6 md:mb-8">
-            <div class="w-2 h-2 bg-[#09033b] rounded-full"></div>
-            <span class="text-sm font-medium text-gray-700 tracking-wide uppercase">
+<div class="text-center mb-20 md:mb-24 relative">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-[#09033b] text-xs font-bold uppercase tracking-[0.2em] shadow-sm mx-auto mb-6 md:mb-8">
+              <span class="w-2 h-2 rounded-full bg-[#09033b]"></span>
               Educational Excellence
-            </span>
-          </div>
-          
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight md:leading-[0.85] text-[#09033b] tracking-tight mb-6 md:mb-8">
-            What is
-            <span class="font-medium block mt-2">A.C.E?</span>
-          </h1>
-          
-          <div class="w-24 h-0.5 bg-[#09033b]/80 mx-auto mb-8 md:mb-12"></div>
-          
-          <p class="text-lg md:text-xl lg:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
-            Accelerated Christian Education — A comprehensive learning system combining biblical principles with academic excellence
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#09033b] mb-6 md:mb-8">
+              What is
+              <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF7F50] to-[#ff9f7c]">A.C.E.?</span>
+            </h1>
+
+            <div class="mx-auto mb-8 h-1 w-24 rounded-full bg-[#09033b]/10"></div>
+
+            <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-light">
+              Accelerated Christian Education — a comprehensive learning system combining biblical principles with academic excellence.
           </p>
         </div>
 
         <!-- Minimal Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-24 md:mb-32">
           <div v-for="(stat, index) in stats" :key="index" 
-               class="text-center group p-4 rounded-lg hover:bg-gray-50 transition-colors duration-300">
-            <div class="text-3xl md:text-4xl lg:text-5xl font-light text-[#09033b] mb-2 md:mb-3 transition-all duration-500">
+               class="group rounded-[2rem] border border-gray-100 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#09033b] mb-3 md:mb-4 transition-all duration-500">
               {{ animatedStats[index] }}{{ stat.suffix }}
             </div>
             <div class="text-xs md:text-sm text-gray-600 uppercase tracking-wide font-medium">{{ stat.label }}</div>
@@ -50,19 +49,19 @@
     </section>
 
     <!-- Navigation Tabs -->
-    <section class="relative z-10 border-t border-gray-200 bg-white">
+    <section class="relative z-10 border-t border-gray-200 bg-gray-50">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex justify-center py-6 md:py-8">
-          <div class="flex flex-wrap justify-center gap-1 bg-gray-100 p-1 w-full max-w-4xl">
+          <div class="flex flex-wrap justify-center gap-2 rounded-full bg-white p-1 shadow-sm border border-gray-200 w-full max-w-4xl">
             <button v-for="(tab, index) in tabs" :key="index"
                     @click="activeTab = index"
                     :class="[
-                      'px-4 py-2 md:px-6 md:py-3 text-sm font-medium transition-all duration-300  flex items-center',
+                      'rounded-full px-5 py-3 text-sm font-medium transition duration-300 flex items-center gap-2',
                       activeTab === index 
-                        ? 'bg-blue-600 text-white shadow-sm' 
-                        : 'text-gray-700 hover:text-[#09033b] hover:bg-blue-50'
+                        ? 'bg-[#09033b] text-white shadow-lg' 
+                        : 'text-gray-700 hover:bg-gray-100 hover:text-[#09033b]'
                     ]">
-              <span class="mr-2 text-xs md:text-sm">{{ tab.icon }}</span>
+              <span class="text-xs md:text-sm">{{ tab.icon }}</span>
               {{ tab.title }}
             </button>
           </div>
@@ -156,12 +155,12 @@
             </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               <div v-for="benefit in paceBenefits" :key="benefit.title"
-                   class="p-5 md:p-6 border border-gray-200  group hover:border-[#09033b] hover:shadow-md transition-all duration-300">
-                <div class="flex items-center mb-3 md:mb-4">
-                  <div class="w-8 h-8 bg-gray-400 dark:bg-gray-400 group-hover:bg-[#09033b] group-hover:text-white flex items-center justify-center text-xs font-medium mr-3 transition-all duration-300 rounded-sm">
+                   class="rounded-[2rem] border border-gray-100 bg-white p-6 group hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-3 md:mb-4 gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#09033b] text-sm font-semibold text-white transition duration-300 group-hover:bg-[#1a0d6b]">
                     {{ benefit.icon }}
                   </div>
-                  <h4 class="font-medium text-[#09033b] text-base md:text-lg">{{ benefit.title }}</h4>
+                  <h4 class="font-semibold text-[#09033b] text-base md:text-lg">{{ benefit.title }}</h4>
                 </div>
                 <p class="text-gray-600 text-sm md:text-base leading-relaxed">{{ benefit.description }}</p>
               </div>

@@ -171,7 +171,13 @@ const carouselItems = [
     secondaryButtonText: "Job Openings",
     secondaryButtonLink: "/jobs"
   },
-  { image: "/images/welcome.jpg" },
+  {
+    image: "/images/welcome.jpg",
+    title: "Partner With Us",
+    description: "Discover ways to support The Covenant Academy through prayer, volunteering, and financial partnership.",
+    primaryButtonText: "Learn More",
+    primaryButtonLink: "/partners"
+  },
   { image: "/images/yellowheart.jpg" }
 ];
 
