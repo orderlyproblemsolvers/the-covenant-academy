@@ -34,13 +34,7 @@
             :src="item.image"
             :alt="item.title || 'Carousel Slide'"
             class="w-full h-full object-cover"
-            :loading="index === 0 ? 'eager' : 'lazy'"
             :preload="index === 0"
-            :placeholder="index !== 0"
-            format="webp"
-            sizes="100vw"
-            :width="item.width || 1920"
-            :height="item.height || 1080"
           />
           <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

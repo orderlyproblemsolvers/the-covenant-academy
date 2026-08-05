@@ -22,12 +22,12 @@
 
       <!-- Recent Blog Posts -->
       <section v-animate  aria-label="Recent Blog Posts">
-        <RecentBlogPosts />
+        <BlogSection />
       </section>
 
       <!-- Values Section -->
       <section v-animate  aria-label="Our Core Values">
-        <Values />
+        <ValuesSection />
       </section>
 
       <!-- Mid-section -->
@@ -41,22 +41,22 @@
       </section>
 
       <section aria-label="Testimonials">
-        <Testimonials />
+        <TestimonialSection />
       </section>
 
       <!-- Dynamic Section -->
       <section v-animate  aria-label="Featured Content">
-        <DynamicSection />
+        <EventsSection />
       </section>
 
       <!-- Articles Section -->
       <section v-animate  aria-label="Deepwater News">
-        <ArticlesComp />
+        <NewsSection />
       </section>
 
       <!-- Our Team Section -->
       <section v-animate  aria-label="Meet Our Team">
-        <OurTeam />
+        <TeamSection />
       </section>
 
       <!-- School Life Section -->
