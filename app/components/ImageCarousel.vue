@@ -53,11 +53,6 @@
             class="w-full max-w-2xl pointer-events-auto"
           >
             <div class="p-8 md:p-10 rounded-3xl bg-white/20 md:backdrop-blur-md lg:backdrop-blur-md border border-white/10 shadow-2xl">
-              
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF7F50]/20 border border-[#FF7F50]/30 text-[#FF7F50] text-xs font-bold tracking-wide uppercase mb-6 animate-fade-in-up motion-reduce:animate-none motion-reduce:opacity-100">
-                <span class="w-2 h-2 rounded-full bg-[#FF7F50] animate-pulse motion-reduce:animate-none"></span>
-                The Covenant Academy
-              </div>
 
               <h1 class="text-4xl md:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight animate-fade-in-up delay-100 drop-shadow-lg motion-reduce:animate-none motion-reduce:opacity-100">
                 {{ carouselItems[currentSlide].title }}
