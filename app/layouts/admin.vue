@@ -152,6 +152,11 @@ const links = [
     icon: "i-heroicons-briefcase",
   },
   {
+    name: "Enrollment Applications",
+    path: "/admin/enrollments",
+    icon: "i-heroicons-academic-cap",
+  },
+  {
     name: "Pathway to Wisdom",
     path: "/admin/pathway-to-wisdom",
     icon: "i-heroicons-light-bulb",

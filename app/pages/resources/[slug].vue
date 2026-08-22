@@ -59,19 +59,19 @@
                 <span class="text-xs font-medium text-gray-400 mr-1 hidden sm:block">Share:</span>
                 
                 <button @click="share('whatsapp')" class="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 transition-colors" aria-label="Share on WhatsApp" title="Share on WhatsApp">
-                  <UIcon name="i-simple-icons-whatsapp" class="w-4 h-4" aria-hidden="true" />
+                  <UIcon name="i-lucide-whatsapp" class="w-4 h-4" aria-hidden="true" />
                 </button>
                 
                 <button @click="share('twitter')" class="p-2 rounded-full bg-gray-50 text-gray-700 hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 transition-colors" aria-label="Share on X (Twitter)" title="Share on X">
-                  <UIcon name="i-simple-icons-x" class="w-4 h-4" aria-hidden="true" />
+                  <UIcon name="i-lucide-x" class="w-4 h-4" aria-hidden="true" />
                 </button>
 
                 <button @click="share('facebook')" class="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors" aria-label="Share on Facebook" title="Share on Facebook">
-                  <UIcon name="i-simple-icons-facebook" class="w-4 h-4" aria-hidden="true" />
+                  <UIcon name="i-lucide-facebook" class="w-4 h-4" aria-hidden="true" />
                 </button>
 
                 <button @click="share('linkedin')" class="p-2 rounded-full bg-sky-50 text-sky-700 hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-700 transition-colors" aria-label="Share on LinkedIn" title="Share on LinkedIn">
-                  <UIcon name="i-simple-icons-linkedin" class="w-4 h-4" aria-hidden="true" />
+                  <UIcon name="i-lucide-linkedin" class="w-4 h-4" aria-hidden="true" />
                 </button>
                 
                 <button @click="copyLink" class="p-2 rounded-full bg-gray-50 text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors relative" aria-label="Copy Link" title="Copy Link">

@@ -45,7 +45,7 @@
               class="flex items-center justify-between w-full px-4 py-3 rounded-lg bg-white/5 hover:bg-[#1877F2] hover:text-white text-gray-300 transition-all duration-300 group/btn"
             >
               <span class="flex items-center gap-3 text-sm font-medium">
-                <UIcon name="i-simple-icons-facebook" class="w-4 h-4" />
+                <UIcon name="i-lucide-facebook" class="w-4 h-4" />
                 Facebook
               </span>
               <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all" />
@@ -57,7 +57,7 @@
               class="flex items-center justify-between w-full px-4 py-3 rounded-lg bg-white/5 hover:bg-gradient-to-r hover:from-[#833ab4] hover:via-[#fd1d1d] hover:to-[#fcb045] hover:text-white text-gray-300 transition-all duration-300 group/btn"
             >
               <span class="flex items-center gap-3 text-sm font-medium">
-                <UIcon name="i-simple-icons-instagram" class="w-4 h-4" />
+                <UIcon name="i-lucide-instagram" class="w-4 h-4" />
                 Instagram
               </span>
               <UIcon name="i-heroicons-arrow-right" class="w-4 h-4 opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all" />
