@@ -145,7 +145,7 @@ const SLIDE_DURATION_MS = 8000;
 
 const carouselItems = [
   {
-    image: "/images/tcad-web/DSC_1809.jpg",
+    image: "/images/tcad-web/anthempose.jpg",
     title: "Welcome to The Covenant Academy",
     description: "Where faith meets academic excellence. Join our community of learners dedicated to spiritual and intellectual growth.",
     primaryButtonText: "Enroll a Child",
@@ -163,7 +163,7 @@ const carouselItems = [
     secondaryButtonLink: "/team"
   },
   {
-    image: "/images/tcad-web/DSC_1327.jpg",
+    image: "/images/tcad-web/collage.jpg",
     title: "Join Our Community",
     description: "Experience the difference of education centered on Christian values with a commitment to academic excellence.",
     primaryButtonText: "Student Application",
