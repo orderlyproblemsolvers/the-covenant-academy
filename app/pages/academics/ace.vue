@@ -78,7 +78,7 @@
           <!-- Video Section -->
           <div class="max-w-5xl mx-auto">
             <div class="text-center mb-8 md:mb-12">
-              <h3 class="text-2xl md:text-3xl font-light text-[#09033b] mb-3 md:mb-4">Discover A.C.E. Education</h3>
+              <h2 class="text-2xl md:text-3xl font-light text-[#09033b] mb-3 md:mb-4">Discover A.C.E. Education</h2>
               <div class="w-16 h-0.5 bg-[#09033b]/80 mx-auto"></div>
             </div>
             <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-300 shadow-sm">
@@ -558,7 +558,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Discover A.C.E. (Accelerated Christian Education) - a comprehensive learning system combining biblical principles with academic excellence. Learn about PACEs, individualized learning, and character development.'
+      content: 'Discover A.C.E., a Christian learning system combining biblical principles, academic excellence, PACEs, and character development.'
     },
     {
       name: 'keywords',

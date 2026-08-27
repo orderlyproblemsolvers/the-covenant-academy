@@ -74,7 +74,7 @@ import { useHead, useSeoMeta } from "#app";
 // Set up dynamic SEO meta tags
 useHead({
   title:
-    "The Covenant Academy - Excellence in Christian Education | Private School",
+    "The Covenant Academy | Christian School in Abuja",
   htmlAttrs: {
     lang: "en",
   },
@@ -82,7 +82,7 @@ useHead({
     {
       name: "description",
       content:
-        "The Covenant Academy provides exceptional Christian education with small class sizes, experienced teachers, and a nurturing environment. Enroll your child in our top-rated private school today.",
+        "The Covenant Academy provides Christ-centred education, strong academics, and a nurturing school community in Abuja. Enrol today.",
     },
     {
       name: "keywords",
@@ -102,10 +102,10 @@ useHead({
         "Discover exceptional Christian education at The Covenant Academy. Small classes, experienced teachers, and a nurturing faith-based environment.",
     },
     { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://www.thecovenantacademy.org" },
+    { property: "og:url", content: "https://thecovenantacademy.org/" },
     {
       property: "og:image",
-      content: "https://www.thecovenantacademy.org/images/assembly.jpg",
+      content: "https://thecovenantacademy.org/images/assembly.jpg",
     },
     { name: "twitter:card", content: "summary_large_image" },
     {
@@ -119,10 +119,10 @@ useHead({
     },
     {
       name: "twitter:image",
-      content: "https://www.thecovenantacademy.org/images/assembly.jpg",
+      content: "https://thecovenantacademy.org/images/assembly.jpg",
     },
   ],
-  link: [{ rel: "canonical", href: "https://www.thecovenantacademy.org" }],
+  link: [{ rel: "canonical", href: "https://thecovenantacademy.org/" }],
   script: [
     {
       type: "application/ld+json",
@@ -132,8 +132,8 @@ useHead({
         name: "The Covenant Academy",
         description:
           "Christian private school providing exceptional education in a nurturing faith-based environment",
-        url: "https://www.thecovenantacademy.org",
-        logo: "https://www.thecovenantacademy.org/images/tcad-nbg.png",
+        url: "https://thecovenantacademy.org/",
+        logo: "https://thecovenantacademy.org/images/tcad-nbg.png",
         telephone: "+234-803-623-3157",
         address: {
           "@type": "PostalAddress",
@@ -189,8 +189,8 @@ useJsonld({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "The Covenant Academy",
-  url: "https://www.thecovenantacademy.org",
-  logo: "https://www.thecovenantacademy.org/tcad-nbg.png",
+  url: "https://thecovenantacademy.org/",
+  logo: "https://thecovenantacademy.org/tcad-nbg.png",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+234-803-6233-157",

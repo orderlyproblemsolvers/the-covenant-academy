@@ -36,7 +36,7 @@
               </div>
               
               <div class="text-center md:text-left">
-                <h3 class="text-xl font-bold text-[#09033b] mb-3 group-hover:text-[#FF7F50] transition-colors">{{ step.title }}</h3>
+                <h2 class="text-xl font-bold text-[#09033b] mb-3 group-hover:text-[#FF7F50] transition-colors">{{ step.title }}</h2>
                 <p class="text-sm text-gray-500 leading-relaxed mb-6">{{ step.description }}</p>
                 
                 <div class="flex flex-wrap gap-2 justify-center md:justify-start">

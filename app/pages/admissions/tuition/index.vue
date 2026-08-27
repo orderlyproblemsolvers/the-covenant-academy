@@ -53,7 +53,7 @@
           <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
             <UIcon name="i-heroicons-calendar-days" class="w-6 h-6" />
           </div>
-          <h3 class="text-xl font-bold text-[#09033b] mb-2">Termly Tuition</h3>
+          <h2 class="text-xl font-bold text-[#09033b] mb-2">Termly Tuition</h2>
           <p class="text-sm text-gray-500 mb-6">Standard full term payment.</p>
           <div class="text-4xl font-bold text-gray-900 mb-6">
             ₦{{ tuitionData[selectedGrade].termly.toLocaleString() }}
@@ -72,7 +72,7 @@
           <div class="w-12 h-12 bg-orange-50 text-[#FF7F50] rounded-2xl flex items-center justify-center mb-6">
             <UIcon name="i-heroicons-credit-card" class="w-6 h-6" />
           </div>
-          <h3 class="text-xl font-bold text-[#09033b] mb-2">Monthly Plan</h3>
+          <h2 class="text-xl font-bold text-[#09033b] mb-2">Monthly Plan</h2>
           <p class="text-sm text-gray-500 mb-6">Flexible installments for families.</p>
           <div class="text-4xl font-bold text-gray-900 mb-6">
             ₦{{ tuitionData[selectedGrade].monthly.toLocaleString() }}
@@ -85,7 +85,7 @@
           <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
             <UIcon name="i-heroicons-banknotes" class="w-6 h-6" />
           </div>
-          <h3 class="text-xl font-bold text-[#09033b] mb-4">Ancillary Fees</h3>
+          <h2 class="text-xl font-bold text-[#09033b] mb-4">Ancillary Fees</h2>
           <div class="space-y-4">
             <div v-for="fee in ['Registration', 'PACEs', 'Uniforms', 'Books & Materials']" :key="fee" class="flex justify-between items-center py-2 border-b border-gray-50">
               <span class="text-sm text-gray-600">{{ fee }}</span>

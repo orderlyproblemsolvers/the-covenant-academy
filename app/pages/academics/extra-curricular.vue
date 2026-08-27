@@ -83,7 +83,7 @@
                   </button>
                 </div>
                 <div class="space-y-4">
-                  <h3 class="text-2xl font-light text-[#09033b]">{{ activity.title }}</h3>
+                  <h2 class="text-2xl font-light text-[#09033b]">{{ activity.title }}</h2>
                   <p class="text-gray-600 leading-relaxed">{{ activity.description.substring(0, 150) }}...</p>
                 </div>
               </div>

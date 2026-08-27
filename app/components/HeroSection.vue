@@ -121,7 +121,7 @@
 <script setup>
 // Assuming Nuxt UI or Heroicons are available
 useHead({
-  title: 'The Covenant Academy - Shaping Tomorrow\'s Leaders',
+  title: 'The Covenant Academy | Christian School in Abuja',
 })
 </script>
 

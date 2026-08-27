@@ -52,9 +52,9 @@
             class="bg-white rounded-lg shadow-md overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl"
           >
             <div class="p-6">
-              <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              <h2 class="text-xl font-semibold text-gray-800 mb-2">
                 {{ newsletter.title }}
-              </h3>
+              </h2>
               <p class="text-gray-600 mb-4 line-clamp-3">
                 {{ newsletter.preview }}
               </p>

@@ -34,7 +34,7 @@
         <div class="lg:col-span-7 space-y-12">
           
           <section>
-            <h3 class="text-2xl font-bold text-[#09033b] mb-6">Inside Level One</h3>
+            <h2 class="text-2xl font-bold text-[#09033b] mb-6">Inside Level One</h2>
             <div class="grid sm:grid-cols-2 gap-6">
               <div v-for="(benefit, i) in benefits" :key="i" class="flex gap-4">
                 <div class="w-2 h-2 mt-2.5 rounded-full bg-[#FF7F50] flex-shrink-0"></div>
@@ -47,10 +47,10 @@
           </section>
 
           <section class="bg-gray-50 rounded-[2rem] p-8 md:p-10 border border-gray-100">
-            <h3 class="text-xl font-bold text-[#09033b] mb-6 flex items-center gap-3">
+            <h2 class="text-xl font-bold text-[#09033b] mb-6 flex items-center gap-3">
               <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#09033b] text-white text-sm">i</span>
               Instructions for Parents
-            </h3>
+            </h2>
             <ul class="space-y-4">
               <li v-for="(step, i) in instructions" :key="i" class="flex gap-4 text-gray-600">
                 <span class="font-bold text-[#FF7F50] font-mono">0{{ i + 1 }}.</span>

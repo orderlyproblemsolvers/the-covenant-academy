@@ -16,9 +16,9 @@
       <div class="container mx-auto px-4 md:px-8">
         <div class="max-w-3xl">
           <!-- Heading -->
-          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-3 md:mb-4">
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-3 md:mb-4">
             Discover Our Extra-Curricular Activities
-          </h1>
+          </h2>
 
           <!-- Description -->
           <p class="text-sm sm:text-base md:text-lg text-gray-200 mb-4 md:mb-6 max-w-2xl">

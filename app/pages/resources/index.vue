@@ -137,9 +137,9 @@ const reqUrl = useRequestURL()
 
 // --- SEO & Meta Tags ---
 useSeoMeta({
-  title: 'Resources & Knowledge Hub | The Covenant Academy',
-  description: 'Explore the latest articles, educational insights, and community updates from The Covenant Academy.',
-  ogTitle: 'Resources & Knowledge Hub | The Covenant Academy',
+  title: 'Resources | The Covenant Academy',
+  description: 'Explore educational articles, insights, and community updates from The Covenant Academy.',
+  ogTitle: 'Resources | The Covenant Academy',
   ogDescription: 'Explore the latest articles, educational insights, and community updates from The Covenant Academy.',
   ogType: 'website',
   twitterCard: 'summary_large_image'

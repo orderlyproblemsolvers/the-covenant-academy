@@ -15,8 +15,8 @@ useJsonld({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "The Covenant Academy",
-  url: "https://www.thecovenantacademy.org",
-  logo: "https://www.thecovenantacademy.org/tcad-nbg.png",
+  url: "https://thecovenantacademy.org/",
+  logo: "https://thecovenantacademy.org/tcad-nbg.png",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+234-803-6233-157",

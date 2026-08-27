@@ -161,11 +161,11 @@ const currentUrl = computed(() => reqUrl.href)
 // 4. SEO & JSON-LD Structured Data
 if (post.value) {
   const cleanDescription = computed(() => {
-    return post.value.content?.replace(/<[^>]*>/g, '').substring(0, 160) + '...' || ''
+    return post.value.content?.replace(/<[^>]*>/g, '').substring(0, 157) + '...' || ''
   })
 
   useSeoMeta({
-    title: () => `${post.value.title} - The Covenant Academy`,
+    title: () => `${post.value.title.slice(0, 45)} | The Covenant Academy`,
     description: cleanDescription,
     author: () => post.value.author,
     ogTitle: () => post.value.title,

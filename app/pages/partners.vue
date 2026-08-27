@@ -245,9 +245,9 @@
 <script setup>
 // SEO / Meta Tags
 useHead({
-  title: 'Partner With Us | The Covenant Academy',
+  title: 'Partner With Us | Covenant Academy',
   meta: [
-    { name: 'description', content: 'Support The Covenant Academy through prayer, volunteering, and financial partnership. Your giving helps provide scholarships for orphans and maintains our facilities.' },
+    { name: 'description', content: 'Support The Covenant Academy through prayer, volunteering, and financial partnership to help students thrive.' },
     { property: 'og:title', content: 'Partner With The Covenant Academy' },
     { property: 'og:description', content: 'Help us provide excellent, God-centered education to children from all backgrounds.' },
     { property: 'og:image', content: '/images/tcad-nbg.png' } // Assuming this exists from your header
