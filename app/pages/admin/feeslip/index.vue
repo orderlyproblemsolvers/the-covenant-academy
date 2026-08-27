@@ -69,6 +69,10 @@
             <textarea v-if="settings.noticeEnabled" v-model="settings.notice" rows="3"
               placeholder="Enter the notice to include on the fee slip..."
               class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-[#09033b] focus:border-[#09033b] outline-none resize-y"></textarea>
+            <label class="flex items-center gap-2 text-sm font-medium text-[#09033b]">
+              <input v-model="settings.ptcEnabled" type="checkbox" class="h-4 w-4" />
+              Include PTC levy message
+            </label>
           </div>
         </div>
       </div>
@@ -306,7 +310,7 @@
                       <div><strong style="color:#09033b;">Bank:</strong> GT Bank</div>
                     </div>
                   </div>
-                  <div style="background:#f9f7f4; border-radius:4px; padding:9px 12px;">
+                  <div v-if="settings.ptcEnabled" style="background:#f9f7f4; border-radius:4px; padding:9px 12px;">
                     <div style="font-size:8px; font-weight:bold; color:#09033b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:5px;">Please Note</div>
                     <div style="font-size:8.5px; color:#555; line-height:1.55;">PTC Levy is ₦15,000 for the whole year and is <strong>not</strong> included in the total above.</div>
                   </div>
@@ -356,7 +360,8 @@ const settings = ref({
   academicYear: '2025/2026',
   term: '1st Term',
   noticeEnabled: false,
-  notice: ''
+  notice: '',
+  ptcEnabled: true
 })
 
 const BILL_COLUMNS = [
@@ -653,18 +658,20 @@ const buildPDF = (student, flatFee = null) => {
   doc.text('Bank:       GT Bank', mL + 4, y + 22)
 
   // Right: PTC note
-  const rX = mL + colW + 6
-  doc.setFillColor(249, 247, 244)
-  doc.roundedRect(rX, y, colW, 26, 2, 2, 'F')
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(7)
-  doc.setTextColor(9, 3, 59)
-  doc.text('PLEASE NOTE', rX + 4, y + 5)
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(8)
-  doc.setTextColor(60, 60, 60)
-  doc.text('PTC Levy is N15,000 for the whole year', rX + 4, y + 11)
-  doc.text('and is NOT included in the total above.', rX + 4, y + 16.5)
+  if (settings.value.ptcEnabled) {
+    const rX = mL + colW + 6
+    doc.setFillColor(249, 247, 244)
+    doc.roundedRect(rX, y, colW, 26, 2, 2, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(7)
+    doc.setTextColor(9, 3, 59)
+    doc.text('PLEASE NOTE', rX + 4, y + 5)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(60, 60, 60)
+    doc.text('PTC Levy is N15,000 for the whole year', rX + 4, y + 11)
+    doc.text('and is NOT included in the total above.', rX + 4, y + 16.5)
+  }
   y += 32
 
   // ── Sign off ──
