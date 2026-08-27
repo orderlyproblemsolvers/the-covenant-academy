@@ -409,9 +409,10 @@ const parseFlatFee = (name) => {
 }
 
 const cleanName = (name) => String(name)
-  .replace(/\(?\d+%\s*(?:discount)?\)?/gi, '(20% Discount off tuition only)')
+  .replace(/\(?(\d+)\s*%\s*(?:discount)?\s*(?:on|off)?\s*(?:tuition)?\s*(?:only)?\s*\)?/gi,
+    (_, pct) => `(${pct}% Discount off tuition only)`)
   .replace(/N?\d+(?:,\d+)*[kK]?\s*flat(?:\s*fee)?(?:\/flat\s*fee)?/gi, '')
-  .replace(/\((?!20% Discount).*?\)/g, '')
+  .replace(/\((?!\d+% Discount).*?\)/g, '')
   .replace(/\s+/g, ' ').trim()
 
 const parseStudents = (rows) => {
