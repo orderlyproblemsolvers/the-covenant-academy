@@ -61,6 +61,15 @@
               <option>3rd Term</option>
             </select>
           </div>
+          <div class="md:col-span-2 bg-[#f9f7f4] p-4 rounded-lg space-y-3">
+            <label class="flex items-center gap-2 text-sm font-medium text-[#09033b]">
+              <input v-model="settings.noticeEnabled" type="checkbox" class="h-4 w-4" />
+              Include important notice
+            </label>
+            <textarea v-if="settings.noticeEnabled" v-model="settings.notice" rows="3"
+              placeholder="Enter the notice to include on the fee slip..."
+              class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-[#09033b] focus:border-[#09033b] outline-none resize-y"></textarea>
+          </div>
         </div>
       </div>
 
@@ -283,14 +292,9 @@
                   <span style="font-size:13px; font-weight:bold; color:#ff7f50; font-variant-numeric:tabular-nums;">₦{{ previewFlatFee.toLocaleString() }}</span>
                 </div>
 
-                <div style="border:1px solid #d9c9b8; border-left:3px solid #b8860b; border-radius:4px; background:#fffdf7; padding:10px 12px; margin-bottom:14px;">
+                <div v-if="settings.noticeEnabled && settings.notice.trim()" style="border:1px solid #d9c9b8; border-left:3px solid #b8860b; border-radius:4px; background:#fffdf7; padding:10px 12px; margin-bottom:14px;">
                   <div style="font-size:8px; font-weight:bold; color:#b8860b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:5px;">Important Notice</div>
-                  <p style="font-size:8.5px; color:#444; line-height:1.55; margin:0 0 5px 0;">
-                    Dear Parents, we sincerely apologize for an error in the 2nd term diesel charges. We realized that we undercharged due to the absence of a proper bursar and with diesel prices increasing again, there is a difference that needs to be covered.
-                  </p>
-                  <p style="font-size:8.5px; color:#444; line-height:1.55; margin:0;">
-                    We kindly want to notify you that this difference will be included with the <strong>3rd term fees slip</strong>. Thank you for your understanding and support. Also look out for the Graduation & End of Year Party contribution which will be communicated soon.
-                  </p>
+                  <p style="font-size:8.5px; color:#444; line-height:1.55; margin:0; white-space:pre-line;">{{ settings.notice }}</p>
                 </div>
 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
@@ -348,7 +352,12 @@ const singleFlatFeeEnabled = ref(false)
 const singleFlatFee = ref(0)
 const previewStudent = ref(null)
 
-const settings = ref({ academicYear: '2025/2026', term: '1st Term' })
+const settings = ref({
+  academicYear: '2025/2026',
+  term: '1st Term',
+  noticeEnabled: false,
+  notice: ''
+})
 
 const BILL_COLUMNS = [
   'TUITION', 'OUTSTANDING', 'INTERHOUSE SPORT', 'DIESEL', 'M.I.S',
@@ -601,31 +610,29 @@ const buildPDF = (student, flatFee = null) => {
     y += 14
   }
 
-  // ── Apology note ──
-  doc.setFillColor(255, 253, 245)
-  doc.setDrawColor(184, 134, 11)
-  doc.setLineWidth(0.3)
-  const noteH = 40 // INCREASED HEIGHT TO FIT NEW TEXT
-  doc.roundedRect(mL, y, mR - mL, noteH, 2, 2, 'FD')
-  // Gold left border
-  doc.setFillColor(184, 134, 11)
-  doc.rect(mL, y, 2.5, noteH, 'F')
-  // Note heading
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(7)
-  doc.setTextColor(184, 134, 11)
-  doc.text('IMPORTANT NOTICE', mL + 6, y + 5)
-  // Note body
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(7.5)
-  doc.setTextColor(70, 70, 70)
-  doc.text('Dear Parents, we sincerely apologize for an error in the 2nd term diesel charges. We realized', mL + 6, y + 10)
-  doc.text('that we undercharged due to the absence of a proper bursar and with diesel prices increasing', mL + 6, y + 15)
-  doc.text('again, there is a difference that needs to be covered.', mL + 6, y + 20)
-  doc.text('We kindly notify you that this difference will be included with the 3rd term fees slip.', mL + 6, y + 25)
-  doc.text('Thank you for your understanding and support.', mL + 6, y + 30)
-  doc.text('Also look out for the Graduation & End of Year Party contribution which will be communicated soon.', mL + 6, y + 35) // NEW LINE
-  y += noteH + 6
+  // ── Important notice ──
+  const notice = settings.value.notice.trim()
+  if (settings.value.noticeEnabled && notice) {
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(7.5)
+    const noticeLines = doc.splitTextToSize(notice, mR - mL - 14)
+    const noteH = 15 + noticeLines.length * 4.5
+    doc.setFillColor(255, 253, 245)
+    doc.setDrawColor(184, 134, 11)
+    doc.setLineWidth(0.3)
+    doc.roundedRect(mL, y, mR - mL, noteH, 2, 2, 'FD')
+    doc.setFillColor(184, 134, 11)
+    doc.rect(mL, y, 2.5, noteH, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(7)
+    doc.setTextColor(184, 134, 11)
+    doc.text('IMPORTANT NOTICE', mL + 6, y + 5)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(7.5)
+    doc.setTextColor(70, 70, 70)
+    doc.text(noticeLines, mL + 6, y + 10, { lineHeightFactor: 1.35 })
+    y += noteH + 6
+  }
 
   // ── Bottom 2-column section ──
   const colW = (mR - mL - 6) / 2
