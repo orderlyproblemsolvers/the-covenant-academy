@@ -135,6 +135,11 @@ const links = [
     path: "/admin/feeslip",
     icon: "i-heroicons-document-text",
   },
+  {
+    name: "Tests",
+    path: "/admin/tests",
+    icon: "i-heroicons-clipboard-document-check",
+  },
   { name: "Calendar", path: "/admin/calendar", icon: "i-heroicons-calendar-days" },
   {
     name: "Deepwater News",
