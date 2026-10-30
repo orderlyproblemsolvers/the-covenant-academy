@@ -14,7 +14,6 @@ export default defineNuxtConfig({
       'xxjcpqsodvrenyayjbzb.supabase.co', 
       'localhost:3000', 
       'thecovenantacademy.org', 
-      'localhost:3001'
     ],
   },
   app: {
