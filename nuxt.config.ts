@@ -59,7 +59,6 @@ export default defineNuxtConfig({
     },
     ogImage: {
     enabled: true,
-    debug: true,
   },
   site: { 
  url: 'https://thecovenantacademy.org', 
